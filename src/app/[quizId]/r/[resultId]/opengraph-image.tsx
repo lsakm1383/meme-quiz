@@ -21,6 +21,16 @@ export function generateStaticParams() {
   );
 }
 
+// 사토리는 색깔 이모지 글리프가 있는 폰트가 없으면 이모지를 못 그리므로,
+// Twemoji SVG를 코드포인트로 가져와 <img>로 그린다 (앱 화면 결과 카드와 동일한 이모지가 보이도록).
+function emojiImageUrl(emoji: string) {
+  const codepoints = [...emoji]
+    .map((char) => char.codePointAt(0)!.toString(16))
+    .filter((hex) => hex !== "fe0f")
+    .join("-");
+  return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${codepoints}.svg`;
+}
+
 export default async function Image({
   params,
 }: {
@@ -42,33 +52,53 @@ export default async function Image({
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: result?.color ?? "#111827",
+          background: "#fafafa",
         }}
       >
-        <div style={{ fontSize: 72, fontWeight: 400, color: "#3f3f46" }}>
+        <div style={{ display: "flex", fontSize: 32, color: "#71717a" }}>
           {quiz?.title}
         </div>
+        {/* 앱 결과 화면의 카드(이모지 + 제목 + 부제)를 그대로 재현 */}
         <div
           style={{
-            fontSize: 96,
-            fontWeight: 700,
-            color: "#18181b",
-            marginTop: 24,
-            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: 760,
+            marginTop: 32,
+            padding: "56px 64px",
+            borderRadius: 48,
+            background: result?.color ?? "#e4e4e7",
           }}
         >
-          {result?.title ?? "결과"}
-        </div>
-        <div
-          style={{
-            fontSize: 44,
-            fontWeight: 400,
-            color: "#27272a",
-            marginTop: 20,
-            textAlign: "center",
-          }}
-        >
-          {result?.subtitle}
+          {result?.emoji ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={emojiImageUrl(result.emoji)} width={176} height={176} />
+          ) : null}
+          <div
+            style={{
+              display: "flex",
+              fontSize: 76,
+              fontWeight: 700,
+              color: "#18181b",
+              marginTop: 28,
+              textAlign: "center",
+            }}
+          >
+            {result?.title ?? "결과"}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 36,
+              fontWeight: 400,
+              color: "#27272a",
+              marginTop: 16,
+              textAlign: "center",
+            }}
+          >
+            {result?.subtitle}
+          </div>
         </div>
       </div>
     ),
