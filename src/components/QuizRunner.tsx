@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { QuizConfig } from "@/data/quiz-types";
 import { calculateResultId } from "@/lib/scoring";
+import { RunnerNav } from "@/components/RunnerNav";
 
 export function QuizRunner({ quiz }: { quiz: QuizConfig }) {
   const router = useRouter();
@@ -23,6 +24,15 @@ export function QuizRunner({ quiz }: { quiz: QuizConfig }) {
 
     const resultId = calculateResultId(quiz, nextAnswers);
     router.push(`/${quiz.id}/r/${resultId}`);
+  }
+
+  function goBack() {
+    if (step === 0) {
+      setStarted(false);
+      return;
+    }
+    setAnswers(answers.slice(0, -1));
+    setStep(step - 1);
   }
 
   if (!started) {
@@ -52,6 +62,7 @@ export function QuizRunner({ quiz }: { quiz: QuizConfig }) {
 
   return (
     <div className="flex w-full flex-col gap-6">
+      <RunnerNav onBack={goBack} />
       <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
         <div
           className="h-full rounded-full transition-all duration-300"

@@ -7,6 +7,14 @@ import type {
   TournamentConfig,
 } from "@/data/tournament-types";
 import { RamenIcon } from "@/components/RamenIcon";
+import { RunnerNav } from "@/components/RunnerNav";
+
+type RoundState = {
+  round: TournamentCandidate[];
+  matchIndex: number;
+  winners: TournamentCandidate[];
+  matchesDone: number;
+};
 
 export function TournamentRunner({
   tournament,
@@ -21,10 +29,13 @@ export function TournamentRunner({
   const [matchIndex, setMatchIndex] = useState(0);
   const [winners, setWinners] = useState<TournamentCandidate[]>([]);
   const [matchesDone, setMatchesDone] = useState(0);
+  const [history, setHistory] = useState<RoundState[]>([]);
 
   const totalMatches = tournament.candidates.length - 1;
 
   function pick(winner: TournamentCandidate) {
+    setHistory((h) => [...h, { round, matchIndex, winners, matchesDone }]);
+
     const updatedWinners = [...winners, winner];
     const doneCount = matchesDone + 1;
     const isLastMatchInRound = matchIndex + 1 >= round.length / 2;
@@ -45,6 +56,19 @@ export function TournamentRunner({
     setWinners([]);
     setMatchIndex(0);
     setMatchesDone(doneCount);
+  }
+
+  function goBack() {
+    const previous = history[history.length - 1];
+    if (!previous) {
+      setStarted(false);
+      return;
+    }
+    setHistory(history.slice(0, -1));
+    setRound(previous.round);
+    setMatchIndex(previous.matchIndex);
+    setWinners(previous.winners);
+    setMatchesDone(previous.matchesDone);
   }
 
   if (!started) {
@@ -76,6 +100,7 @@ export function TournamentRunner({
 
   return (
     <div className="flex w-full flex-col gap-6">
+      <RunnerNav onBack={goBack} />
       <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
         <div
           className="h-full rounded-full transition-all duration-300"

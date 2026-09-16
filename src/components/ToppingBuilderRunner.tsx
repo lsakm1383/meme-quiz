@@ -5,35 +5,48 @@ import { useRouter } from "next/navigation";
 import type { ToppingTestConfig } from "@/data/topping-types";
 import { buildComboKey } from "@/data/toppings";
 import { ToppingIcon } from "@/components/ToppingIcon";
+import { RunnerNav } from "@/components/RunnerNav";
 
 export function ToppingBuilderRunner({ test }: { test: ToppingTestConfig }) {
   const router = useRouter();
   const [started, setStarted] = useState(false);
   const [step, setStep] = useState(0);
-  const [selected, setSelected] = useState<string[]>([]);
+  // 카테고리별로 무엇을 골랐는지 따로 기억해둬서, 뒤로 갔다가 다시 앞으로 가도
+  // 이전에 고른 내용이 그대로 남아있게 한다.
+  const [categoryPicks, setCategoryPicks] = useState<string[][]>([]);
   const [pickedInStep, setPickedInStep] = useState<string[]>([]);
 
   const category = test.categories[step];
   const isSingleChoice = category.maxSelect === 1 && category.minSelect === 1;
   const progress = Math.round((step / test.categories.length) * 100);
 
-  function finish(allIds: string[]) {
-    router.push(`/c/${test.id}/r/${buildComboKey(allIds)}`);
+  function finish(picks: string[][]) {
+    router.push(`/c/${test.id}/r/${buildComboKey(picks.flat())}`);
   }
 
-  function goToNextStep(allIds: string[]) {
+  function goToNextStep(idsForThisCategory: string[]) {
+    const nextPicks = [...categoryPicks.slice(0, step), idsForThisCategory];
     const isLastCategory = step + 1 >= test.categories.length;
     if (isLastCategory) {
-      finish(allIds);
+      finish(nextPicks);
       return;
     }
-    setSelected(allIds);
-    setPickedInStep([]);
+    setCategoryPicks(nextPicks);
+    setPickedInStep(categoryPicks[step + 1] ?? []);
     setStep(step + 1);
   }
 
+  function goBack() {
+    if (step === 0) {
+      setStarted(false);
+      return;
+    }
+    setPickedInStep(categoryPicks[step - 1] ?? []);
+    setStep(step - 1);
+  }
+
   function pickSingle(toppingId: string) {
-    goToNextStep([...selected, toppingId]);
+    goToNextStep([toppingId]);
   }
 
   function toggleMulti(toppingId: string) {
@@ -70,6 +83,7 @@ export function ToppingBuilderRunner({ test }: { test: ToppingTestConfig }) {
 
   return (
     <div className="flex w-full flex-col gap-6">
+      <RunnerNav onBack={goBack} />
       <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
         <div
           className="h-full rounded-full transition-all duration-300"
@@ -106,7 +120,7 @@ export function ToppingBuilderRunner({ test }: { test: ToppingTestConfig }) {
 
       {!isSingleChoice && (
         <button
-          onClick={() => goToNextStep([...selected, ...pickedInStep])}
+          onClick={() => goToNextStep(pickedInStep)}
           disabled={pickedInStep.length < category.minSelect}
           className="w-full rounded-full px-8 py-4 text-lg font-bold text-white shadow-lg transition-transform enabled:active:scale-95 disabled:opacity-40"
           style={{ backgroundColor: test.accentColor }}
