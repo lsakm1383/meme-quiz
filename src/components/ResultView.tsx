@@ -37,12 +37,21 @@ export function ResultView({
         accentColor={quiz.accentColor}
       />
 
-      <Link
-        href={`/${quiz.id}`}
-        className="text-sm font-semibold text-zinc-500 underline underline-offset-4"
-      >
-        다시 테스트하기
-      </Link>
+      <div className="flex items-center gap-4">
+        <Link
+          href={`/${quiz.id}`}
+          className="text-sm font-semibold text-zinc-500 underline underline-offset-4"
+        >
+          다시 테스트하기
+        </Link>
+        <span className="text-zinc-300">·</span>
+        <Link
+          href="/"
+          className="text-sm font-semibold text-zinc-500 underline underline-offset-4"
+        >
+          다른 테스트 살펴보기
+        </Link>
+      </div>
 
       <div className="w-full pt-4">
         <AdSlot slot="result-bottom" />
