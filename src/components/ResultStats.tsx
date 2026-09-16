@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
 
-export type StatItem = { id: string; emoji: string; label: string };
+export type StatItem = { id: string; emoji: string; label: string; icon?: ReactNode };
 
 export function ResultStats({
   kind,
@@ -84,7 +85,7 @@ export function ResultStats({
           return (
             <div key={item.id} className="flex items-center gap-2 text-sm">
               <span className="w-4 shrink-0 text-zinc-400">{index + 1}</span>
-              <span className="shrink-0">{item.emoji}</span>
+              <span className="shrink-0">{item.icon ?? item.emoji}</span>
               <span
                 className={`flex-1 truncate ${isMine ? "font-bold text-zinc-900 dark:text-zinc-100" : "text-zinc-600 dark:text-zinc-400"}`}
               >

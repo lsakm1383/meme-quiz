@@ -6,6 +6,7 @@ import type {
   TournamentCandidate,
   TournamentConfig,
 } from "@/data/tournament-types";
+import { RamenIcon } from "@/components/RamenIcon";
 
 export function TournamentRunner({
   tournament,
@@ -95,7 +96,7 @@ export function TournamentRunner({
             onClick={() => pick(candidate)}
             className="flex flex-col items-center gap-2 rounded-3xl border border-zinc-200 px-6 py-8 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
           >
-            <span className="text-5xl">{candidate.emoji}</span>
+            <RamenIcon candidate={candidate} />
             <span className="text-lg font-bold">{candidate.name}</span>
             <span className="text-sm text-zinc-500">{candidate.tagline}</span>
           </button>
