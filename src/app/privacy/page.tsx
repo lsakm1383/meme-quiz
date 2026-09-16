@@ -75,7 +75,7 @@ export default function PrivacyPage() {
           <p className="mt-2">
             개인정보처리방침에 대한 문의는 아래 이메일로 연락해 주세요.
           </p>
-          <p className="mt-2 font-medium">contact@example.com</p>
+          <p className="mt-2 font-medium">memequiz86@gmail.com</p>
         </section>
 
         <section>
