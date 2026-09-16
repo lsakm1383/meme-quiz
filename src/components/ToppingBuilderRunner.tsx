@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ToppingTestConfig } from "@/data/topping-types";
 import { buildComboKey } from "@/data/toppings";
+import { ToppingIcon } from "@/components/ToppingIcon";
 
 export function ToppingBuilderRunner({ test }: { test: ToppingTestConfig }) {
   const router = useRouter();
@@ -96,7 +97,7 @@ export function ToppingBuilderRunner({ test }: { test: ToppingTestConfig }) {
               }`}
               style={isPicked ? { backgroundColor: test.accentColor } : undefined}
             >
-              <span className="text-3xl">{topping.emoji}</span>
+              <ToppingIcon topping={topping} />
               <span className="text-sm font-semibold">{topping.name}</span>
             </button>
           );

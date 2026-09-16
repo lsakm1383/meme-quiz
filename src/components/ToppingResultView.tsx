@@ -4,6 +4,7 @@ import { groupComboByCategory, describeCombo } from "@/data/toppings";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ToppingComboStats } from "@/components/ToppingComboStats";
+import { ToppingIcon } from "@/components/ToppingIcon";
 
 export function ToppingResultView({
   test,
@@ -46,9 +47,10 @@ export function ToppingResultView({
               {group.items.map((item) => (
                 <span
                   key={item.id}
-                  className="rounded-full bg-zinc-100 px-3 py-1 text-sm font-medium dark:bg-zinc-800"
+                  className="flex items-center gap-1 rounded-full bg-zinc-100 px-3 py-1 text-sm font-medium dark:bg-zinc-800"
                 >
-                  {item.emoji} {item.name}
+                  <ToppingIcon topping={item} size="sm" />
+                  {item.name}
                 </span>
               ))}
             </span>

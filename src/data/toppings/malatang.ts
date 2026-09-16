@@ -101,7 +101,7 @@ const test: ToppingTestConfig = {
         { id: "bunmoja", emoji: "🍜", name: "분모자" },
         { id: "ramen-noodle", emoji: "🍥", name: "라면사리" },
         { id: "jjolmyeon-noodle", emoji: "🍲", name: "쫄면" },
-        { id: "udon-noodle", emoji: "🥟", name: "우동사리" },
+        { id: "udon-noodle", emoji: "🍜", name: "우동사리" },
       ],
     },
     {
@@ -112,6 +112,7 @@ const test: ToppingTestConfig = {
       toppings: [
         { id: "egg", emoji: "🥚", name: "계란" },
         { id: "meatball", emoji: "🍡", name: "완자" },
+        { id: "mandu", emoji: "🥟", name: "만두" },
         { id: "seaweed", emoji: "🟩", name: "미역" },
         { id: "corn", emoji: "🌽", name: "옥수수" },
         { id: "cheese", emoji: "🧀", name: "치즈" },
