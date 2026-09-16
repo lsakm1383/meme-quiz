@@ -45,7 +45,7 @@ export default async function ResultPage({
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
-      <ResultView quiz={quiz} result={result} siteUrl={getSiteUrl()} />
+      <ResultView quiz={quiz} result={result} />
     </div>
   );
 }

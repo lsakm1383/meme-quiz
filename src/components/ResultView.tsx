@@ -6,14 +6,10 @@ import { AdSlot } from "@/components/AdSlot";
 export function ResultView({
   quiz,
   result,
-  siteUrl,
 }: {
   quiz: QuizConfig;
   result: ResultType;
-  siteUrl: string;
 }) {
-  const resultUrl = `${siteUrl}/${quiz.id}/r/${result.id}`;
-
   return (
     <div className="flex w-full flex-col items-center gap-6 text-center">
       <p className="text-sm font-medium text-zinc-400">{quiz.title} 결과</p>
@@ -38,7 +34,6 @@ export function ResultView({
       <ShareBar
         title={`나는 "${result.title}" ${result.emoji}`}
         text={`${quiz.title} — 결과: ${result.title} ${result.emoji}\n${result.subtitle}`}
-        url={resultUrl}
         accentColor={quiz.accentColor}
       />
 

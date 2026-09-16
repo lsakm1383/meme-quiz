@@ -5,17 +5,18 @@ import { useState } from "react";
 export function ShareBar({
   title,
   text,
-  url,
   accentColor,
 }: {
   title: string;
   text: string;
-  url: string;
   accentColor: string;
 }) {
   const [copied, setCopied] = useState(false);
 
   async function handleShare() {
+    // 배포 도메인(NEXT_PUBLIC_SITE_URL) 설정과 무관하게, 지금 보고 있는 실제 주소를 공유한다.
+    const url = window.location.href;
+
     if (navigator.share) {
       try {
         await navigator.share({ title, text, url });
