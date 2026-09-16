@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { quizzes } from "@/data/quizzes";
+import { tournaments } from "@/data/tournaments";
 import { AdSlot } from "@/components/AdSlot";
 
 export default function Home() {
@@ -12,7 +13,8 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="flex w-full flex-col gap-4">
+      <div className="flex w-full flex-col gap-3">
+        <h2 className="text-sm font-bold text-zinc-400">유형 테스트</h2>
         {quizzes.map((quiz) => (
           <Link
             key={quiz.id}
@@ -23,6 +25,25 @@ export default function Home() {
             <span className="flex flex-col">
               <span className="text-base font-bold">{quiz.title}</span>
               <span className="text-sm text-zinc-500">{quiz.description}</span>
+            </span>
+          </Link>
+        ))}
+      </div>
+
+      <div className="flex w-full flex-col gap-3">
+        <h2 className="text-sm font-bold text-zinc-400">월드컵</h2>
+        {tournaments.map((tournament) => (
+          <Link
+            key={tournament.id}
+            href={`/w/${tournament.id}`}
+            className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
+          >
+            <span className="text-4xl">{tournament.emoji}</span>
+            <span className="flex flex-col">
+              <span className="text-base font-bold">{tournament.title}</span>
+              <span className="text-sm text-zinc-500">
+                {tournament.description}
+              </span>
             </span>
           </Link>
         ))}

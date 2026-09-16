@@ -4,6 +4,7 @@ import corporateCattle from "@/data/quizzes/corporate-cattle";
 import replySpeed from "@/data/quizzes/reply-speed";
 import spendingStyle from "@/data/quizzes/spending-style";
 import travelStyle from "@/data/quizzes/travel-style";
+import malatangStyle from "@/data/quizzes/malatang-style";
 
 // 새 테스트 추가 방법:
 // 1. 이 폴더에 새 데이터 파일 하나 추가 (internet-pickle.ts 복사해서 문구만 교체)
@@ -15,6 +16,7 @@ export const quizzes: QuizConfig[] = [
   replySpeed,
   spendingStyle,
   travelStyle,
+  malatangStyle,
 ];
 
 export function getQuiz(id: string): QuizConfig | undefined {
