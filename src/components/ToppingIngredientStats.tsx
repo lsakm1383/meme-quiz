@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import type { ToppingTestConfig } from "@/data/topping-types";
-import { allToppings } from "@/data/toppings";
 import { ToppingIcon } from "@/components/ToppingIcon";
 
 type IngredientStatsResponse = {
@@ -61,57 +60,54 @@ export function ToppingIngredientStats({
   if (!stats || stats.totalParticipants === 0) return null;
 
   const mineSet = new Set(toppingIds);
-  const ranked = allToppings(test)
-    .map((item) => ({ ...item, count: stats.counts[item.id] ?? 0 }))
-    .sort((a, b) => b.count - a.count);
-
-  const totalPicks = ranked.reduce((sum, item) => sum + item.count, 0);
-  const top = ranked.slice(0, 10);
-  const myCountInTop = top.filter((item) => mineSet.has(item.id)).length;
 
   return (
-    <div className="flex w-full flex-col gap-3 rounded-2xl border border-zinc-200 p-5 text-left dark:border-zinc-800">
-      <p className="text-sm font-bold text-zinc-700 dark:text-zinc-300">
-        가장 인기있는 재료 TOP {top.length}
-        {myCountInTop > 0 && (
-          <>
-            {" · "}
-            <span style={{ color: test.accentColor }}>
-              내가 고른 재료 {myCountInTop}개 포함
-            </span>
-          </>
-        )}
-      </p>
-      <div className="flex flex-col gap-2">
-        {top.map((item, index) => {
-          const percent = totalPicks > 0 ? Math.round((item.count / totalPicks) * 100) : 0;
-          const isMine = mineSet.has(item.id);
-          return (
-            <div key={item.id} className="flex items-center gap-2 text-sm">
-              <span className="w-4 shrink-0 text-zinc-400">{index + 1}</span>
-              <ToppingIcon topping={item} size="sm" />
-              <span
-                className={`flex-1 truncate ${isMine ? "font-bold text-zinc-900 dark:text-zinc-100" : "text-zinc-600 dark:text-zinc-400"}`}
-              >
-                {item.name}
-              </span>
-              <div className="h-2 w-16 shrink-0 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    width: `${percent}%`,
-                    backgroundColor: isMine ? test.accentColor : "#a1a1aa",
-                  }}
-                />
-              </div>
-              <span className="w-9 shrink-0 text-right text-xs text-zinc-400">
-                {item.count}명
-              </span>
-            </div>
-          );
-        })}
-      </div>
+    <div className="flex w-full flex-col gap-5 rounded-2xl border border-zinc-200 p-5 text-left dark:border-zinc-800">
       <p className="text-xs text-zinc-400">누적 {stats.totalParticipants}명 참여</p>
+
+      {test.categories.map((category) => {
+        const ranked = category.toppings
+          .map((item) => ({ ...item, count: stats.counts[item.id] ?? 0 }))
+          .sort((a, b) => b.count - a.count);
+        const total = ranked.reduce((sum, item) => sum + item.count, 0);
+
+        return (
+          <div key={category.id} className="flex flex-col gap-2">
+            <p className="text-sm font-bold text-zinc-700 dark:text-zinc-300">
+              {category.label} 인기 랭킹
+            </p>
+            <div className="flex flex-col gap-2">
+              {ranked.map((item, index) => {
+                const percent = total > 0 ? Math.round((item.count / total) * 100) : 0;
+                const isMine = mineSet.has(item.id);
+                return (
+                  <div key={item.id} className="flex items-center gap-2 text-sm">
+                    <span className="w-4 shrink-0 text-zinc-400">{index + 1}</span>
+                    <ToppingIcon topping={item} size="sm" />
+                    <span
+                      className={`flex-1 truncate ${isMine ? "font-bold text-zinc-900 dark:text-zinc-100" : "text-zinc-600 dark:text-zinc-400"}`}
+                    >
+                      {item.name}
+                    </span>
+                    <div className="h-2 w-16 shrink-0 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+                      <div
+                        className="h-full rounded-full"
+                        style={{
+                          width: `${percent}%`,
+                          backgroundColor: isMine ? test.accentColor : "#a1a1aa",
+                        }}
+                      />
+                    </div>
+                    <span className="w-9 shrink-0 text-right text-xs text-zinc-400">
+                      {item.count}명
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
