@@ -55,9 +55,16 @@ const TIERS: {
 ];
 
 /**
- * 카테고리마다 내가 고른 선택지(또는 "선택 안 함")의 그 카테고리 안에서의 인기 점유율을 구해
- * 1에서 뺀 값을 "희귀도"로 쓴다. 여러 카테고리의 희귀도를 평균 내 전체 희귀도(%)로 만든다.
- * 통계가 아직 없으면(Redis 미설정) null.
+ * 카테고리마다, 내가 고른 선택지(또는 "선택 안 함")가 그 카테고리 안에서 얼마나 인기 없는
+ * 쪽인지를 "그 카테고리에서 가장 인기 있는 선택지 대비 상대적인 위치"로 환산한다.
+ *
+ * 단순히 "1 - 내 점유율"을 쓰면, 보기가 4~6개인 카테고리는 다들 거의 비슷한 확률로 갈리기
+ * 때문에(예: 6개 중 하나면 평균 점유율이 이미 1/6≈17%) 뭘 고르든 늘 "80% 근처"로 나오는
+ * 문제가 있었다. 그래서 그 카테고리의 최고 점유율/최저 점유율 구간 안에서 내 선택이 어디에
+ * 있는지를 0~1로 정규화한다 — 가장 잘 나가는 선택지를 고르면 항상 0(흔함)에 가깝고,
+ * 가장 안 팔리는 선택지를 고르면 항상 1(희귀함)에 가깝다.
+ *
+ * 여러 카테고리의 희귀도를 평균 내 전체 희귀도(%)로 만든다. 통계가 아직 없으면 null.
  */
 export function computeRarity(
   test: ToppingTestConfig,
@@ -68,25 +75,37 @@ export function computeRarity(
   const categoryRarities: number[] = [];
 
   for (const category of test.categories) {
-    const picked = category.toppings.filter((topping) => mineSet.has(topping.id));
-    const pickedNone = category.minSelect === 0 && picked.length === 0;
+    const options = category.toppings.map((topping) => ({
+      id: topping.id,
+      count: counts[topping.id] ?? 0,
+    }));
+    if (category.minSelect === 0) {
+      options.push({ id: noneOptionId(category.id), count: counts[noneOptionId(category.id)] ?? 0 });
+    }
 
-    const categoryTotal =
-      category.toppings.reduce((sum, topping) => sum + (counts[topping.id] ?? 0), 0) +
-      (category.minSelect === 0 ? (counts[noneOptionId(category.id)] ?? 0) : 0);
+    const categoryTotal = options.reduce((sum, option) => sum + option.count, 0);
     if (categoryTotal === 0) continue;
 
-    let avgPopularity: number;
-    if (pickedNone) {
-      avgPopularity = (counts[noneOptionId(category.id)] ?? 0) / categoryTotal;
-    } else if (picked.length > 0) {
-      avgPopularity =
-        picked.reduce((sum, topping) => sum + (counts[topping.id] ?? 0) / categoryTotal, 0) /
-        picked.length;
-    } else {
-      continue;
-    }
-    categoryRarities.push(1 - avgPopularity);
+    const picked = category.toppings.filter((topping) => mineSet.has(topping.id));
+    const pickedNone = category.minSelect === 0 && picked.length === 0;
+    const selectedIds = pickedNone ? [noneOptionId(category.id)] : picked.map((t) => t.id);
+    if (selectedIds.length === 0) continue;
+
+    const shares = options.map((option) => option.count / categoryTotal);
+    const maxShare = Math.max(...shares);
+    const minShare = Math.min(...shares);
+    const spread = maxShare - minShare;
+
+    const rarityOf = (id: string) => {
+      if (spread === 0) return 0;
+      const option = options.find((o) => o.id === id);
+      const share = (option?.count ?? 0) / categoryTotal;
+      return (maxShare - share) / spread;
+    };
+
+    const avgRarity =
+      selectedIds.reduce((sum, id) => sum + rarityOf(id), 0) / selectedIds.length;
+    categoryRarities.push(avgRarity);
   }
 
   if (categoryRarities.length === 0) return null;
