@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
+import Link from "next/link";
 import Script from "next/script";
 import "./globals.css";
 import { getSiteUrl } from "@/lib/site";
@@ -29,6 +30,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col items-center bg-white font-sans dark:bg-black dark:text-white">
         {children}
+        <footer className="w-full py-8 text-center text-xs text-zinc-400">
+          <Link href="/privacy" className="underline underline-offset-4">
+            개인정보처리방침
+          </Link>
+        </footer>
         {adsenseClientId ? (
           <Script
             async
