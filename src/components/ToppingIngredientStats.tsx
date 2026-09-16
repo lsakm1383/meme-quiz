@@ -1,62 +1,18 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import type { ToppingTestConfig } from "@/data/topping-types";
 import { ToppingIcon } from "@/components/ToppingIcon";
+import type { IngredientStatsResponse } from "@/lib/use-ingredient-stats";
 
-type IngredientStatsResponse = {
-  counts: Record<string, number>;
-  totalParticipants: number;
-};
-
+// 상단 "희귀도" 밈 카드가 같은 통계를 쓰기 때문에, 패칭은 ToppingResultView(부모)에서
+// 한 번만 하고 이 컴포넌트는 그 결과를 받아 카테고리별 상세 랭킹만 그린다.
 export function ToppingIngredientStats({
   test,
-  comboKey,
   toppingIds,
+  stats,
 }: {
   test: ToppingTestConfig;
-  comboKey: string;
   toppingIds: string[];
+  stats: IngredientStatsResponse | null;
 }) {
-  const [stats, setStats] = useState<IngredientStatsResponse | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    // 같은 브라우저에서 새로고침/재방문해도 중복 집계되지 않도록 한 번만 증가시킨다.
-    const storageKey = `meme-quiz:ingredient-counted:${test.id}:${comboKey}`;
-    let alreadyCounted = false;
-    try {
-      alreadyCounted = sessionStorage.getItem(storageKey) === "1";
-    } catch {
-      // 세션스토리지 접근 불가 — 그냥 매번 증가로 취급
-    }
-
-    fetch("/api/ingredient-stats", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        testId: test.id,
-        comboKey,
-        increment: !alreadyCounted,
-      }),
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: IngredientStatsResponse | null) => {
-        if (cancelled || !data) return;
-        setStats(data);
-        try {
-          sessionStorage.setItem(storageKey, "1");
-        } catch {
-          // 무시
-        }
-      })
-      .catch(() => {});
-
-    return () => {
-      cancelled = true;
-    };
-  }, [test.id, comboKey]);
-
   if (!stats || stats.totalParticipants === 0) return null;
 
   const mineSet = new Set(toppingIds);

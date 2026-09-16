@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import type { ToppingTestConfig } from "@/data/topping-types";
 import { groupComboByCategory, describeCombo } from "@/data/toppings";
+import { computeRarity } from "@/lib/topping-rarity";
+import { useIngredientStats } from "@/lib/use-ingredient-stats";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ToppingIngredientStats } from "@/components/ToppingIngredientStats";
@@ -15,10 +19,17 @@ export function ToppingResultView({
   comboKey: string;
   toppingIds: string[];
 }) {
+  const stats = useIngredientStats(test.id, comboKey);
   const grouped = groupComboByCategory(test, toppingIds).filter(
     (group) => group.items.length > 0
   );
-  const { title, subtitle } = describeCombo(test, toppingIds);
+
+  // 통계가 아직 없으면(로딩 중이거나 Redis 미설정) 고른 조합 자체를 설명하는 문구로 대신 보여준다.
+  const fallback = describeCombo(test, toppingIds);
+  const rarity = stats ? computeRarity(test, toppingIds, stats.counts) : null;
+  const headline = rarity
+    ? { title: rarity.title, subtitle: `희귀도 ${rarity.percent}% · ${rarity.subtitle}` }
+    : fallback;
 
   return (
     <div className="flex w-full flex-col items-center gap-6 text-center">
@@ -30,10 +41,10 @@ export function ToppingResultView({
       >
         <div className="text-6xl">{test.emoji}</div>
         <h1 className="text-2xl font-extrabold text-zinc-900 dark:text-zinc-100">
-          {title}
+          {headline.title}
         </h1>
         <p className="text-base font-medium text-zinc-700 dark:text-zinc-300">
-          {subtitle}
+          {headline.subtitle}
         </p>
       </div>
 
@@ -58,11 +69,11 @@ export function ToppingResultView({
         ))}
       </div>
 
-      <ToppingIngredientStats test={test} comboKey={comboKey} toppingIds={toppingIds} />
+      <ToppingIngredientStats test={test} toppingIds={toppingIds} stats={stats} />
 
       <ShareBar
-        title={`나의 마라탕: ${title}`}
-        text={`${test.title} — ${title}\n${subtitle}`}
+        title={`나의 마라탕: ${headline.title}`}
+        text={`${test.title} — ${headline.title}\n${headline.subtitle}`}
         accentColor={test.accentColor}
       />
 
