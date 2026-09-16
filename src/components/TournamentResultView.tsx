@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { TournamentCandidate, TournamentConfig } from "@/data/tournament-types";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
+import { ResultStats } from "@/components/ResultStats";
 
 export function TournamentResultView({
   tournament,
@@ -31,6 +32,18 @@ export function TournamentResultView({
       <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
         {winner.description}
       </p>
+
+      <ResultStats
+        kind="tournament"
+        groupId={tournament.id}
+        resultId={winner.id}
+        accentColor={tournament.accentColor}
+        items={tournament.candidates.map((c) => ({
+          id: c.id,
+          emoji: c.emoji,
+          label: c.name,
+        }))}
+      />
 
       <ShareBar
         title={`나의 최종 우승은 "${winner.name}" ${winner.emoji}`}

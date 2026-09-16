@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { QuizConfig, ResultType } from "@/data/quiz-types";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
+import { ResultStats } from "@/components/ResultStats";
 
 export function ResultView({
   quiz,
@@ -30,6 +31,18 @@ export function ResultView({
       <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
         {result.description}
       </p>
+
+      <ResultStats
+        kind="quiz"
+        groupId={quiz.id}
+        resultId={result.id}
+        accentColor={quiz.accentColor}
+        items={quiz.results.map((r) => ({
+          id: r.id,
+          emoji: r.emoji,
+          label: r.title,
+        }))}
+      />
 
       <ShareBar
         title={`나는 "${result.title}" ${result.emoji}`}
