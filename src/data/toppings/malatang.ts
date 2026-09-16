@@ -40,7 +40,6 @@ const test: ToppingTestConfig = {
       toppings: [
         { id: "beef", emoji: "🥩", name: "얇은 소고기" },
         { id: "lamb", emoji: "🐑", name: "양고기" },
-        { id: "meatball", emoji: "🍡", name: "완자" },
       ],
     },
     {
@@ -82,8 +81,8 @@ const test: ToppingTestConfig = {
     },
     {
       id: "tofu",
-      label: "두부류 (1~2개)",
-      minSelect: 1,
+      label: "두부류 (0~2개)",
+      minSelect: 0,
       maxSelect: 2,
       toppings: [
         { id: "tofu", emoji: "⬜", name: "두부" },
@@ -93,9 +92,9 @@ const test: ToppingTestConfig = {
     },
     {
       id: "noodle",
-      label: "면/사리 (1개)",
+      label: "면/사리 (1~4개)",
       minSelect: 1,
-      maxSelect: 1,
+      maxSelect: 4,
       toppings: [
         { id: "glass-noodle", emoji: "🍜", name: "당면" },
         { id: "wide-glass-noodle", emoji: "🍝", name: "넓적당면" },
@@ -112,6 +111,7 @@ const test: ToppingTestConfig = {
       maxSelect: 3,
       toppings: [
         { id: "egg", emoji: "🥚", name: "계란" },
+        { id: "meatball", emoji: "🍡", name: "완자" },
         { id: "seaweed", emoji: "🟩", name: "미역" },
         { id: "corn", emoji: "🌽", name: "옥수수" },
         { id: "cheese", emoji: "🧀", name: "치즈" },
