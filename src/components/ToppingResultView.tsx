@@ -3,7 +3,7 @@ import type { ToppingTestConfig } from "@/data/topping-types";
 import { groupComboByCategory, describeCombo } from "@/data/toppings";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
-import { ToppingComboStats } from "@/components/ToppingComboStats";
+import { ToppingIngredientStats } from "@/components/ToppingIngredientStats";
 import { ToppingIcon } from "@/components/ToppingIcon";
 
 export function ToppingResultView({
@@ -58,7 +58,7 @@ export function ToppingResultView({
         ))}
       </div>
 
-      <ToppingComboStats test={test} comboKey={comboKey} />
+      <ToppingIngredientStats test={test} comboKey={comboKey} toppingIds={toppingIds} />
 
       <ShareBar
         title={`나의 마라탕: ${title}`}
