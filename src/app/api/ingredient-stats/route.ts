@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { getRedis } from "@/lib/redis";
-import { getToppingTest, isValidCombo, comboKeyToToppingIds } from "@/data/toppings";
+import {
+  getToppingTest,
+  isValidCombo,
+  comboKeyToToppingIds,
+  noneOptionId,
+} from "@/data/toppings";
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
@@ -28,8 +33,15 @@ export async function POST(request: Request) {
   const participantsKey = `ingredient-stats:${testId}:participants`;
 
   if (shouldIncrement) {
+    const idSet = new Set(toppingIds);
+    const noneFields = test.categories
+      .filter((category) => category.minSelect === 0)
+      .filter((category) => !category.toppings.some((t) => idSet.has(t.id)))
+      .map((category) => noneOptionId(category.id));
+
     await Promise.all([
       ...toppingIds.map((id) => redis.hincrby(countsKey, id, 1)),
+      ...noneFields.map((id) => redis.hincrby(countsKey, id, 1)),
       redis.incr(participantsKey),
     ]);
   }

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getRedis } from "@/lib/redis";
 import { quizzes } from "@/data/quizzes";
 import { tournaments } from "@/data/tournaments";
-import { toppingTests } from "@/data/toppings";
+import { toppingTests, noneOptionId } from "@/data/toppings";
 
 // 초기 방문자에게 '아무도 안 하는 테스트'로 안 보이게 하기 위한 관리자 전용 시드 엔드포인트.
 // x-admin-secret 헤더가 ADMIN_SEED_SECRET과 일치해야 동작한다.
@@ -63,6 +63,20 @@ export async function POST(request: Request) {
     const participants = randomInt(300, 2600);
     const fields: Record<string, number> = {};
     for (const category of test.categories) {
+      if (category.minSelect === 0) {
+        // 선택이 필수가 아닌 카테고리는 일부 참여자가 아예 안 고르는 것부터 흉내낸다.
+        const noneCount = Math.round(participants * (randomInt(15, 50) / 100));
+        const pickers = participants - noneCount;
+        const avgPicksAmongPickers = (1 + category.maxSelect) / 2;
+        const total = Math.round(pickers * avgPicksAmongPickers);
+        const shares = distribute(total, category.toppings.length);
+        category.toppings.forEach((topping, i) => {
+          fields[topping.id] = shares[i];
+        });
+        fields[noneOptionId(category.id)] = noneCount;
+        continue;
+      }
+
       // 카테고리별 평균 선택 개수만큼 참여자 수에 비례한 총량을 나눠 갖도록 한다
       // (예: 최소1~최대1인 카테고리는 참여자 수만큼, 2~4개인 카테고리는 그 3배 안팎).
       const avgPicks = (category.minSelect + category.maxSelect) / 2;

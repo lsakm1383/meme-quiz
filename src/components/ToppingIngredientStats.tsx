@@ -1,4 +1,5 @@
 import type { ToppingTestConfig } from "@/data/topping-types";
+import { noneOptionId } from "@/data/toppings";
 import { ToppingIcon } from "@/components/ToppingIcon";
 import type { IngredientStatsResponse } from "@/lib/use-ingredient-stats";
 
@@ -22,10 +23,23 @@ export function ToppingIngredientStats({
       <p className="text-xs text-zinc-400">누적 {stats.totalParticipants}명 참여</p>
 
       {test.categories.map((category) => {
-        const ranked = category.toppings
-          .map((item) => ({ ...item, count: stats.counts[item.id] ?? 0 }))
-          .sort((a, b) => b.count - a.count);
+        const items = category.toppings.map((item) => ({
+          ...item,
+          count: stats.counts[item.id] ?? 0,
+        }));
+        if (category.minSelect === 0) {
+          items.push({
+            id: noneOptionId(category.id),
+            emoji: "🚫",
+            name: "선택 안 함",
+            count: stats.counts[noneOptionId(category.id)] ?? 0,
+          });
+        }
+        const ranked = items.sort((a, b) => b.count - a.count);
         const total = ranked.reduce((sum, item) => sum + item.count, 0);
+        const pickedNone =
+          category.minSelect === 0 &&
+          !category.toppings.some((topping) => mineSet.has(topping.id));
 
         return (
           <div key={category.id} className="flex flex-col gap-2">
@@ -35,7 +49,8 @@ export function ToppingIngredientStats({
             <div className="flex flex-col gap-2">
               {ranked.map((item, index) => {
                 const percent = total > 0 ? Math.round((item.count / total) * 100) : 0;
-                const isMine = mineSet.has(item.id);
+                const isMine =
+                  item.id === noneOptionId(category.id) ? pickedNone : mineSet.has(item.id);
                 return (
                   <div key={item.id} className="flex items-center gap-2 text-sm">
                     <span className="w-4 shrink-0 text-zinc-400">{index + 1}</span>

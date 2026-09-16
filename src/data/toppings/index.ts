@@ -21,6 +21,14 @@ export function findTopping(
   return allToppings(test).find((topping) => topping.id === toppingId);
 }
 
+/**
+ * 선택이 필수가 아닌 카테고리(minSelect 0)에서 "아무것도 안 고름"을 나타내는
+ * 통계용 가상 id. 실제 토핑 id는 콜론을 쓰지 않으므로 겹칠 일이 없다.
+ */
+export function noneOptionId(categoryId: string): string {
+  return `none:${categoryId}`;
+}
+
 /** 고른 토핑 id들을 정렬해서 이어붙인, 순서 무관 조합 키. 결과 URL과 통계 키로 그대로 쓰인다. */
 export function buildComboKey(toppingIds: string[]): string {
   return [...new Set(toppingIds)].sort().join(",");

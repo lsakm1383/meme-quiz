@@ -30,6 +30,8 @@ export function ToppingResultView({
   const headline = rarity
     ? { title: rarity.title, subtitle: `희귀도 ${rarity.percent}% · ${rarity.subtitle}` }
     : fallback;
+  const cardEmoji = rarity?.emoji ?? test.emoji;
+  const cardColor = rarity?.color ?? `${test.accentColor}1a`;
 
   return (
     <div className="flex w-full flex-col items-center gap-6 text-center">
@@ -37,9 +39,9 @@ export function ToppingResultView({
 
       <div
         className="flex w-full flex-col items-center gap-3 rounded-3xl px-6 py-10 shadow-sm"
-        style={{ backgroundColor: `${test.accentColor}1a` }}
+        style={{ backgroundColor: cardColor }}
       >
-        <div className="text-6xl">{test.emoji}</div>
+        <div className="text-6xl">{cardEmoji}</div>
         <h1 className="text-2xl font-extrabold text-zinc-900 dark:text-zinc-100">
           {headline.title}
         </h1>
