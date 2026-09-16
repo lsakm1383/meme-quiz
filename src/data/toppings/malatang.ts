@@ -34,14 +34,22 @@ const test: ToppingTestConfig = {
     },
     {
       id: "meat",
-      label: "고기/해산물 (1~2개)",
+      label: "고기 (1~2개)",
       minSelect: 1,
       maxSelect: 2,
       toppings: [
         { id: "beef", emoji: "🥩", name: "얇은 소고기" },
         { id: "lamb", emoji: "🐑", name: "양고기" },
-        { id: "fishcake", emoji: "🍢", name: "어묵" },
         { id: "meatball", emoji: "🍡", name: "완자" },
+      ],
+    },
+    {
+      id: "seafood",
+      label: "해산물 (0~2개)",
+      minSelect: 0,
+      maxSelect: 2,
+      toppings: [
+        { id: "fishcake", emoji: "🍢", name: "어묵" },
         { id: "shrimp", emoji: "🍤", name: "칵테일 새우" },
         { id: "squid", emoji: "🦑", name: "오징어" },
       ],
@@ -58,8 +66,6 @@ const test: ToppingTestConfig = {
         { id: "potato", emoji: "🥔", name: "감자" },
         { id: "lotus-root", emoji: "🪷", name: "연근" },
         { id: "burdock", emoji: "🌾", name: "우엉" },
-        { id: "spinach", emoji: "🍃", name: "시금치" },
-        { id: "chive", emoji: "🌿", name: "부추" },
       ],
     },
     {
@@ -69,9 +75,20 @@ const test: ToppingTestConfig = {
       maxSelect: 2,
       toppings: [
         { id: "enoki", emoji: "🍄", name: "팽이버섯" },
-        { id: "king-oyster", emoji: "🍄‍🟫", name: "새송이버섯" },
-        { id: "wood-ear", emoji: "🖤", name: "목이버섯" },
-        { id: "shiitake", emoji: "🟤", name: "표고버섯" },
+        { id: "king-oyster", emoji: "🍄", name: "새송이버섯" },
+        { id: "wood-ear", emoji: "🍄", name: "목이버섯" },
+        { id: "shiitake", emoji: "🍄", name: "표고버섯" },
+      ],
+    },
+    {
+      id: "tofu",
+      label: "두부류 (1~2개)",
+      minSelect: 1,
+      maxSelect: 2,
+      toppings: [
+        { id: "tofu", emoji: "⬜", name: "두부" },
+        { id: "dried-tofu", emoji: "🟫", name: "건두부" },
+        { id: "tofu-skin", emoji: "📄", name: "두부피" },
       ],
     },
     {
@@ -82,6 +99,7 @@ const test: ToppingTestConfig = {
       toppings: [
         { id: "glass-noodle", emoji: "🍜", name: "당면" },
         { id: "wide-glass-noodle", emoji: "🍝", name: "넓적당면" },
+        { id: "bunmoja", emoji: "🍜", name: "분모자" },
         { id: "ramen-noodle", emoji: "🍥", name: "라면사리" },
         { id: "jjolmyeon-noodle", emoji: "🍲", name: "쫄면" },
         { id: "udon-noodle", emoji: "🥟", name: "우동사리" },
@@ -94,8 +112,6 @@ const test: ToppingTestConfig = {
       maxSelect: 3,
       toppings: [
         { id: "egg", emoji: "🥚", name: "계란" },
-        { id: "tofu", emoji: "⬜", name: "두부" },
-        { id: "dried-tofu-skin", emoji: "📄", name: "건두부(두부피)" },
         { id: "seaweed", emoji: "🟩", name: "미역" },
         { id: "corn", emoji: "🌽", name: "옥수수" },
         { id: "cheese", emoji: "🧀", name: "치즈" },
