@@ -9,6 +9,18 @@ import { safeEqual } from "@/lib/safe-equal";
 // 초기 방문자에게 '아무도 안 하는 테스트'로 안 보이게 하기 위한 관리자 전용 시드 엔드포인트.
 // x-admin-secret 헤더가 ADMIN_SEED_SECRET과 일치해야 동작한다.
 // HSET으로 값을 덮어쓰므로 여러 번 실행해도 숫자가 계속 불어나지 않는다 (재실행하면 새로운 무작위값으로 재설정됨).
+//
+// 바디 없이 호출하면 기존처럼 등록된 모든 퀴즈/월드컵/분기형/조합형 테스트를 전부 다시 시드한다.
+// 특정 테스트만 골라 시드하고 싶으면, 바디에 아래 필드 중 하나라도 넣어서 호출한다
+// (그 경우 명시하지 않은 종류는 아예 건드리지 않는다):
+// { "quizIds": ["flower-type"], "tournamentIds": [...], "decisionIds": ["dress", "honeymoon"], "toppingIds": [...] }
+
+type SeedRequestBody = {
+  quizIds?: string[];
+  tournamentIds?: string[];
+  decisionIds?: string[];
+  toppingIds?: string[];
+};
 
 function randomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -38,9 +50,29 @@ export async function POST(request: Request) {
     );
   }
 
+  const body: SeedRequestBody = await request.json().catch(() => ({}));
+  const hasFilter =
+    body.quizIds !== undefined ||
+    body.tournamentIds !== undefined ||
+    body.decisionIds !== undefined ||
+    body.toppingIds !== undefined;
+
+  const targetQuizzes = hasFilter
+    ? quizzes.filter((quiz) => body.quizIds?.includes(quiz.id))
+    : quizzes;
+  const targetTournaments = hasFilter
+    ? tournaments.filter((tournament) => body.tournamentIds?.includes(tournament.id))
+    : tournaments;
+  const targetDecisions = hasFilter
+    ? decisionTests.filter((decision) => body.decisionIds?.includes(decision.id))
+    : decisionTests;
+  const targetToppings = hasFilter
+    ? toppingTests.filter((test) => body.toppingIds?.includes(test.id))
+    : toppingTests;
+
   const summary: Record<string, Record<string, number>> = {};
 
-  for (const quiz of quizzes) {
+  for (const quiz of targetQuizzes) {
     const total = randomInt(300, 2600);
     const shares = distribute(total, quiz.results.length);
     const fields: Record<string, number> = {};
@@ -51,7 +83,7 @@ export async function POST(request: Request) {
     summary[`quiz:${quiz.id}`] = fields;
   }
 
-  for (const tournament of tournaments) {
+  for (const tournament of targetTournaments) {
     const total = randomInt(300, 2600);
     const shares = distribute(total, tournament.candidates.length);
     const fields: Record<string, number> = {};
@@ -62,7 +94,7 @@ export async function POST(request: Request) {
     summary[`tournament:${tournament.id}`] = fields;
   }
 
-  for (const decision of decisionTests) {
+  for (const decision of targetDecisions) {
     const total = randomInt(300, 2600);
     const shares = distribute(total, decision.results.length);
     const fields: Record<string, number> = {};
@@ -73,7 +105,7 @@ export async function POST(request: Request) {
     summary[`decision:${decision.id}`] = fields;
   }
 
-  for (const test of toppingTests) {
+  for (const test of targetToppings) {
     const participants = randomInt(300, 2600);
     const fields: Record<string, number> = {};
     for (const category of test.categories) {
