@@ -7,6 +7,7 @@ const quiz: QuizConfig = {
   description:
     "점심 메뉴부터 저녁 메뉴까지, 오늘 뭐 먹을지 고민될 때 6개 질문으로 추천받기.",
   accentColor: "#f97316",
+  category: "recommend",
   questions: [
     {
       id: "q1",

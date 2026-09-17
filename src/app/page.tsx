@@ -5,6 +5,9 @@ import { toppingTests } from "@/data/toppings";
 import { AdSlot } from "@/components/AdSlot";
 
 export default function Home() {
+  const typeQuizzes = quizzes.filter((quiz) => (quiz.category ?? "type") === "type");
+  const recommendQuizzes = quizzes.filter((quiz) => quiz.category === "recommend");
+
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center gap-8 px-6 py-16">
       <div className="flex flex-col items-center gap-2 text-center">
@@ -16,7 +19,24 @@ export default function Home() {
 
       <div className="flex w-full flex-col gap-3">
         <h2 className="text-sm font-bold text-zinc-400">유형 테스트</h2>
-        {quizzes.map((quiz) => (
+        {typeQuizzes.map((quiz) => (
+          <Link
+            key={quiz.id}
+            href={`/${quiz.id}`}
+            className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
+          >
+            <span className="text-4xl">{quiz.emoji}</span>
+            <span className="flex flex-col">
+              <span className="text-base font-bold">{quiz.title}</span>
+              <span className="text-sm text-zinc-500">{quiz.description}</span>
+            </span>
+          </Link>
+        ))}
+      </div>
+
+      <div className="flex w-full flex-col gap-3">
+        <h2 className="text-sm font-bold text-zinc-400">추천 테스트</h2>
+        {recommendQuizzes.map((quiz) => (
           <Link
             key={quiz.id}
             href={`/${quiz.id}`}

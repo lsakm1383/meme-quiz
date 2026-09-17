@@ -7,35 +7,36 @@ const quiz: QuizConfig = {
   description:
     "카페 가면 뭐 마실지 항상 고민된다면? 6개 질문으로 나에게 맞는 음료 추천받기.",
   accentColor: "#78350f",
+  category: "recommend",
   questions: [
     {
       id: "q1",
-      text: "오늘 필요한 카페인 강도는?",
+      text: "오늘 마시고 싶은 음료 스타일은?",
       options: [
-        { text: "진하고 쌉쌀하게", scores: { americano: 2 } },
-        { text: "부드럽고 고소하게", scores: { latte: 2 } },
-        { text: "달달하게", scores: { "vanilla-latte": 2 } },
-        { text: "특별하게", scores: { einspanner: 2 } },
+        { text: "진하고 묵직한 커피", scores: { americano: 2 } },
+        { text: "부드러운 밀크커피", scores: { latte: 2 } },
+        { text: "달콤한 바닐라향 커피", scores: { "vanilla-latte": 2 } },
+        { text: "커피 말고 상큼한 음료", scores: { "grapefruit-ade": 2 } },
       ],
     },
     {
       id: "q2",
       text: "지금 날씨는?",
       options: [
+        { text: "더워도 추워도 아메리카노는 진리", scores: { americano: 2 } },
         { text: "더워서 얼음 가득 시원한 게 필요함", scores: { "cold-brew": 2 } },
-        { text: "상큼한 과일 음료가 땡김", scores: { "grapefruit-ade": 2 } },
-        { text: "쌀쌀해서 따뜻한 라떼가 좋음", scores: { latte: 2 } },
         { text: "날씨 상관없이 달달한 거", scores: { "caramel-macchiato": 2 } },
+        { text: "상큼한 과일 음료가 땡김", scores: { "grapefruit-ade": 2 } },
       ],
     },
     {
       id: "q3",
       text: "당 충전이 필요한 정도는?",
       options: [
-        { text: "무가당, 순수 커피", scores: { americano: 2 } },
         { text: "살짝 달달한 정도", scores: { latte: 2 } },
         { text: "디저트 수준으로 달아야 함", scores: { "caramel-macchiato": 2 } },
-        { text: "상큼달달한 과일맛", scores: { "strawberry-latte": 2 } },
+        { text: "단맛보다는 진한 크림 풍미", scores: { einspanner: 2 } },
+        { text: "커피 말고 상큼달달한 과일맛", scores: { "grapefruit-ade": 2 } },
       ],
     },
     {
@@ -44,28 +45,28 @@ const quiz: QuizConfig = {
       options: [
         { text: "심플한 잔, 미니멀 감성", scores: { americano: 2 } },
         { text: "크림이 올라간 비주얼", scores: { einspanner: 2 } },
+        { text: "은은한 바닐라 크림 라떼아트", scores: { "vanilla-latte": 2 } },
         { text: "핑크핑크한 음료", scores: { "strawberry-latte": 2 } },
-        { text: "층층이 쌓인 그라데이션", scores: { "grapefruit-ade": 2 } },
       ],
     },
     {
       id: "q5",
       text: "오늘 기분은?",
       options: [
-        { text: "차분하고 담백하게", scores: { americano: 2 } },
         { text: "부드럽고 편안하게", scores: { latte: 2 } },
-        { text: "상큼하고 발랄하게", scores: { "strawberry-latte": 2 } },
         { text: "진하고 묵직하게", scores: { "cold-brew": 2 } },
+        { text: "특별하고 고급스럽게", scores: { einspanner: 2 } },
+        { text: "상큼하고 발랄하게", scores: { "strawberry-latte": 2 } },
       ],
     },
     {
       id: "q6",
       text: "마지막 한 모금, 바라는 여운은?",
       options: [
-        { text: "깔끔한 끝맛", scores: { americano: 2 } },
-        { text: "고소한 여운", scores: { "vanilla-latte": 2 } },
+        { text: "진하고 묵직한 여운", scores: { "cold-brew": 2 } },
         { text: "달콤한 여운", scores: { "caramel-macchiato": 2 } },
-        { text: "상큼한 여운", scores: { "grapefruit-ade": 2 } },
+        { text: "고소한 바닐라 여운", scores: { "vanilla-latte": 2 } },
+        { text: "상큼한 여운", scores: { "strawberry-latte": 2 } },
       ],
     },
   ],
