@@ -5,7 +5,7 @@ const quiz: QuizConfig = {
   emoji: "☕",
   title: "카페 메뉴 추천 테스트",
   description:
-    "카페 가면 뭐 마실지 항상 고민된다면? 6개 질문으로 나에게 맞는 음료 추천받기.",
+    "카페 가면 뭐 마실지 항상 고민된다면? 6개 질문으로 커피/차/스무디 중 나에게 맞는 음료 추천받기.",
   accentColor: "#78350f",
   category: "recommend",
   questions: [
@@ -16,7 +16,9 @@ const quiz: QuizConfig = {
         { text: "진하고 묵직한 커피", scores: { americano: 2 } },
         { text: "부드러운 밀크커피", scores: { latte: 2 } },
         { text: "달콤한 바닐라향 커피", scores: { "vanilla-latte": 2 } },
-        { text: "커피 말고 상큼한 음료", scores: { "grapefruit-ade": 2 } },
+        { text: "커피 말고 상큼한 에이드", scores: { "grapefruit-ade": 2 } },
+        { text: "커피 말고 상큼달콤한 밀크 음료", scores: { "strawberry-latte": 2 } },
+        { text: "커피 말고 향긋한 홍차", scores: { "earl-grey": 2 } },
       ],
     },
     {
@@ -26,7 +28,9 @@ const quiz: QuizConfig = {
         { text: "더워도 추워도 아메리카노는 진리", scores: { americano: 2 } },
         { text: "더워서 얼음 가득 시원한 게 필요함", scores: { "cold-brew": 2 } },
         { text: "날씨 상관없이 달달한 거", scores: { "caramel-macchiato": 2 } },
-        { text: "상큼한 과일 음료가 땡김", scores: { "grapefruit-ade": 2 } },
+        { text: "상큼한 에이드가 땡김", scores: { "grapefruit-ade": 2 } },
+        { text: "시원하게 갈아만든 과일이 최고", scores: { "mango-smoothie": 2 } },
+        { text: "새콤달콤 얼음 스무디", scores: { "blueberry-smoothie": 2 } },
       ],
     },
     {
@@ -36,7 +40,9 @@ const quiz: QuizConfig = {
         { text: "살짝 달달한 정도", scores: { latte: 2 } },
         { text: "디저트 수준으로 달아야 함", scores: { "caramel-macchiato": 2 } },
         { text: "단맛보다는 진한 크림 풍미", scores: { einspanner: 2 } },
-        { text: "커피 말고 상큼달달한 과일맛", scores: { "grapefruit-ade": 2 } },
+        { text: "상큼달콤한 밀크 음료", scores: { "strawberry-latte": 2 } },
+        { text: "은은하게 달달한 유자차", scores: { "yuja-tea": 2 } },
+        { text: "새콤달콤 스무디 한 잔", scores: { "blueberry-smoothie": 2 } },
       ],
     },
     {
@@ -46,7 +52,9 @@ const quiz: QuizConfig = {
         { text: "심플한 잔, 미니멀 감성", scores: { americano: 2 } },
         { text: "크림이 올라간 비주얼", scores: { einspanner: 2 } },
         { text: "은은한 바닐라 크림 라떼아트", scores: { "vanilla-latte": 2 } },
-        { text: "핑크핑크한 음료", scores: { "strawberry-latte": 2 } },
+        { text: "층층이 쌓인 그라데이션", scores: { "grapefruit-ade": 2 } },
+        { text: "따뜻하고 클래식한 티 세트", scores: { "yuja-tea": 2 } },
+        { text: "우아한 홍차 잔", scores: { "earl-grey": 2 } },
       ],
     },
     {
@@ -57,6 +65,8 @@ const quiz: QuizConfig = {
         { text: "진하고 묵직하게", scores: { "cold-brew": 2 } },
         { text: "특별하고 고급스럽게", scores: { einspanner: 2 } },
         { text: "상큼하고 발랄하게", scores: { "strawberry-latte": 2 } },
+        { text: "건강하게 챙기고 싶은 기분", scores: { "mango-smoothie": 2 } },
+        { text: "몸도 마음도 따뜻하게", scores: { "yuja-tea": 2 } },
       ],
     },
     {
@@ -66,7 +76,9 @@ const quiz: QuizConfig = {
         { text: "진하고 묵직한 여운", scores: { "cold-brew": 2 } },
         { text: "달콤한 여운", scores: { "caramel-macchiato": 2 } },
         { text: "고소한 바닐라 여운", scores: { "vanilla-latte": 2 } },
-        { text: "상큼한 여운", scores: { "strawberry-latte": 2 } },
+        { text: "건강한 과일 여운", scores: { "mango-smoothie": 2 } },
+        { text: "새콤달콤한 여운", scores: { "blueberry-smoothie": 2 } },
+        { text: "향긋한 티타임의 여운", scores: { "earl-grey": 2 } },
       ],
     },
   ],
@@ -142,6 +154,42 @@ const quiz: QuizConfig = {
       description:
         "커피보다 디저트에 가까운 달콤함이 필요한 타입이에요. 오늘 하루 고생한 나에게 확실한 당 충전을 선물합니다.",
       color: "#FCD34D",
+    },
+    {
+      id: "earl-grey",
+      emoji: "🍵",
+      title: "은은한 얼그레이파",
+      subtitle: "우아하고 향긋한 걸 즐기는 타입",
+      description:
+        "베르가못 향이 은은하게 퍼지는 홍차 한 잔이면 충분한 타입이에요. 화려하지 않아도 우아한 여유를 아는 사람입니다.",
+      color: "#E0E7FF",
+    },
+    {
+      id: "yuja-tea",
+      emoji: "🍯",
+      title: "따뜻한 유자차파",
+      subtitle: "몸도 마음도 녹이는 온기를 좋아하는 타입",
+      description:
+        "새콤달콤한 유자향과 따뜻한 온기에 마음까지 편안해지는 타입이에요. 은은한 단맛과 향, 둘 다 놓치지 않는 선택입니다.",
+      color: "#FDE68A",
+    },
+    {
+      id: "mango-smoothie",
+      emoji: "🥭",
+      title: "상큼달콤 망고스무디파",
+      subtitle: "건강하고 든든한 한 잔을 좋아하는 타입",
+      description:
+        "제철 과일을 갈아만든 진한 과일 맛에 진심인 타입이에요. 든든하면서도 건강까지 챙기는 똑똑한 선택을 할 줄 압니다.",
+      color: "#FDBA74",
+    },
+    {
+      id: "blueberry-smoothie",
+      emoji: "🫐",
+      title: "새콤달콤 블루베리스무디파",
+      subtitle: "상큼함과 건강 둘 다 챙기는 타입",
+      description:
+        "새콤달콤한 베리 향과 시원한 얼음 식감을 동시에 즐기는 타입이에요. 예쁜 색감까지 챙기는 센스 있는 선택입니다.",
+      color: "#C7D2FE",
     },
   ],
 };
