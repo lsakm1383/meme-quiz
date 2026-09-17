@@ -48,8 +48,8 @@ export function TournamentResultView({
       />
 
       <ShareBar
-        title={`나의 최종 우승은 "${winner.name}" ${winner.emoji}`}
-        text={`${tournament.title} — 최종 우승: ${winner.name} ${winner.emoji}\n${winner.tagline}`}
+        title={`${winner.emoji} 나의 최종 우승은 "${winner.name}"`}
+        text={`${tournament.title} 했더니 최종 우승은 "${winner.name}"!\n${winner.tagline}\n너는 뭐가 우승할까? 👉`}
         accentColor={tournament.accentColor}
       />
 

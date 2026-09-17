@@ -45,8 +45,8 @@ export function ResultView({
       />
 
       <ShareBar
-        title={`나는 "${result.title}" ${result.emoji}`}
-        text={`${quiz.title} — 결과: ${result.title} ${result.emoji}\n${result.subtitle}`}
+        title={`${result.emoji} 나는 "${result.title}"`}
+        text={`${quiz.title} 해봤더니 "${result.title}" 나왔어!\n${result.subtitle}\n너는 뭐 나올까? 👉`}
         accentColor={quiz.accentColor}
       />
 

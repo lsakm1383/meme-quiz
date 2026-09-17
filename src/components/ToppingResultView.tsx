@@ -74,8 +74,8 @@ export function ToppingResultView({
       <ToppingIngredientStats test={test} toppingIds={toppingIds} stats={stats} />
 
       <ShareBar
-        title={`나의 마라탕: ${headline.title}`}
-        text={`${test.title} — ${headline.title}\n${headline.subtitle}`}
+        title={`${cardEmoji} 내 조합은 "${headline.title}"`}
+        text={`${test.title} 해봤더니 "${headline.title}"!\n${headline.subtitle}\n너는 무슨 조합 나올까? 👉`}
         accentColor={test.accentColor}
       />
 

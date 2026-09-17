@@ -66,14 +66,14 @@ export default async function Image({
             flexDirection: "column",
             alignItems: "center",
             width: 760,
-            marginTop: 32,
-            padding: "48px 64px",
+            marginTop: 24,
+            padding: "36px 64px",
             borderRadius: 48,
             background: winner?.color ?? "#e4e4e7",
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={emojiImageUrl("🏆")} width={88} height={88} />
+          <img src={emojiImageUrl("🏆")} width={64} height={64} alt="" />
           {winner?.emoji ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -81,6 +81,7 @@ export default async function Image({
               width={140}
               height={140}
               style={{ marginTop: 8 }}
+              alt=""
             />
           ) : null}
           <div
@@ -89,7 +90,7 @@ export default async function Image({
               fontSize: 72,
               fontWeight: 700,
               color: "#18181b",
-              marginTop: 20,
+              marginTop: 16,
               textAlign: "center",
             }}
           >
@@ -101,12 +102,15 @@ export default async function Image({
               fontSize: 34,
               fontWeight: 400,
               color: "#27272a",
-              marginTop: 14,
+              marginTop: 10,
               textAlign: "center",
             }}
           >
             {winner?.tagline}
           </div>
+        </div>
+        <div style={{ display: "flex", fontSize: 28, color: "#a1a1aa", marginTop: 24 }}>
+          오늘의 밈 테스트 · 너도 우승자 뽑으러 가기 👉
         </div>
       </div>
     ),
