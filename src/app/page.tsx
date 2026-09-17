@@ -19,7 +19,7 @@ export default function Home() {
       </div>
 
       <div className="flex w-full flex-col gap-3">
-        <h2 className="text-sm font-bold text-zinc-400">유형 테스트</h2>
+        <h2 className="text-sm font-bold text-zinc-400">1분 테스트</h2>
         {typeQuizzes.map((quiz) => (
           <Link
             key={quiz.id}
@@ -36,7 +36,7 @@ export default function Home() {
       </div>
 
       <div className="flex w-full flex-col gap-3">
-        <h2 className="text-sm font-bold text-zinc-400">취향 추천</h2>
+        <h2 className="text-sm font-bold text-zinc-400">메뉴 추천</h2>
         {recommendQuizzes.map((quiz) => (
           <Link
             key={quiz.id}
@@ -85,7 +85,7 @@ export default function Home() {
       </div>
 
       <div className="flex w-full flex-col gap-3">
-        <h2 className="text-sm font-bold text-zinc-400">조합형 테스트</h2>
+        <h2 className="text-sm font-bold text-zinc-400">나만의 조합 만들기</h2>
         {toppingTests.map((test) => (
           <Link
             key={test.id}

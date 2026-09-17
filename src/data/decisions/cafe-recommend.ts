@@ -6,7 +6,7 @@ import type { DecisionTestConfig } from "@/data/decision-types";
 const test: DecisionTestConfig = {
   id: "cafe-recommend",
   emoji: "☕",
-  title: "카페 메뉴 추천 테스트",
+  title: "카페 메뉴 고르기",
   description:
     "지금 상태에 맞춰 선택지를 따라가면 나에게 맞는 음료가 나와요. 배부른 정도, 날씨, 당 충전 여부까지 실제 고민 순서 그대로.",
   accentColor: "#78350f",

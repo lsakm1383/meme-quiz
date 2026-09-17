@@ -3,7 +3,7 @@ import type { QuizConfig } from "@/data/quiz-types";
 const quiz: QuizConfig = {
   id: "menu-recommend",
   emoji: "🍽️",
-  title: "점메추 저메추 테스트",
+  title: "점메추/저메추",
   description:
     "점심 메뉴부터 저녁 메뉴까지, 오늘 뭐 먹을지 고민될 때 6개 질문으로 추천받기.",
   accentColor: "#f97316",
