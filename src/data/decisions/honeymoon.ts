@@ -45,10 +45,11 @@ const test: DecisionTestConfig = {
               type: "node",
               node: {
                 id: "relaxLuxury",
-                text: "완전히 세상과 단절된 프라이빗 아일랜드가 좋아요, 화산섬이 만든 절경 속에서 쉬고 싶어요?",
+                text: "완전히 세상과 단절된 프라이빗 아일랜드가 좋아요, 화산섬 절경이 좋아요, 아니면 자연까지 다양하게 즐기고 싶어요?",
                 options: [
                   { text: "프라이빗 아일랜드에서 완벽하게 쉬고 싶어요", type: "result", resultId: "maldives" },
                   { text: "화산섬과 산호초 라군의 절경이 좋아요", type: "result", resultId: "bora-bora" },
+                  { text: "휴양하면서 다양한 자연 경관과 미식도 함께 즐기고 싶어요", type: "result", resultId: "mauritius" },
                 ],
               },
             },
@@ -99,6 +100,7 @@ const test: DecisionTestConfig = {
             { text: "화산·빙하·오로라 같은 신비로운 자연 현상이요", type: "result", resultId: "iceland" },
             { text: "사파리 지프 투어로 야생 동물을 직접 보고 싶어요", type: "result", resultId: "kenya" },
             { text: "아무도 잘 모르는 지중해 소도시에서 여유롭게 지내고 싶어요", type: "result", resultId: "mallorca" },
+            { text: "마야 유적과 세노테, 활기찬 리조트를 한 번에 즐기고 싶어요", type: "result", resultId: "cancun" },
           ],
         },
       },
@@ -149,6 +151,15 @@ const test: DecisionTestConfig = {
       description:
         "화산섬 실루엣과 산호초 라군, 오버워터 방갈로가 만드는 압도적인 풍경 속에서 쉬는 타입이에요. 신혼여행에서만큼은 최고를 경험하고 싶은 분께 딱입니다.",
       color: "#22D3EE",
+    },
+    {
+      id: "mauritius",
+      emoji: "🌈",
+      title: "모리셔스",
+      subtitle: "휴양과 자연을 같이 담은 인도양의 보석",
+      description:
+        "에메랄드빛 해변에서 쉬다가 샤마렐의 일곱 빛깔 대지와 폭포까지 둘러보는 타입이에요. 프랑스·인도·아프리카가 섞인 다채로운 미식까지 챙기고 싶은 분께 잘 맞습니다.",
+      color: "#DDD6FE",
     },
     {
       id: "italy",
@@ -212,6 +223,15 @@ const test: DecisionTestConfig = {
       description:
         "에메랄드빛 해변과 여유로운 소도시 골목을 걷는 지중해 감성 여행 타입이에요. 사람 많은 곳보다 아는 사람만 아는 여행지를 원하는 분께 잘 맞습니다.",
       color: "#FBCFE8",
+    },
+    {
+      id: "cancun",
+      emoji: "🌵",
+      title: "칸쿤",
+      subtitle: "마야 유적과 세노테, 활기찬 카리브해 리조트",
+      description:
+        "올인클루시브 리조트에서 쉬다가 치첸이트사 마야 유적과 신비로운 세노테 다이빙까지 즐기는 타입이에요. 휴양은 기본, 이색적인 액티비티와 활기찬 밤문화까지 다 놓치고 싶지 않은 분께 딱입니다.",
+      color: "#FCA5A5",
     },
   ],
 };
