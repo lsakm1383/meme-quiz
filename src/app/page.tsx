@@ -3,11 +3,14 @@ import { quizzes } from "@/data/quizzes";
 import { tournaments } from "@/data/tournaments";
 import { toppingTests } from "@/data/toppings";
 import { decisionTests } from "@/data/decisions";
+import { checklists } from "@/data/checklists";
 import { AdSlot } from "@/components/AdSlot";
 
 export default function Home() {
   const typeQuizzes = quizzes.filter((quiz) => (quiz.category ?? "type") === "type");
   const recommendQuizzes = quizzes.filter((quiz) => quiz.category === "recommend");
+  const menuDecisions = decisionTests.filter((test) => (test.category ?? "menu") === "menu");
+  const lifeDecisions = decisionTests.filter((test) => test.category === "life");
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center gap-8 px-6 py-16">
@@ -50,7 +53,7 @@ export default function Home() {
             </span>
           </Link>
         ))}
-        {decisionTests.map((test) => (
+        {menuDecisions.map((test) => (
           <Link
             key={test.id}
             href={`/d/${test.id}`}
@@ -96,6 +99,36 @@ export default function Home() {
             <span className="flex flex-col">
               <span className="text-base font-bold">{test.title}</span>
               <span className="text-sm text-zinc-500">{test.description}</span>
+            </span>
+          </Link>
+        ))}
+      </div>
+
+      <div className="flex w-full flex-col gap-3">
+        <h2 className="text-sm font-bold text-zinc-400">생활 편의</h2>
+        {lifeDecisions.map((test) => (
+          <Link
+            key={test.id}
+            href={`/d/${test.id}`}
+            className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
+          >
+            <span className="text-4xl">{test.emoji}</span>
+            <span className="flex flex-col">
+              <span className="text-base font-bold">{test.title}</span>
+              <span className="text-sm text-zinc-500">{test.description}</span>
+            </span>
+          </Link>
+        ))}
+        {checklists.map((checklist) => (
+          <Link
+            key={checklist.id}
+            href={`/l/${checklist.id}`}
+            className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
+          >
+            <span className="text-4xl">{checklist.emoji}</span>
+            <span className="flex flex-col">
+              <span className="text-base font-bold">{checklist.title}</span>
+              <span className="text-sm text-zinc-500">{checklist.description}</span>
             </span>
           </Link>
         ))}
