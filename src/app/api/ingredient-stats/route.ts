@@ -6,8 +6,13 @@ import {
   comboKeyToToppingIds,
   noneOptionId,
 } from "@/data/toppings";
+import { getClientIp, isRateLimited } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
+  if (await isRateLimited(getClientIp(request))) {
+    return NextResponse.json({ error: "too many requests" }, { status: 429 });
+  }
+
   const body = await request.json().catch(() => null);
   const testId = body?.testId;
   const comboKey = body?.comboKey;

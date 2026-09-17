@@ -3,6 +3,7 @@ import { getRedis } from "@/lib/redis";
 import { quizzes } from "@/data/quizzes";
 import { tournaments } from "@/data/tournaments";
 import { toppingTests, noneOptionId } from "@/data/toppings";
+import { safeEqual } from "@/lib/safe-equal";
 
 // 초기 방문자에게 '아무도 안 하는 테스트'로 안 보이게 하기 위한 관리자 전용 시드 엔드포인트.
 // x-admin-secret 헤더가 ADMIN_SEED_SECRET과 일치해야 동작한다.
@@ -23,7 +24,8 @@ function distribute(total: number, count: number) {
 
 export async function POST(request: Request) {
   const secret = request.headers.get("x-admin-secret");
-  if (!secret || secret !== process.env.ADMIN_SEED_SECRET) {
+  const expected = process.env.ADMIN_SEED_SECRET;
+  if (!secret || !expected || !safeEqual(secret, expected)) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 

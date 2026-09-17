@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getRedis } from "@/lib/redis";
 import { getQuiz, getResult } from "@/data/quizzes";
 import { getTournament, getCandidate } from "@/data/tournaments";
+import { getClientIp, isRateLimited } from "@/lib/rate-limit";
 
 type Kind = "quiz" | "tournament";
 
@@ -18,6 +19,10 @@ function isValidTarget(kind: string, groupId: string, resultId: string) {
 }
 
 export async function POST(request: Request) {
+  if (await isRateLimited(getClientIp(request))) {
+    return NextResponse.json({ error: "too many requests" }, { status: 429 });
+  }
+
   const body = await request.json().catch(() => null);
   const kind = body?.kind as Kind | undefined;
   const groupId = body?.groupId;
