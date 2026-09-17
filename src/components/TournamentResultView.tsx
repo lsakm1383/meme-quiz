@@ -3,7 +3,7 @@ import type { TournamentCandidate, TournamentConfig } from "@/data/tournament-ty
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
-import { RamenIcon } from "@/components/RamenIcon";
+import { TournamentIcon } from "@/components/TournamentIcon";
 
 export function TournamentResultView({
   tournament,
@@ -23,7 +23,7 @@ export function TournamentResultView({
         style={{ backgroundColor: winner.color }}
       >
         <div className="text-5xl">🏆</div>
-        <RamenIcon candidate={winner} />
+        <TournamentIcon candidate={winner} />
         <h1 className="mt-1 text-2xl font-extrabold text-zinc-900">
           {winner.name}
         </h1>
@@ -43,7 +43,7 @@ export function TournamentResultView({
           id: c.id,
           emoji: c.emoji,
           label: c.name,
-          icon: <RamenIcon candidate={c} size="xs" />,
+          icon: <TournamentIcon candidate={c} size="xs" />,
         }))}
       />
 
