@@ -11,7 +11,6 @@ const test: DecisionTestConfig = {
   description:
     "선택지를 따라가면 나에게 어울리는 웨딩드레스 라인이 나와요. 웨딩홀 분위기부터 체형 커버, 소매 여부까지 실제 드레스 투어 고민 순서 그대로.",
   accentColor: "#db2777",
-  category: "life",
   root: {
     id: "mood",
     text: "웨딩홀 분위기가 어떤 느낌이에요?",

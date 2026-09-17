@@ -31,8 +31,6 @@ export type DecisionTestConfig = {
   title: string;
   description: string;
   accentColor: string;
-  /** 홈 화면에서 어느 섹션에 묶일지. 생략하면 "menu"(메뉴 추천)로 취급한다. */
-  category?: "menu" | "life";
   root: DecisionNode;
   /** 트리 안 모든 결과를 한 곳에 모아둔 목록 — 라우팅/OG 이미지/통계에 쓰인다. */
   results: DecisionResult[];

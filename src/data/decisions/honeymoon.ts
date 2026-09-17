@@ -11,7 +11,6 @@ const test: DecisionTestConfig = {
   description:
     "선택지를 따라가면 나에게 맞는 신혼여행지가 나와요. 휴양이냐 액티비티냐, 혹은 색다른 경험이냐부터 예산과 분위기까지 실제 고민 순서 그대로.",
   accentColor: "#0d9488",
-  category: "life",
   root: {
     id: "style",
     text: "신혼여행, 어떤 스타일을 원해요?",
