@@ -99,6 +99,9 @@ export default async function Image({
             {result?.subtitle}
           </div>
         </div>
+        <div style={{ display: "flex", fontSize: 28, color: "#a1a1aa", marginTop: 36 }}>
+          오늘의 밈 테스트 · 너도 해보러 가기 👉
+        </div>
       </div>
     ),
     {

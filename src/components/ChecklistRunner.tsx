@@ -129,8 +129,8 @@ export function ChecklistRunner({ checklist }: { checklist: ChecklistConfig }) {
       </button>
 
       <ShareBar
-        title={`${checklist.title} 진행 중`}
-        text={`${checklist.title} — ${doneCount}/${total} 완료 (${percent}%)`}
+        title={`${checklist.emoji} ${checklist.title} ${percent}% 완료!`}
+        text={`${checklist.title} 체크하다 보니 ${doneCount}/${total}(${percent}%)! 너도 빠뜨린 거 없는지 확인해봐 👉`}
         accentColor={checklist.accentColor}
       />
 

@@ -91,6 +91,9 @@ export default async function Image({
             총 {total}개 항목 체크하기
           </div>
         </div>
+        <div style={{ display: "flex", fontSize: 28, color: "#a1a1aa", marginTop: 36 }}>
+          오늘의 밈 테스트 · 너도 체크하러 가기 👉
+        </div>
       </div>
     ),
     {
