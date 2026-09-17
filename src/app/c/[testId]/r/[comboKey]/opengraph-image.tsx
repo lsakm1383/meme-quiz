@@ -64,23 +64,23 @@ export default async function Image({
             flexDirection: "column",
             alignItems: "center",
             width: 760,
-            marginTop: 32,
-            padding: "56px 64px",
+            marginTop: 24,
+            padding: "40px 64px",
             borderRadius: 48,
             background: "#fee2e2",
           }}
         >
           {test?.emoji ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={emojiImageUrl(test.emoji)} width={176} height={176} alt="" />
+            <img src={emojiImageUrl(test.emoji)} width={140} height={140} alt="" />
           ) : null}
           <div
             style={{
               display: "flex",
-              fontSize: 64,
+              fontSize: 58,
               fontWeight: 700,
               color: "#18181b",
-              marginTop: 28,
+              marginTop: 20,
               textAlign: "center",
             }}
           >
@@ -89,17 +89,17 @@ export default async function Image({
           <div
             style={{
               display: "flex",
-              fontSize: 32,
+              fontSize: 30,
               fontWeight: 400,
               color: "#27272a",
-              marginTop: 16,
+              marginTop: 12,
               textAlign: "center",
             }}
           >
             {subtitle}
           </div>
         </div>
-        <div style={{ display: "flex", fontSize: 28, color: "#a1a1aa", marginTop: 36 }}>
+        <div style={{ display: "flex", fontSize: 28, color: "#a1a1aa", marginTop: 20 }}>
           오늘의 밈 테스트 · 너도 조합 만들러 가기 👉
         </div>
       </div>
