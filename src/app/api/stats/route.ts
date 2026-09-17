@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import { getRedis } from "@/lib/redis";
 import { getQuiz, getResult } from "@/data/quizzes";
 import { getTournament, getCandidate } from "@/data/tournaments";
+import { getDecisionTest, getDecisionResult } from "@/data/decisions";
 import { getClientIp, isRateLimited } from "@/lib/rate-limit";
 
-type Kind = "quiz" | "tournament";
+type Kind = "quiz" | "tournament" | "decision";
 
 function isValidTarget(kind: string, groupId: string, resultId: string) {
   if (kind === "quiz") {
@@ -14,6 +15,10 @@ function isValidTarget(kind: string, groupId: string, resultId: string) {
   if (kind === "tournament") {
     const tournament = getTournament(groupId);
     return !!tournament && !!getCandidate(tournament, resultId);
+  }
+  if (kind === "decision") {
+    const test = getDecisionTest(groupId);
+    return !!test && !!getDecisionResult(test, resultId);
   }
   return false;
 }

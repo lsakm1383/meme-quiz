@@ -1,87 +1,93 @@
-import type { QuizConfig } from "@/data/quiz-types";
+import type { DecisionTestConfig } from "@/data/decision-types";
 
-const quiz: QuizConfig = {
+// 실제로 메뉴를 고르는 사고 흐름을 그대로 트리로 옮겼다:
+// 배부른가(물베이스/우유베이스) → 날씨는(시원하게/따뜻하게) → 잎차 말고 뭘 마실까
+// → 스무디면 어떤 과일 ... 매 선택마다 다음 질문이 달라진다.
+const test: DecisionTestConfig = {
   id: "cafe-recommend",
   emoji: "☕",
   title: "카페 메뉴 추천 테스트",
   description:
-    "카페 가면 뭐 마실지 항상 고민된다면? 6개 질문으로 커피/차/스무디 중 나에게 맞는 음료 추천받기.",
+    "지금 상태에 맞춰 선택지를 따라가면 나에게 맞는 음료가 나와요. 배부른 정도, 날씨, 당 충전 여부까지 실제 고민 순서 그대로.",
   accentColor: "#78350f",
-  category: "recommend",
-  questions: [
-    {
-      id: "q1",
-      text: "오늘 마시고 싶은 음료 스타일은?",
-      options: [
-        { text: "진하고 묵직한 커피", scores: { americano: 2 } },
-        { text: "부드러운 밀크커피", scores: { latte: 2 } },
-        { text: "달콤한 바닐라향 커피", scores: { "vanilla-latte": 2 } },
-        { text: "커피 말고 상큼한 에이드", scores: { "grapefruit-ade": 2 } },
-        { text: "커피 말고 상큼달콤한 밀크 음료", scores: { "strawberry-latte": 2 } },
-        { text: "커피 말고 향긋한 홍차", scores: { "earl-grey": 2 } },
-      ],
-    },
-    {
-      id: "q2",
-      text: "지금 날씨는?",
-      options: [
-        { text: "더워도 추워도 아메리카노는 진리", scores: { americano: 2 } },
-        { text: "더워서 얼음 가득 시원한 커피가 필요함", scores: { "cold-brew": 2 } },
-        { text: "커피에 달콤함을 가득 더해서", scores: { "caramel-macchiato": 2 } },
-        { text: "커피 말고 상큼한 에이드가 땡김", scores: { "grapefruit-ade": 2 } },
-        { text: "커피 말고 시원하게 갈아만든 과일이 최고", scores: { "mango-smoothie": 2 } },
-        { text: "커피 말고 새콤달콤 얼음 스무디", scores: { "blueberry-smoothie": 2 } },
-      ],
-    },
-    {
-      id: "q3",
-      text: "당 충전이 필요한 정도는?",
-      options: [
-        { text: "살짝 달달한 밀크커피 정도", scores: { latte: 2 } },
-        { text: "커피에 디저트 수준의 단맛을 더해서", scores: { "caramel-macchiato": 2 } },
-        { text: "단맛보다는 진한 에스프레소와 크림 풍미", scores: { einspanner: 2 } },
-        { text: "커피 말고 상큼달콤한 밀크 음료", scores: { "strawberry-latte": 2 } },
-        { text: "커피 말고 은은하게 달달한 유자차", scores: { "yuja-tea": 2 } },
-        { text: "커피 말고 새콤달콤 스무디 한 잔", scores: { "blueberry-smoothie": 2 } },
-      ],
-    },
-    {
-      id: "q4",
-      text: "카페에서 사진을 찍는다면?",
-      options: [
-        { text: "심플한 커피 잔, 미니멀 감성", scores: { americano: 2 } },
-        { text: "진한 에스프레소 위에 크림 올린 비주얼", scores: { einspanner: 2 } },
-        { text: "은은한 바닐라 크림 라떼아트", scores: { "vanilla-latte": 2 } },
-        { text: "커피 말고 층층이 쌓인 그라데이션 에이드", scores: { "grapefruit-ade": 2 } },
-        { text: "커피 말고 따뜻하고 클래식한 티 세트", scores: { "yuja-tea": 2 } },
-        { text: "커피 말고 우아한 홍차 잔", scores: { "earl-grey": 2 } },
-      ],
-    },
-    {
-      id: "q5",
-      text: "오늘 기분은?",
-      options: [
-        { text: "부드럽고 편안한 밀크커피 느낌", scores: { latte: 2 } },
-        { text: "진한 커피를 묵직하게", scores: { "cold-brew": 2 } },
-        { text: "특별하고 고급스러운 커피 한 잔", scores: { einspanner: 2 } },
-        { text: "커피 말고 상큼하고 발랄하게", scores: { "strawberry-latte": 2 } },
-        { text: "커피 말고 건강하게 챙기고 싶은 기분", scores: { "mango-smoothie": 2 } },
-        { text: "커피 말고 몸도 마음도 따뜻하게", scores: { "yuja-tea": 2 } },
-      ],
-    },
-    {
-      id: "q6",
-      text: "마지막 한 모금, 바라는 여운은?",
-      options: [
-        { text: "진하고 묵직한 커피의 여운", scores: { "cold-brew": 2 } },
-        { text: "커피 위에 달콤함이 남는 여운", scores: { "caramel-macchiato": 2 } },
-        { text: "고소한 바닐라 커피 여운", scores: { "vanilla-latte": 2 } },
-        { text: "커피 말고 건강한 과일 여운", scores: { "mango-smoothie": 2 } },
-        { text: "커피 말고 새콤달콤한 여운", scores: { "blueberry-smoothie": 2 } },
-        { text: "커피 말고 향긋한 티타임의 여운", scores: { "earl-grey": 2 } },
-      ],
-    },
-  ],
+  root: {
+    id: "full",
+    text: "지금 배가 좀 부른 편이에요?",
+    options: [
+      {
+        text: "네, 배불러서 무거운 건 부담스러워요",
+        type: "node",
+        node: {
+          id: "water-base",
+          text: "물 베이스로 가려는데, 지금 날씨는 어때요?",
+          options: [
+            {
+              text: "더워서 시원하게 마시고 싶어요",
+              type: "node",
+              node: {
+                id: "cold-water-base",
+                text: "잎차는 괜히 체할 것 같고… 시원하게 뭐가 좋을까요?",
+                options: [
+                  { text: "탄산 있는 상큼한 에이드요", type: "result", resultId: "grapefruit-ade" },
+                  { text: "그래도 카페인은 필요해요, 시원한 커피요", type: "result", resultId: "cold-brew" },
+                  {
+                    text: "부드럽게 갈아만든 스무디요",
+                    type: "node",
+                    node: {
+                      id: "smoothie",
+                      text: "스무디도 여러 갈래인데, 어떤 과일이 좋아요?",
+                      options: [
+                        { text: "달콤한 열대과일, 망고요", type: "result", resultId: "mango-smoothie" },
+                        { text: "새콤한 베리류, 블루베리요", type: "result", resultId: "blueberry-smoothie" },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              text: "쌀쌀해서 따뜻하게 마시고 싶어요",
+              type: "node",
+              node: {
+                id: "warm-water-base",
+                text: "따뜻하게 마시려는데, 뭐가 끌려요?",
+                options: [
+                  { text: "카페인이 필요해요, 깔끔한 커피요", type: "result", resultId: "americano" },
+                  { text: "차분하게 홍차 한 잔이요", type: "result", resultId: "earl-grey" },
+                  { text: "새콤달콤한 유자차요", type: "result", resultId: "yuja-tea" },
+                ],
+              },
+            },
+          ],
+        },
+      },
+      {
+        text: "아니요, 우유 들어간 것도 괜찮아요",
+        type: "node",
+        node: {
+          id: "milk-base",
+          text: "우유 들어간 음료 중에 고를 건데, 커피도 같이 들어가도 괜찮아요?",
+          options: [
+            { text: "커피 말고 우유 음료로만요", type: "result", resultId: "strawberry-latte" },
+            {
+              text: "네, 커피랑 우유 둘 다요",
+              type: "node",
+              node: {
+                id: "milk-coffee",
+                text: "단맛은 어느 정도가 좋아요?",
+                options: [
+                  { text: "단맛 없이 부드럽게만요", type: "result", resultId: "latte" },
+                  { text: "은은하게 달콤한 바닐라요", type: "result", resultId: "vanilla-latte" },
+                  { text: "확실하게 달콤한 카라멜이요", type: "result", resultId: "caramel-macchiato" },
+                  { text: "단맛보다는 진한 크림과 에스프레소요", type: "result", resultId: "einspanner" },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    ],
+  },
   results: [
     {
       id: "americano",
@@ -194,4 +200,4 @@ const quiz: QuizConfig = {
   ],
 };
 
-export default quiz;
+export default test;

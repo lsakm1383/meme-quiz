@@ -3,6 +3,7 @@ import { getRedis } from "@/lib/redis";
 import { quizzes } from "@/data/quizzes";
 import { tournaments } from "@/data/tournaments";
 import { toppingTests, noneOptionId } from "@/data/toppings";
+import { decisionTests } from "@/data/decisions";
 import { safeEqual } from "@/lib/safe-equal";
 
 // 초기 방문자에게 '아무도 안 하는 테스트'로 안 보이게 하기 위한 관리자 전용 시드 엔드포인트.
@@ -59,6 +60,17 @@ export async function POST(request: Request) {
     });
     await redis.hset(`stats:tournament:${tournament.id}`, fields);
     summary[`tournament:${tournament.id}`] = fields;
+  }
+
+  for (const decision of decisionTests) {
+    const total = randomInt(300, 2600);
+    const shares = distribute(total, decision.results.length);
+    const fields: Record<string, number> = {};
+    decision.results.forEach((result, i) => {
+      fields[result.id] = shares[i];
+    });
+    await redis.hset(`stats:decision:${decision.id}`, fields);
+    summary[`decision:${decision.id}`] = fields;
   }
 
   for (const test of toppingTests) {
