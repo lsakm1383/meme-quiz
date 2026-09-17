@@ -2,6 +2,8 @@ import type { DecisionTestConfig } from "@/data/decision-types";
 
 // 실제 드레스 투어에서 하는 고민 순서 그대로: 웨딩홀 분위기 → 체형 커버/노출 정도
 // → (모던인데 심플하면) 소매 여부까지. 매 선택마다 다음 질문이 갈린다.
+// 라인 목록은 한국 웨딩업계에서 통용되는 5대 드레스 라인(A라인·벨라인·머메이드·시스라인·
+// 엠파이어라인)을 기준으로 구성했다.
 const test: DecisionTestConfig = {
   id: "dress",
   emoji: "👰",
@@ -48,6 +50,11 @@ const test: DecisionTestConfig = {
             },
           ],
         },
+      },
+      {
+        text: "편안하고 로맨틱하게",
+        type: "result",
+        resultId: "empire",
       },
     ],
   },
@@ -96,6 +103,15 @@ const test: DecisionTestConfig = {
       description:
         "군더더기 없는 슬림한 라인으로 어깨와 팔을 시원하게 드러내는 타입이에요. 트렌디하고 시크한 분위기를 원하는 분께 딱입니다.",
       color: "#D6D3D1",
+    },
+    {
+      id: "empire",
+      emoji: "🎀",
+      title: "엠파이어 라인 드레스",
+      subtitle: "다리가 길어 보이는 편안한 로맨틱 라인",
+      description:
+        "가슴 바로 아래에서 허리선을 묶고 그 아래로 자연스럽게 흘러내리는 타입이에요. 하체 라인은 가리면서 다리는 길어 보이게, 편안하면서도 로맨틱한 무드를 원하는 분께 잘 맞습니다.",
+      color: "#FDE68A",
     },
   ],
 };

@@ -111,12 +111,28 @@ function SlipDress({ color, secondary }: DressStyle) {
   );
 }
 
+function Empire({ color, secondary }: DressStyle) {
+  return (
+    <svg viewBox="0 0 32 32" className="h-full w-full">
+      <path
+        d="M13 6 L19 6 L20 8 Q20 9.5 19 10.5 L23 29 Q16 31 9 29 L13 10.5 Q12 9.5 12 8 Z"
+        fill={color}
+        stroke="#e7d9c8"
+        strokeWidth="0.5"
+      />
+      <path d="M13 6 Q16 4.5 19 6" fill="none" stroke="#e7d9c8" strokeWidth="0.6" />
+      {secondary && <rect x="12" y="9.6" width="8" height="1.6" rx="0.8" fill={secondary} />}
+    </svg>
+  );
+}
+
 const SHAPES = {
   aLine: ALine,
   ballGown: BallGown,
   mermaid: Mermaid,
   longSleeve: LongSleeve,
   slipDress: SlipDress,
+  empire: Empire,
 };
 
 const BOX = { lg: "h-16 w-16", sm: "h-9 w-9", xs: "h-5 w-5" };
