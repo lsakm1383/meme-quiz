@@ -3,6 +3,7 @@ import type { DecisionResult, DecisionTestConfig } from "@/data/decision-types";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
+import { DecisionResultIcon } from "@/components/DecisionResultIcon";
 
 export function DecisionResultView({
   test,
@@ -19,7 +20,7 @@ export function DecisionResultView({
         className="flex w-full flex-col items-center gap-3 rounded-3xl px-6 py-10 shadow-sm"
         style={{ backgroundColor: result.color }}
       >
-        <div className="text-7xl">{result.emoji}</div>
+        <DecisionResultIcon result={result} />
         <h1 className="text-2xl font-extrabold text-zinc-900">{result.title}</h1>
         <p className="text-base font-medium text-zinc-800">{result.subtitle}</p>
       </div>
@@ -37,6 +38,7 @@ export function DecisionResultView({
           id: r.id,
           emoji: r.emoji,
           label: r.title,
+          icon: <DecisionResultIcon result={r} size="xs" />,
         }))}
       />
 
