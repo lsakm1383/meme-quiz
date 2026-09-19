@@ -5,6 +5,7 @@ import { getCloseCodes, getCautionCodes } from "@/data/mbti/compat";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
+import { MbtiResultIcon } from "@/components/MbtiResultIcon";
 
 function RelationSection({
   label,
@@ -28,7 +29,7 @@ function RelationSection({
       <div className="flex flex-wrap gap-x-5 gap-y-2">
         {profiles.map((p) => (
           <div key={p.slug} className="flex items-center gap-2">
-            <span className="text-2xl">{p.emoji}</span>
+            <MbtiResultIcon profile={p} size="sm" />
             <span className="font-bold">{p.title}</span>
           </div>
         ))}
@@ -59,7 +60,7 @@ export function MbtiResultView({
         className="flex w-full flex-col items-center gap-3 rounded-3xl px-6 py-10 shadow-sm"
         style={{ backgroundColor: profile.color }}
       >
-        <div className="text-6xl">{profile.emoji}</div>
+        <MbtiResultIcon profile={profile} />
         <h1 className="text-2xl font-extrabold text-zinc-900">{profile.title}</h1>
         <p className="text-base font-medium text-zinc-800">{profile.subtitle}</p>
       </div>
@@ -113,6 +114,7 @@ export function MbtiResultView({
           id: p.slug,
           emoji: p.emoji,
           label: p.title,
+          icon: <MbtiResultIcon profile={p} size="xs" />,
         }))}
       />
 
