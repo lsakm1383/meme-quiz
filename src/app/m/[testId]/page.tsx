@@ -33,16 +33,19 @@ export async function generateMetadata({
 
 export default async function MbtiTestPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ testId: string }>;
+  searchParams: Promise<{ group?: string }>;
 }) {
   const { testId } = await params;
+  const { group } = await searchParams;
   const test = getMbtiTest(testId);
   if (!test) notFound();
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
-      <MbtiRunner test={test} />
+      <MbtiRunner test={test} initialGroupId={group} />
     </div>
   );
 }
