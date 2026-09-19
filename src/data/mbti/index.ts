@@ -1,12 +1,14 @@
 import type { MbtiTestConfig, MbtiTypeProfile } from "@/data/mbti-types";
 import questions from "@/data/mbti/questions";
+import princessQuestions from "@/data/mbti/princess-questions";
+import gamerQuestions from "@/data/mbti/gamer-questions";
 import profiles from "@/data/mbti/profiles";
 import princessProfiles from "@/data/mbti/princess-profiles";
 import gamerProfiles from "@/data/mbti/gamer-profiles";
 
-// 같은 20문항·같은 축 채점 엔진을 재사용하고, 결과 프로필(이름·설명·이모지·색)만
-// 시리즈마다 다르게 입힌다. 새 시리즈를 추가할 땐 profiles 파일 하나만 새로 쓰고
-// 여기 배열에 등록하면 된다.
+// 같은 축(E/I,S/N,T/F,J/P)·같은 채점 엔진을 재사용하되, 문항 문구와 결과 프로필은
+// 시리즈마다 새로 쓴다. 문항까지 공유하면 세 테스트가 완전히 똑같아 보이기 때문에,
+// 각 시리즈는 자기만의 questions 파일(축·글자 매핑은 동일, 시나리오만 다름)을 쓴다.
 const AXES: [string, string][] = [
   ["E", "I"],
   ["S", "N"],
@@ -34,7 +36,7 @@ const mbtiPrincess: MbtiTestConfig = {
     "20개 질문으로 알아보는 나만의 공주 타입. 나랑 잘 통하는 사이, 서로 조심해야 할 사이까지 함께 알려줘요.",
   accentColor: "#a21caf",
   axes: AXES,
-  questions,
+  questions: princessQuestions,
   profiles: princessProfiles,
 };
 
@@ -46,7 +48,7 @@ const mbtiGamer: MbtiTestConfig = {
     "20개 질문으로 알아보는 나의 게임 속 포지션. 나랑 잘 통하는 사이, 서로 조심해야 할 사이까지 함께 알려줘요.",
   accentColor: "#16a34a",
   axes: AXES,
-  questions,
+  questions: gamerQuestions,
   profiles: gamerProfiles,
 };
 
