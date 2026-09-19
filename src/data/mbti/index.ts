@@ -2,6 +2,7 @@ import type { MbtiTestConfig, MbtiTypeProfile } from "@/data/mbti-types";
 import questions from "@/data/mbti/questions";
 import profiles from "@/data/mbti/profiles";
 import princessProfiles from "@/data/mbti/princess-profiles";
+import gamerProfiles from "@/data/mbti/gamer-profiles";
 
 // 같은 20문항·같은 축 채점 엔진을 재사용하고, 결과 프로필(이름·설명·이모지·색)만
 // 시리즈마다 다르게 입힌다. 새 시리즈를 추가할 땐 profiles 파일 하나만 새로 쓰고
@@ -37,7 +38,19 @@ const mbtiPrincess: MbtiTestConfig = {
   profiles: princessProfiles,
 };
 
-export const mbtiTests: MbtiTestConfig[] = [mbtiLite, mbtiPrincess];
+const mbtiGamer: MbtiTestConfig = {
+  id: "mbti-gamer",
+  emoji: "🎮",
+  title: `"나는 어떤 포지션?" 성격 테스트`,
+  description:
+    "20개 질문으로 알아보는 나의 게임 속 포지션. 나랑 잘 통하는 사이, 서로 조심해야 할 사이까지 함께 알려줘요.",
+  accentColor: "#16a34a",
+  axes: AXES,
+  questions,
+  profiles: gamerProfiles,
+};
+
+export const mbtiTests: MbtiTestConfig[] = [mbtiLite, mbtiPrincess, mbtiGamer];
 
 export function getMbtiTest(id: string): MbtiTestConfig | undefined {
   return mbtiTests.find((test) => test.id === id);
