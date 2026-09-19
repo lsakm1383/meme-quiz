@@ -3,6 +3,7 @@ import { Noto_Sans_KR } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { getSiteUrl } from "@/lib/site";
+import { AdRouteGuard } from "@/components/AdRouteGuard";
 
 const notoSansKr = Noto_Sans_KR({
   variable: "--font-noto-sans-kr",
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${notoSansKr.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col items-center bg-white font-sans dark:bg-black dark:text-white">
+        <AdRouteGuard />
         {children}
         <footer className="w-full py-8 text-center text-xs text-zinc-400">
           <Link href="/privacy" className="underline underline-offset-4">
