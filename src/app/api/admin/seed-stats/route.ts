@@ -4,22 +4,24 @@ import { quizzes } from "@/data/quizzes";
 import { tournaments } from "@/data/tournaments";
 import { toppingTests, noneOptionId } from "@/data/toppings";
 import { decisionTests } from "@/data/decisions";
+import { mbtiTests } from "@/data/mbti";
 import { safeEqual } from "@/lib/safe-equal";
 
 // 초기 방문자에게 '아무도 안 하는 테스트'로 안 보이게 하기 위한 관리자 전용 시드 엔드포인트.
 // x-admin-secret 헤더가 ADMIN_SEED_SECRET과 일치해야 동작한다.
 // HSET으로 값을 덮어쓰므로 여러 번 실행해도 숫자가 계속 불어나지 않는다 (재실행하면 새로운 무작위값으로 재설정됨).
 //
-// 바디 없이 호출하면 기존처럼 등록된 모든 퀴즈/월드컵/분기형/조합형 테스트를 전부 다시 시드한다.
+// 바디 없이 호출하면 기존처럼 등록된 모든 퀴즈/월드컵/분기형/조합형/MBTI 테스트를 전부 다시 시드한다.
 // 특정 테스트만 골라 시드하고 싶으면, 바디에 아래 필드 중 하나라도 넣어서 호출한다
 // (그 경우 명시하지 않은 종류는 아예 건드리지 않는다):
-// { "quizIds": ["flower-type"], "tournamentIds": [...], "decisionIds": ["dress", "honeymoon"], "toppingIds": [...] }
+// { "quizIds": ["flower-type"], "tournamentIds": [...], "decisionIds": ["dress", "honeymoon"], "toppingIds": [...], "mbtiIds": ["mbti-lite"] }
 
 type SeedRequestBody = {
   quizIds?: string[];
   tournamentIds?: string[];
   decisionIds?: string[];
   toppingIds?: string[];
+  mbtiIds?: string[];
 };
 
 function randomInt(min: number, max: number) {
@@ -55,7 +57,8 @@ export async function POST(request: Request) {
     body.quizIds !== undefined ||
     body.tournamentIds !== undefined ||
     body.decisionIds !== undefined ||
-    body.toppingIds !== undefined;
+    body.toppingIds !== undefined ||
+    body.mbtiIds !== undefined;
 
   const targetQuizzes = hasFilter
     ? quizzes.filter((quiz) => body.quizIds?.includes(quiz.id))
@@ -69,6 +72,9 @@ export async function POST(request: Request) {
   const targetToppings = hasFilter
     ? toppingTests.filter((test) => body.toppingIds?.includes(test.id))
     : toppingTests;
+  const targetMbtiTests = hasFilter
+    ? mbtiTests.filter((test) => body.mbtiIds?.includes(test.id))
+    : mbtiTests;
 
   const summary: Record<string, Record<string, number>> = {};
 
@@ -135,6 +141,17 @@ export async function POST(request: Request) {
     await redis.hset(`ingredient-stats:${test.id}:counts`, fields);
     await redis.set(`ingredient-stats:${test.id}:participants`, participants);
     summary[`topping:${test.id}`] = { ...fields, __participants: participants };
+  }
+
+  for (const test of targetMbtiTests) {
+    const total = randomInt(300, 2600);
+    const shares = distribute(total, test.profiles.length);
+    const fields: Record<string, number> = {};
+    test.profiles.forEach((profile, i) => {
+      fields[profile.code] = shares[i];
+    });
+    await redis.hset(`stats:mbti:${test.id}`, fields);
+    summary[`mbti:${test.id}`] = fields;
   }
 
   return NextResponse.json({ ok: true, summary });
