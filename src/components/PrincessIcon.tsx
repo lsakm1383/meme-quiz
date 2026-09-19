@@ -7,6 +7,7 @@ import {
 import { SnowWhiteIllustration } from "@/components/illustrations/SnowWhiteIllustration";
 import { OdetteIllustration } from "@/components/illustrations/OdetteIllustration";
 import { FrogPrincePrincessIllustration } from "@/components/illustrations/FrogPrincePrincessIllustration";
+import { PhotoIcon } from "@/components/PhotoIcon";
 
 // slug별로 기존 파라미터 조합 대신 공들여 그린 전용 일러스트를 쓰고 싶을 때 등록한다.
 const CUSTOM_ILLUSTRATIONS: Partial<Record<string, () => React.JSX.Element>> = {
@@ -192,16 +193,7 @@ export function PrincessIcon({
   size?: IconSize;
 }) {
   if (PHOTO_SLUGS.has(profile.slug)) {
-    return (
-      <span className={`inline-block overflow-hidden rounded-2xl ${BOX[size]}`}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`/mbti/princess/${profile.slug}.webp`}
-          alt=""
-          className="h-full w-full object-cover"
-        />
-      </span>
-    );
+    return <PhotoIcon src={`/mbti/princess/${profile.slug}.webp`} size={size} />;
   }
 
   const Custom = CUSTOM_ILLUSTRATIONS[profile.slug];
