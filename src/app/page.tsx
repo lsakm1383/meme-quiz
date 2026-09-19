@@ -73,7 +73,7 @@ export default function Home() {
       </div>
 
       <div className="flex w-full flex-col gap-3">
-        <h2 className="text-sm font-bold text-zinc-400">친구 케미 테스트</h2>
+        <h2 className="text-sm font-bold text-zinc-400">관계성 테스트</h2>
         {mbtiTests.map((test) => (
           <Link
             key={test.id}
