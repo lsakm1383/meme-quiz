@@ -25,7 +25,16 @@ export function getMbtiTest(id: string): MbtiTestConfig | undefined {
   return mbtiTests.find((test) => test.id === id);
 }
 
-export function getMbtiProfile(
+/** 공개 URL/통계에 쓰는 슬러그로 결과를 찾는다 (라우팅용). */
+export function getMbtiProfileBySlug(
+  test: MbtiTestConfig,
+  slug: string
+): MbtiTypeProfile | undefined {
+  return test.profiles.find((profile) => profile.slug === slug);
+}
+
+/** 궁합 계산이 돌려준 내부 코드로 결과를 찾는다 (화면에 code 자체를 노출하지 않는다). */
+export function getMbtiProfileByCode(
   test: MbtiTestConfig,
   code: string
 ): MbtiTypeProfile | undefined {

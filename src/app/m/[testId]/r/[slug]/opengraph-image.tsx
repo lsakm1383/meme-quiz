@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { mbtiTests, getMbtiTest, getMbtiProfile } from "@/data/mbti";
+import { mbtiTests, getMbtiTest, getMbtiProfileBySlug } from "@/data/mbti";
 
 export const alt = "테스트 결과";
 export const size = { width: 1200, height: 630 };
@@ -16,7 +16,7 @@ const notoRegular = readFile(
 
 export function generateStaticParams() {
   return mbtiTests.flatMap((test) =>
-    test.profiles.map((profile) => ({ testId: test.id, code: profile.code }))
+    test.profiles.map((profile) => ({ testId: test.id, slug: profile.slug }))
   );
 }
 
@@ -31,11 +31,11 @@ function emojiImageUrl(emoji: string) {
 export default async function Image({
   params,
 }: {
-  params: Promise<{ testId: string; code: string }>;
+  params: Promise<{ testId: string; slug: string }>;
 }) {
-  const { testId, code } = await params;
+  const { testId, slug } = await params;
   const test = getMbtiTest(testId);
-  const profile = test && getMbtiProfile(test, code);
+  const profile = test && getMbtiProfileBySlug(test, slug);
 
   const [bold, regular] = await Promise.all([notoBold, notoRegular]);
 
@@ -74,22 +74,10 @@ export default async function Image({
           <div
             style={{
               display: "flex",
-              fontSize: 28,
-              fontWeight: 700,
-              color: "#71717a",
-              marginTop: 12,
-              letterSpacing: 4,
-            }}
-          >
-            {profile?.code}
-          </div>
-          <div
-            style={{
-              display: "flex",
               fontSize: 58,
               fontWeight: 700,
               color: "#18181b",
-              marginTop: 8,
+              marginTop: 20,
               textAlign: "center",
             }}
           >

@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { mbtiTests, getMbtiTest, getMbtiProfile } from "@/data/mbti";
+import { mbtiTests, getMbtiTest, getMbtiProfileBySlug } from "@/data/mbti";
 import { MbtiResultView } from "@/components/MbtiResultView";
 import { getSiteUrl } from "@/lib/site";
 
-type Params = { testId: string; code: string };
+type Params = { testId: string; slug: string };
 
 export function generateStaticParams() {
   return mbtiTests.flatMap((test) =>
-    test.profiles.map((profile) => ({ testId: test.id, code: profile.code }))
+    test.profiles.map((profile) => ({ testId: test.id, slug: profile.slug }))
   );
 }
 
@@ -17,19 +17,19 @@ export async function generateMetadata({
 }: {
   params: Promise<Params>;
 }): Promise<Metadata> {
-  const { testId, code } = await params;
+  const { testId, slug } = await params;
   const test = getMbtiTest(testId);
-  const profile = test && getMbtiProfile(test, code);
+  const profile = test && getMbtiProfileBySlug(test, slug);
   if (!test || !profile) return {};
 
-  const title = `나는 "${profile.code} ${profile.title}" ${profile.emoji}`;
+  const title = `나는 "${profile.title}" ${profile.emoji}`;
   const description = `${profile.subtitle} — ${test.title}에서 나온 결과예요.`;
   return {
     title,
     description,
     openGraph: { title, description, type: "website" },
     twitter: { card: "summary_large_image", title, description },
-    alternates: { canonical: `${getSiteUrl()}/m/${test.id}/r/${profile.code}` },
+    alternates: { canonical: `${getSiteUrl()}/m/${test.id}/r/${profile.slug}` },
   };
 }
 
@@ -38,9 +38,9 @@ export default async function MbtiResultPage({
 }: {
   params: Promise<Params>;
 }) {
-  const { testId, code } = await params;
+  const { testId, slug } = await params;
   const test = getMbtiTest(testId);
-  const profile = test && getMbtiProfile(test, code);
+  const profile = test && getMbtiProfileBySlug(test, slug);
   if (!test || !profile) notFound();
 
   return (

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { MbtiTestConfig } from "@/data/mbti-types";
 import { calculateMbtiCode } from "@/lib/scoring";
+import { getMbtiProfileByCode } from "@/data/mbti";
 import { RunnerNav } from "@/components/RunnerNav";
 
 type Phase = "intro" | "createTitle" | "nickname" | "quiz";
@@ -68,7 +69,8 @@ export function MbtiRunner({
       return;
     }
 
-    router.push(`/m/${test.id}/r/${code}`);
+    const profile = getMbtiProfileByCode(test, code);
+    router.push(`/m/${test.id}/r/${profile?.slug ?? code}`);
   }
 
   function selectOption(optionIndex: number) {

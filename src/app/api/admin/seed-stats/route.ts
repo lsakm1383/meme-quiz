@@ -148,7 +148,7 @@ export async function POST(request: Request) {
     const shares = distribute(total, test.profiles.length);
     const fields: Record<string, number> = {};
     test.profiles.forEach((profile, i) => {
-      fields[profile.code] = shares[i];
+      fields[profile.slug] = shares[i];
     });
     await redis.hset(`stats:mbti:${test.id}`, fields);
     summary[`mbti:${test.id}`] = fields;

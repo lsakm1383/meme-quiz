@@ -10,7 +10,7 @@ import {
   MAX_MEMBERS,
   type GroupMember,
 } from "@/lib/groups";
-import { getMbtiTest, getMbtiProfile } from "@/data/mbti";
+import { getMbtiTest, getMbtiProfileByCode } from "@/data/mbti";
 
 export async function POST(
   request: Request,
@@ -42,7 +42,7 @@ export async function POST(
   }
 
   const test = getMbtiTest(parsed.meta.testId);
-  if (!test || !getMbtiProfile(test, code)) {
+  if (!test || !getMbtiProfileByCode(test, code)) {
     return NextResponse.json({ error: "invalid request" }, { status: 400 });
   }
 

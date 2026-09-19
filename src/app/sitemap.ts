@@ -46,7 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const test of mbtiTests) {
     urls.push({ url: `${base}/m/${test.id}` });
     for (const profile of test.profiles) {
-      urls.push({ url: `${base}/m/${test.id}/r/${profile.code}` });
+      urls.push({ url: `${base}/m/${test.id}/r/${profile.slug}` });
     }
   }
 

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { MbtiTestConfig, MbtiTypeProfile } from "@/data/mbti-types";
-import { getMbtiProfile } from "@/data/mbti";
+import { getMbtiProfileByCode } from "@/data/mbti";
 import { getTopCloseCode, getTopCautionCode } from "@/data/mbti/compat";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
@@ -27,9 +27,7 @@ function RelationCard({
       </span>
       <div className="flex items-center gap-2">
         <span className="text-2xl">{profile.emoji}</span>
-        <span className="font-bold">
-          {profile.code} · {profile.title}
-        </span>
+        <span className="font-bold">{profile.title}</span>
       </div>
       <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
         {reason}
@@ -47,8 +45,8 @@ export function MbtiResultView({
 }) {
   const closeCode = getTopCloseCode(profile.code);
   const cautionCode = getTopCautionCode(profile.code);
-  const closeProfile = getMbtiProfile(test, closeCode);
-  const cautionProfile = getMbtiProfile(test, cautionCode);
+  const closeProfile = getMbtiProfileByCode(test, closeCode);
+  const cautionProfile = getMbtiProfileByCode(test, cautionCode);
 
   return (
     <div className="flex w-full flex-col items-center gap-6 text-center">
@@ -59,9 +57,6 @@ export function MbtiResultView({
         style={{ backgroundColor: profile.color }}
       >
         <div className="text-6xl">{profile.emoji}</div>
-        <p className="text-sm font-bold tracking-widest text-zinc-500">
-          {profile.code}
-        </p>
         <h1 className="text-2xl font-extrabold text-zinc-900">{profile.title}</h1>
         <p className="text-base font-medium text-zinc-800">{profile.subtitle}</p>
       </div>
@@ -99,7 +94,7 @@ export function MbtiResultView({
             label="나와 가까운 사이"
             tone="#22c55e"
             profile={closeProfile}
-            reason={`${profile.title}인 나와 ${closeProfile.title}는 에너지를 쓰는 방향(외향/내향)만 다르고, 가치관·관심사·생활 리듬은 똑같아서 편하게 통하는 사이예요.`}
+            reason={`${profile.title}인 나와 ${closeProfile.title}은 에너지를 쓰는 방향(외향/내향)만 다르고, 가치관·관심사·생활 리듬은 똑같아서 편하게 통하는 사이예요.`}
           />
         )}
         {cautionProfile && (
@@ -107,7 +102,7 @@ export function MbtiResultView({
             label="조심해야 할 사이"
             tone="#f97316"
             profile={cautionProfile}
-            reason={`${profile.title}인 나와 ${cautionProfile.title}는 생활 리듬은 잘 맞아도 판단 기준(논리/감정)이 정반대라서, 같은 상황을 다르게 받아들여 오해가 생기기 쉬운 사이예요.`}
+            reason={`${profile.title}인 나와 ${cautionProfile.title}은 생활 리듬은 잘 맞아도 판단 기준(논리/감정)이 정반대라서, 같은 상황을 다르게 받아들여 오해가 생기기 쉬운 사이예요.`}
           />
         )}
       </div>
@@ -115,18 +110,18 @@ export function MbtiResultView({
       <ResultStats
         kind="mbti"
         groupId={test.id}
-        resultId={profile.code}
+        resultId={profile.slug}
         accentColor={test.accentColor}
         items={test.profiles.map((p) => ({
-          id: p.code,
+          id: p.slug,
           emoji: p.emoji,
-          label: `${p.code} ${p.title}`,
+          label: p.title,
         }))}
       />
 
       <ShareBar
-        title={`${profile.emoji} 나는 "${profile.code} ${profile.title}"`}
-        text={`${test.title} 해봤더니 "${profile.code} ${profile.title}" 나왔어!\n${profile.subtitle}\n너는 뭐 나올까? 👉`}
+        title={`${profile.emoji} 나는 "${profile.title}"`}
+        text={`${test.title} 해봤더니 "${profile.title}" 나왔어!\n${profile.subtitle}\n너는 뭐 나올까? 👉`}
         accentColor={test.accentColor}
       />
 

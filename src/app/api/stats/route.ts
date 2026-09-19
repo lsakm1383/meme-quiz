@@ -3,7 +3,7 @@ import { getRedis } from "@/lib/redis";
 import { getQuiz, getResult } from "@/data/quizzes";
 import { getTournament, getCandidate } from "@/data/tournaments";
 import { getDecisionTest, getDecisionResult } from "@/data/decisions";
-import { getMbtiTest, getMbtiProfile } from "@/data/mbti";
+import { getMbtiTest, getMbtiProfileBySlug } from "@/data/mbti";
 import { getClientIp, isRateLimited } from "@/lib/rate-limit";
 
 type Kind = "quiz" | "tournament" | "decision" | "mbti";
@@ -23,7 +23,7 @@ function isValidTarget(kind: string, groupId: string, resultId: string) {
   }
   if (kind === "mbti") {
     const test = getMbtiTest(groupId);
-    return !!test && !!getMbtiProfile(test, resultId);
+    return !!test && !!getMbtiProfileBySlug(test, resultId);
   }
   return false;
 }

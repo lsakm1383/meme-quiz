@@ -19,8 +19,14 @@ export type MbtiQuestion = {
 };
 
 export type MbtiTypeProfile = {
-  /** 4글자 코드, 예: "ISTJ" */
+  /**
+   * 4글자 선호지표 코드(예: "ISTJ") — 궁합 계산(compat.ts)에만 쓰는 내부 값이다.
+   * URL, 공유 문구, 화면 어디에도 그대로 노출하지 않는다 (라이선스가 있는 MBTI®
+   * 코드 체계를 사용자에게 직접 보여주는 걸 피하기 위함). 공개 식별자는 slug.
+   */
   code: string;
+  /** URL·통계에 쓰는 공개 슬러그 (예: "honeybutter") — 시리즈마다 다른 테마 이름을 붙인다 */
+  slug: string;
   emoji: string;
   title: string;
   subtitle: string;
