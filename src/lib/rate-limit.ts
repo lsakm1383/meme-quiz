@@ -31,3 +31,28 @@ export async function isRateLimited(identifier: string): Promise<boolean> {
   const { success } = await rateLimiter.limit(identifier);
   return !success;
 }
+
+let groupLimiter: Ratelimit | null | undefined;
+
+function getGroupLimiter(): Ratelimit | null {
+  if (groupLimiter !== undefined) return groupLimiter;
+
+  const redis = getRedis();
+  groupLimiter = redis
+    ? new Ratelimit({
+        redis,
+        limiter: Ratelimit.slidingWindow(5, "60 s"),
+        prefix: "ratelimit:groups",
+      })
+    : null;
+  return groupLimiter;
+}
+
+/** 그룹 생성/참여는 통계 조회보다 훨씬 무거운 쓰기 작업이라 IP당 60초에 5회로 더 빡빡하게 제한한다. */
+export async function isGroupRateLimited(identifier: string): Promise<boolean> {
+  const rateLimiter = getGroupLimiter();
+  if (!rateLimiter) return false;
+
+  const { success } = await rateLimiter.limit(identifier);
+  return !success;
+}
