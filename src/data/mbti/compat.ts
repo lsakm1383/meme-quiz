@@ -19,14 +19,21 @@ export function hammingDistance(a: string, b: string): number {
   return count;
 }
 
-/** 가까운 사이 Top1 — 에너지 방향(E/I)만 다르고 나머지 3글자는 같은 유형. */
-export function getTopCloseCode(code: string): string {
-  return flipAxis(code, 0);
+/**
+ * 가까운 사이 — 딱 한 글자만 다르면서 "겉으로 드러나는 성향"만 다른 유형 2개
+ * (에너지 방향, 생활 양식). 나머지 두 글자(정보 처리·판단 기준)가 같아서
+ * 핵심 가치관·취향은 통하는 유형들이다.
+ */
+export function getCloseCodes(code: string): string[] {
+  return [flipAxis(code, 0), flipAxis(code, 3)];
 }
 
-/** 조심해야 할 사이 Top1 — 판단 기준(T/F)만 다르고 나머지 3글자는 같은 유형. */
-export function getTopCautionCode(code: string): string {
-  return flipAxis(code, 2);
+/**
+ * 조심해야 할 사이 — 딱 한 글자만 다르면서 "정보를 받아들이고 판단하는 방식"만
+ * 다른 유형 2개. 겉보기엔 비슷해 보여도 이 부분이 갈려서 부딪히기 쉽다.
+ */
+export function getCautionCodes(code: string): string[] {
+  return [flipAxis(code, 1), flipAxis(code, 2)];
 }
 
 export type GroupRelation = {

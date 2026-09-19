@@ -1,37 +1,38 @@
 import Link from "next/link";
 import type { MbtiTestConfig, MbtiTypeProfile } from "@/data/mbti-types";
 import { getMbtiProfileByCode } from "@/data/mbti";
-import { getTopCloseCode, getTopCautionCode } from "@/data/mbti/compat";
+import { getCloseCodes, getCautionCodes } from "@/data/mbti/compat";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
 
-function RelationCard({
+function RelationSection({
   label,
   tone,
-  profile,
-  reason,
+  profiles,
 }: {
   label: string;
   tone: string;
-  profile: MbtiTypeProfile;
-  reason: string;
+  profiles: MbtiTypeProfile[];
 }) {
+  if (profiles.length === 0) return null;
+
   return (
-    <div className="flex w-full flex-col gap-2 rounded-2xl border border-zinc-200 p-4 text-left dark:border-zinc-800">
+    <div className="flex w-full flex-col gap-3 rounded-2xl border border-zinc-200 p-4 text-left dark:border-zinc-800">
       <span
         className="w-fit rounded-full px-3 py-1 text-xs font-bold text-white"
         style={{ backgroundColor: tone }}
       >
         {label}
       </span>
-      <div className="flex items-center gap-2">
-        <span className="text-2xl">{profile.emoji}</span>
-        <span className="font-bold">{profile.title}</span>
+      <div className="flex flex-wrap gap-x-5 gap-y-2">
+        {profiles.map((p) => (
+          <div key={p.slug} className="flex items-center gap-2">
+            <span className="text-2xl">{p.emoji}</span>
+            <span className="font-bold">{p.title}</span>
+          </div>
+        ))}
       </div>
-      <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-        {reason}
-      </p>
     </div>
   );
 }
@@ -43,10 +44,12 @@ export function MbtiResultView({
   test: MbtiTestConfig;
   profile: MbtiTypeProfile;
 }) {
-  const closeCode = getTopCloseCode(profile.code);
-  const cautionCode = getTopCautionCode(profile.code);
-  const closeProfile = getMbtiProfileByCode(test, closeCode);
-  const cautionProfile = getMbtiProfileByCode(test, cautionCode);
+  const closeProfiles = getCloseCodes(profile.code)
+    .map((code) => getMbtiProfileByCode(test, code))
+    .filter((p): p is MbtiTypeProfile => p !== undefined);
+  const cautionProfiles = getCautionCodes(profile.code)
+    .map((code) => getMbtiProfileByCode(test, code))
+    .filter((p): p is MbtiTypeProfile => p !== undefined);
 
   return (
     <div className="flex w-full flex-col items-center gap-6 text-center">
@@ -89,22 +92,16 @@ export function MbtiResultView({
       </div>
 
       <div className="flex w-full flex-col gap-3">
-        {closeProfile && (
-          <RelationCard
-            label="나와 가까운 사이"
-            tone="#22c55e"
-            profile={closeProfile}
-            reason={`${profile.title}인 나와 ${closeProfile.title}은 사람들과 어울릴 때 힘이 나는지, 혼자만의 시간에 힘이 나는지만 다를 뿐이에요. 좋아하는 것도, 판단하는 기준도, 사는 리듬도 신기할 만큼 닮아서 편하게 통하는 사이예요.`}
-          />
-        )}
-        {cautionProfile && (
-          <RelationCard
-            label="조심해야 할 사이"
-            tone="#f97316"
-            profile={cautionProfile}
-            reason={`${profile.title}인 나와 ${cautionProfile.title}은 사는 리듬은 잘 맞아도, 결정을 내릴 때 이유와 논리를 먼저 따지는지 마음이 어떤지를 먼저 살피는지가 정반대예요. 그래서 같은 상황도 서로 다르게 받아들여서 오해가 생기기 쉬운 사이예요.`}
-          />
-        )}
+        <RelationSection
+          label="나와 가까운 사이"
+          tone="#22c55e"
+          profiles={closeProfiles}
+        />
+        <RelationSection
+          label="조심해야 할 사이"
+          tone="#f97316"
+          profiles={cautionProfiles}
+        />
       </div>
 
       <ResultStats
