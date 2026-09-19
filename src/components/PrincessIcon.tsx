@@ -4,6 +4,12 @@ import {
   type PrincessAccessory,
   type PrincessHairStyle,
 } from "@/data/mbti/princess-illustration-styles";
+import { SnowWhiteIllustration } from "@/components/illustrations/SnowWhiteIllustration";
+
+// slug별로 기존 파라미터 조합 대신 공들여 그린 전용 일러스트를 쓰고 싶을 때 등록한다.
+const CUSTOM_ILLUSTRATIONS: Partial<Record<string, () => React.JSX.Element>> = {
+  snowwhite: SnowWhiteIllustration,
+};
 
 // 동화 삽화풍 손그림 공주 초상 아이콘. 헤어스타일/액세서리/드레스를 조합해서 그린다.
 type IconSize = "lg" | "sm" | "xs";
@@ -164,6 +170,15 @@ export function PrincessIcon({
   profile: MbtiTypeProfile;
   size?: IconSize;
 }) {
+  const Custom = CUSTOM_ILLUSTRATIONS[profile.slug];
+  if (Custom) {
+    return (
+      <span className={`inline-block ${BOX[size]}`}>
+        <Custom />
+      </span>
+    );
+  }
+
   const style = getPrincessStyle(profile.slug);
 
   if (!style) {
