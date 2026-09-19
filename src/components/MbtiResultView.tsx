@@ -94,7 +94,7 @@ export function MbtiResultView({
             label="나와 가까운 사이"
             tone="#22c55e"
             profile={closeProfile}
-            reason={`${profile.title}인 나와 ${closeProfile.title}은 에너지를 쓰는 방향(외향/내향)만 다르고, 가치관·관심사·생활 리듬은 똑같아서 편하게 통하는 사이예요.`}
+            reason={`${profile.title}인 나와 ${closeProfile.title}은 사람들과 어울릴 때 힘이 나는지, 혼자만의 시간에 힘이 나는지만 다를 뿐이에요. 좋아하는 것도, 판단하는 기준도, 사는 리듬도 신기할 만큼 닮아서 편하게 통하는 사이예요.`}
           />
         )}
         {cautionProfile && (
@@ -102,7 +102,7 @@ export function MbtiResultView({
             label="조심해야 할 사이"
             tone="#f97316"
             profile={cautionProfile}
-            reason={`${profile.title}인 나와 ${cautionProfile.title}은 생활 리듬은 잘 맞아도 판단 기준(논리/감정)이 정반대라서, 같은 상황을 다르게 받아들여 오해가 생기기 쉬운 사이예요.`}
+            reason={`${profile.title}인 나와 ${cautionProfile.title}은 사는 리듬은 잘 맞아도, 결정을 내릴 때 이유와 논리를 먼저 따지는지 마음이 어떤지를 먼저 살피는지가 정반대예요. 그래서 같은 상황도 서로 다르게 받아들여서 오해가 생기기 쉬운 사이예요.`}
           />
         )}
       </div>
