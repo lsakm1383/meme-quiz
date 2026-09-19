@@ -118,7 +118,7 @@ export function MbtiRunner({
           친구들이랑 그룹 만들어서 같이 하기
         </button>
         <p className="text-xs text-zinc-400">
-          질문 {test.questions.length}개 · 1분 소요
+          질문 {test.questions.length}개 · 3분 소요
         </p>
       </div>
     );
