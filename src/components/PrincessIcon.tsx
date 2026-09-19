@@ -5,11 +5,32 @@ import {
   type PrincessHairStyle,
 } from "@/data/mbti/princess-illustration-styles";
 import { SnowWhiteIllustration } from "@/components/illustrations/SnowWhiteIllustration";
+import { OdetteIllustration } from "@/components/illustrations/OdetteIllustration";
+import { FrogPrincePrincessIllustration } from "@/components/illustrations/FrogPrincePrincessIllustration";
 
 // slug별로 기존 파라미터 조합 대신 공들여 그린 전용 일러스트를 쓰고 싶을 때 등록한다.
 const CUSTOM_ILLUSTRATIONS: Partial<Record<string, () => React.JSX.Element>> = {
   snowwhite: SnowWhiteIllustration,
+  odette: OdetteIllustration,
+  frogprince: FrogPrincePrincessIllustration,
 };
+
+// 크롭한 참고 이미지를 그대로 쓰는 slug 목록 — public/mbti/princess/<slug>.webp
+const PHOTO_SLUGS = new Set([
+  "pyeonggang",
+  "jacheongbi",
+  "kongjwi",
+  "rapunzel",
+  "bari",
+  "mermaid",
+  "aurora",
+  "seonhwa",
+  "thumbelina",
+  "cinderella",
+  "nakrang",
+  "pea",
+  "belle",
+]);
 
 // 동화 삽화풍 손그림 공주 초상 아이콘. 헤어스타일/액세서리/드레스를 조합해서 그린다.
 type IconSize = "lg" | "sm" | "xs";
@@ -170,6 +191,19 @@ export function PrincessIcon({
   profile: MbtiTypeProfile;
   size?: IconSize;
 }) {
+  if (PHOTO_SLUGS.has(profile.slug)) {
+    return (
+      <span className={`inline-block overflow-hidden rounded-2xl ${BOX[size]}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/mbti/princess/${profile.slug}.webp`}
+          alt=""
+          className="h-full w-full object-cover"
+        />
+      </span>
+    );
+  }
+
   const Custom = CUSTOM_ILLUSTRATIONS[profile.slug];
   if (Custom) {
     return (

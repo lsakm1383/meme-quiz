@@ -1,14 +1,14 @@
 import type { MbtiTypeProfile } from "@/data/mbti-types";
 
-// 16가지 유형 프로필 — "공주 시리즈". 원작이 오래된 고전 동화(그림 형제·안데르센·페로)와
-// 한국 전통 설화 속 공주 캐릭터를 기반으로 했다. 특정 회사의 캐릭터 디자인·이름(예:
-// 자스민, 엘사 등 근래 창작된 이름)은 쓰지 않고, 원전 동화·설화에 등장하는 이름만 썼다.
+// 16가지 유형 프로필 — "공주 시리즈". 특정 동화 속 캐릭터 이름은 쓰지 않고, 성향을
+// 드러내는 수식어 + "공주" 형태로만 이름을 짓는다 (저작권 문제가 될 수 있는 고유
+// 캐릭터명을 아예 노출하지 않기 위함). slug는 내부 식별자일 뿐 화면에 노출되지 않는다.
 const profiles: MbtiTypeProfile[] = [
   {
     code: "ISTJ",
     slug: "pyeonggang",
     emoji: "👑",
-    title: "평강공주",
+    title: "천 년이 가도 변치 않을 약속 공주",
     subtitle: "한번 약속하면 끝까지 지키는 원칙주의자",
     description:
       "어릴 때 한 약속이라도 반드시 지키고, 자신이 옳다고 믿는 길은 끝까지 걸어가는 타입이에요. 맡은 일은 책임지고 완수하며, 세부적인 것 하나까지 놓치지 않아요.",
@@ -20,7 +20,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "ISTP",
     slug: "jacheongbi",
     emoji: "🐎",
-    title: "자청비",
+    title: "폭풍 속에서도 흔들림 없는 강철 공주",
     subtitle: "위기 앞에서 침착하게 답을 찾는 모험가",
     description:
       "먼 길을 떠나야 하는 순간에도 당황하지 않고, 실전에서 부딪히며 문제를 해결하는 타입이에요. 감정보다는 상황을 냉정하게 판단하고, 필요할 때 과감하게 행동해요.",
@@ -32,7 +32,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "ISFJ",
     slug: "kongjwi",
     emoji: "🐟",
-    title: "콩쥐",
+    title: "말없이 뿌리내려 곁을 지키는 인내 공주",
     subtitle: "묵묵히 견디며 곁을 지키는 다정한 타입",
     description:
       "힘든 순간에도 불평 없이 자기 몫을 해내고, 주변을 조용히 챙기는 타입이에요. 성실하고 헌신적이라 곁에 있으면 늘 든든해요.",
@@ -44,7 +44,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "ISFP",
     slug: "rapunzel",
     emoji: "🌼",
-    title: "라푼젤",
+    title: "홀로 있는 밤에 별을 그리는 몽상 공주",
     subtitle: "혼자만의 시간 속에서 세상을 그려가는 타입",
     description:
       "조용한 공간에서 자기만의 감성으로 그림을 그리고 노래를 부르는 타입이에요. 남들 눈치보다 내 취향을 따라가면서도, 가까운 사람에게는 따뜻하게 곁을 내줘요.",
@@ -56,7 +56,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "INTJ",
     slug: "bari",
     emoji: "🔮",
-    title: "바리공주",
+    title: "머나먼 길에서도 나침반을 잃지 않는 전략 공주",
     subtitle: "먼 길을 떠나서라도 답을 찾아내는 전략가",
     description:
       "목표가 정해지면 아무리 험한 여정이라도 계획을 세워 끝까지 밀고 나가는 타입이에요. 독립적으로 사고하고, 효율적인 방법을 찾는 걸 좋아해요.",
@@ -68,7 +68,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "INTP",
     slug: "odette",
     emoji: "🦢",
-    title: "백조 공주 오데트",
+    title: "낮엔 백조, 밤엔 사람인 이중의 공주",
     subtitle: "낮과 밤이 다른, 알수록 궁금해지는 타입",
     description:
       "겉으로 보이는 모습 뒤에 훨씬 복잡하고 깊은 세계를 가진 타입이에요. 정해진 틀보다는 스스로 이해한 방식을 믿고, 호기심이 생기면 끝까지 파고들어요.",
@@ -80,7 +80,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "INFJ",
     slug: "seonhwa",
     emoji: "🌙",
-    title: "선화공주",
+    title: "달빛 한 줄기로 본심을 읽는 통찰 공주",
     subtitle: "한마디로 상황의 본질을 꿰뚫는 타입",
     description:
       "사람과 상황의 이면을 잘 읽고, 조용하지만 확고한 판단으로 큰 그림을 그리는 타입이에요. 겉으로는 차분해 보여도 속에는 깊은 통찰이 있어요.",
@@ -92,7 +92,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "INFP",
     slug: "mermaid",
     emoji: "🧜‍♀️",
-    title: "인어공주",
+    title: "파도처럼 마음을 통째로 던지는 낭만 공주",
     subtitle: "이상을 향해 모든 걸 걸어보는 몽상가",
     description:
       "낯선 세계를 향한 동경과 진심 어린 사랑을 위해 자신의 전부를 거는 타입이에요. 겉으로는 조용해 보여도 속에는 뜨거운 신념이 있어요.",
@@ -104,7 +104,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "ESTJ",
     slug: "pea",
     emoji: "🫛",
-    title: "완두콩 공주",
+    title: "바늘 하나도 놓치지 않는 예리한 공주",
     subtitle: "작은 것 하나도 정확하게 짚어내는 타입",
     description:
       "누가 뭐라 해도 자신의 기준과 원칙을 확실하게 증명해 보이는 타입이에요. 체계적으로 상황을 정리하고, 강한 추진력으로 밀고 나가요.",
@@ -116,7 +116,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "ESTP",
     slug: "frogprince",
     emoji: "🐸",
-    title: "개구리 왕자의 공주",
+    title: "번개처럼 먼저 뛰어드는 저돌적인 공주",
     subtitle: "일단 저지르고 보는 솔직 담백한 타입",
     description:
       "생각보다 몸이 먼저 움직이고, 감정 표현도 숨김없이 솔직한 타입이에요. 위기 상황에서도 당황하지 않고 순발력 있게 대처해요.",
@@ -128,7 +128,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "ESFJ",
     slug: "cinderella",
     emoji: "👠",
-    title: "신데렐라",
+    title: "잿더미 속에서도 온기를 잃지 않는 다정 공주",
     subtitle: "힘든 순간에도 다정함을 잃지 않는 타입",
     description:
       "어려운 상황에서도 주변을 챙기고, 사람들과 어울리는 자리에서 자연스럽게 빛나는 타입이에요. 다정하고 사교적이라 어디서든 좋은 관계를 만들어요.",
@@ -140,7 +140,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "ESFP",
     slug: "snowwhite",
     emoji: "🍎",
-    title: "백설공주",
+    title: "낯선 땅에서도 금세 정드는 인싸 공주",
     subtitle: "가는 곳마다 친구를 만드는 인싸 타입",
     description:
       "낯선 곳에서도 금세 친구를 사귀고, 주변을 밝게 만드는 타입이에요. 긍정적이고 사교적이라 함께 있으면 즐거워요.",
@@ -152,7 +152,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "ENTJ",
     slug: "nakrang",
     emoji: "🥁",
-    title: "낙랑공주",
+    title: "북을 울리듯 결단하는 과감한 공주",
     subtitle: "결정적인 순간에 과감하게 움직이는 타입",
     description:
       "중요한 순간이 오면 규칙을 깨서라도 자신의 선택을 밀어붙이는 타입이에요. 명확한 목표를 향해 거침없이 나아가는 결단력이 있어요.",
@@ -164,7 +164,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "ENTP",
     slug: "thumbelina",
     emoji: "🦋",
-    title: "엄지공주",
+    title: "손바닥만 한 몸으로 세상을 뒤집는 반전 공주",
     subtitle: "어떤 상황에서도 재치로 헤쳐나가는 타입",
     description:
       "작은 몸으로 큰 세상을 여행하며 매 순간 새로운 방법을 찾아내는 타입이에요. 토론을 즐기고, 예상치 못한 아이디어로 상황을 반전시켜요.",
@@ -176,7 +176,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "ENFJ",
     slug: "aurora",
     emoji: "🌹",
-    title: "오로라 공주",
+    title: "가시덤불도 장미로 만드는 우아한 공주",
     subtitle: "곁에 있는 사람을 자연스럽게 이끄는 타입",
     description:
       "숲속에서 만난 동물들도, 처음 만난 사람도 자연스럽게 따르게 만드는 타입이에요. 따뜻하면서도 우아한 매력으로 사람들을 이끌어요.",
@@ -188,7 +188,7 @@ const profiles: MbtiTypeProfile[] = [
     code: "ENFP",
     slug: "belle",
     emoji: "📚",
-    title: "벨",
+    title: "책장 넘기듯 세상을 탐하는 호기심 공주",
     subtitle: "새로운 세계와 사람에 늘 마음이 설레는 타입",
     description:
       "책 속 세상처럼 더 넓은 세계를 꿈꾸고, 겉모습보다 진짜 마음을 알아보는 타입이에요. 열정적이고 호기심이 많아서 주변에 활기를 불어넣어요.",
