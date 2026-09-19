@@ -35,7 +35,7 @@ export async function POST(
   }
 
   const key = groupKey(groupId);
-  const raw = await redis.hgetall<Record<string, string>>(key);
+  const raw = await redis.hgetall<Record<string, unknown>>(key);
   const parsed = parseGroupHash(raw);
   if (!parsed) {
     return NextResponse.json({ error: "not found" }, { status: 404 });
@@ -57,7 +57,7 @@ export async function POST(
     code,
     joinedAt: Date.now(),
   };
-  await redis.hset(key, { [memberField(memberId)]: JSON.stringify(member) });
+  await redis.hset(key, { [memberField(memberId)]: member });
 
   return NextResponse.json({ memberId });
 }

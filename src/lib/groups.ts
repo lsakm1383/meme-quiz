@@ -44,28 +44,34 @@ export function isValidNickname(nickname: unknown): nickname is string {
   );
 }
 
-export function parseGroupHash(raw: Record<string, string> | null): {
+// @upstash/redis는 해시 값을 저장/조회할 때 JSON을 자동으로 직렬화/역직렬화한다.
+// 그래서 hgetall로 돌아온 값이 이미 파싱된 객체일 수도, 아직 문자열일 수도 있어
+// 둘 다 방어적으로 처리한다.
+function parseValue<T>(value: unknown): T | null {
+  if (value == null) return null;
+  if (typeof value === "object") return value as T;
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value) as T;
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
+export function parseGroupHash(raw: Record<string, unknown> | null): {
   meta: GroupMeta;
   members: GroupMember[];
 } | null {
-  if (!raw || !raw.__meta) return null;
+  if (!raw) return null;
 
-  let meta: GroupMeta;
-  try {
-    meta = JSON.parse(raw.__meta);
-  } catch {
-    return null;
-  }
+  const meta = parseValue<GroupMeta>(raw.__meta);
+  if (!meta) return null;
 
   const members = Object.entries(raw)
     .filter(([field]) => field !== "__meta")
-    .map(([, value]) => {
-      try {
-        return JSON.parse(value) as GroupMember;
-      } catch {
-        return null;
-      }
-    })
+    .map(([, value]) => parseValue<GroupMember>(value))
     .filter((member): member is GroupMember => member !== null)
     .sort((a, b) => a.joinedAt - b.joinedAt);
 

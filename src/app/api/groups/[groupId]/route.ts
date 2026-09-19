@@ -13,7 +13,7 @@ export async function GET(
     return NextResponse.json({ error: "redis not configured" }, { status: 503 });
   }
 
-  const raw = await redis.hgetall<Record<string, string>>(groupKey(groupId));
+  const raw = await redis.hgetall<Record<string, unknown>>(groupKey(groupId));
   const parsed = parseGroupHash(raw);
   if (!parsed) {
     return NextResponse.json({ error: "not found" }, { status: 404 });

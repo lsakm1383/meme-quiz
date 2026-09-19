@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
   const groupId = generateShortId();
   const meta: GroupMeta = { title: title.trim(), testId, createdAt: Date.now() };
-  await redis.hset(groupKey(groupId), { __meta: JSON.stringify(meta) });
+  await redis.hset(groupKey(groupId), { __meta: meta });
 
   return NextResponse.json({ groupId });
 }
