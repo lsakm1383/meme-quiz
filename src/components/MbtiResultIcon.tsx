@@ -10,6 +10,26 @@ const TEXT: Record<IconSize, string> = {
   xs: "text-lg",
 };
 
+// 크롭한 참고 이미지를 그대로 쓰는 맛 시리즈 slug — public/mbti/flavor/<slug>.webp
+const FLAVOR_PHOTO_SLUGS = new Set([
+  "mayo",
+  "original",
+  "cider",
+  "neutral",
+  "milk",
+  "peach",
+  "earlgrey",
+  "mint",
+  "darkchoco",
+  "lavender",
+  "fire",
+  "honeybutter",
+  "strawberry",
+  "blackcoffee",
+  "caramel",
+  "lemon",
+]);
+
 // 크롭한 참고 이미지를 그대로 쓰는 공주 시리즈 slug — public/mbti/princess/<slug>.webp
 const PRINCESS_PHOTO_SLUGS = new Set([
   "pyeonggang",
@@ -50,7 +70,7 @@ const GAMER_PHOTO_SLUGS = new Set([
   "highlight",
 ]);
 
-// 공주/게임 포지션 시리즈는 전용 일러스트로, 그 외(맛 시리즈)는 기존 이모지 그대로 보여준다.
+// 세 시리즈 모두 전용 참고 이미지를 쓰고, 매핑되지 않은 slug만 이모지로 대체한다.
 export function MbtiResultIcon({
   profile,
   size = "lg",
@@ -58,6 +78,15 @@ export function MbtiResultIcon({
   profile: MbtiTypeProfile;
   size?: IconSize;
 }) {
+  if (FLAVOR_PHOTO_SLUGS.has(profile.slug)) {
+    return (
+      <PhotoIcon
+        src={`/mbti/flavor/${profile.slug}.webp`}
+        size={size}
+        aspect="aspect-[256/153]"
+      />
+    );
+  }
   if (PRINCESS_PHOTO_SLUGS.has(profile.slug)) {
     return <PhotoIcon src={`/mbti/princess/${profile.slug}.webp`} size={size} />;
   }
