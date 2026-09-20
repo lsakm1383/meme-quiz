@@ -83,7 +83,7 @@ export function MbtiResultIcon({
       <PhotoIcon
         src={`/mbti/flavor/${profile.slug}.webp`}
         size={size}
-        aspect="aspect-[256/153]"
+        aspect="aspect-[7/5]"
       />
     );
   }
