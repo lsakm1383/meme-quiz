@@ -62,7 +62,13 @@ export function MbtiResultIcon({
     return <PhotoIcon src={`/mbti/princess/${profile.slug}.webp`} size={size} />;
   }
   if (GAMER_PHOTO_SLUGS.has(profile.slug)) {
-    return <PhotoIcon src={`/mbti/gamer/${profile.slug}.webp`} size={size} />;
+    return (
+      <PhotoIcon
+        src={`/mbti/gamer/${profile.slug}.webp`}
+        size={size}
+        aspect="aspect-[256/153]"
+      />
+    );
   }
   return <span className={TEXT[size]}>{profile.emoji}</span>;
 }
