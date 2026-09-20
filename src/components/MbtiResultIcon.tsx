@@ -1,6 +1,4 @@
 import type { MbtiTypeProfile } from "@/data/mbti-types";
-import { getPrincessStyle } from "@/data/mbti/princess-illustration-styles";
-import { PrincessIcon } from "@/components/PrincessIcon";
 import { PhotoIcon } from "@/components/PhotoIcon";
 
 type IconSize = "lg" | "sm" | "xs";
@@ -10,6 +8,26 @@ const TEXT: Record<IconSize, string> = {
   sm: "text-3xl",
   xs: "text-lg",
 };
+
+// 크롭한 참고 이미지를 그대로 쓰는 공주 시리즈 slug — public/mbti/princess/<slug>.webp
+const PRINCESS_PHOTO_SLUGS = new Set([
+  "pyeonggang",
+  "jacheongbi",
+  "kongjwi",
+  "rapunzel",
+  "bari",
+  "mermaid",
+  "aurora",
+  "seonhwa",
+  "thumbelina",
+  "cinderella",
+  "nakrang",
+  "pea",
+  "belle",
+  "snowwhite",
+  "odette",
+  "frogprince",
+]);
 
 // 크롭한 참고 이미지를 그대로 쓰는 게임 포지션 시리즈 slug — public/mbti/gamer/<slug>.webp
 const GAMER_PHOTO_SLUGS = new Set([
@@ -39,8 +57,8 @@ export function MbtiResultIcon({
   profile: MbtiTypeProfile;
   size?: IconSize;
 }) {
-  if (getPrincessStyle(profile.slug)) {
-    return <PrincessIcon profile={profile} size={size} />;
+  if (PRINCESS_PHOTO_SLUGS.has(profile.slug)) {
+    return <PhotoIcon src={`/mbti/princess/${profile.slug}.webp`} size={size} />;
   }
   if (GAMER_PHOTO_SLUGS.has(profile.slug)) {
     return <PhotoIcon src={`/mbti/gamer/${profile.slug}.webp`} size={size} />;
