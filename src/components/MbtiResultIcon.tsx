@@ -95,7 +95,7 @@ export function MbtiResultIcon({
       <PhotoIcon
         src={`/mbti/gamer/${profile.slug}.webp`}
         size={size}
-        aspect="aspect-[256/153]"
+        aspect="aspect-[14/9]"
       />
     );
   }
