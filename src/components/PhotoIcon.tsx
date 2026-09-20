@@ -1,6 +1,7 @@
-type IconSize = "lg" | "sm" | "xs";
+type IconSize = "xl" | "lg" | "sm" | "xs";
 
 const BOX: Record<IconSize, string> = {
+  xl: "h-40 w-40",
   lg: "h-16 w-16",
   sm: "h-9 w-9",
   xs: "h-5 w-5",

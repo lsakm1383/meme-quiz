@@ -1,9 +1,10 @@
 import type { MbtiTypeProfile } from "@/data/mbti-types";
 import { PhotoIcon } from "@/components/PhotoIcon";
 
-type IconSize = "lg" | "sm" | "xs";
+type IconSize = "xl" | "lg" | "sm" | "xs";
 
 const TEXT: Record<IconSize, string> = {
+  xl: "text-9xl",
   lg: "text-6xl",
   sm: "text-3xl",
   xs: "text-lg",

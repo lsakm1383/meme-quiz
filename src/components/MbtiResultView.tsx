@@ -57,12 +57,24 @@ export function MbtiResultView({
       <p className="text-sm font-medium text-zinc-400">{test.title} 결과</p>
 
       <div
-        className="flex w-full flex-col items-center gap-3 rounded-3xl px-6 py-10 shadow-sm"
+        className="relative flex w-full flex-col items-center gap-4 overflow-hidden rounded-3xl px-6 pb-8 pt-10 shadow-sm"
         style={{ backgroundColor: profile.color }}
       >
-        <MbtiResultIcon profile={profile} />
+        <span className="pointer-events-none absolute left-7 top-7 text-2xl opacity-70">
+          ✨
+        </span>
+        <span className="pointer-events-none absolute right-9 top-20 text-lg opacity-60">
+          ✨
+        </span>
+        <div className="relative flex items-center justify-center">
+          <div className="absolute h-36 w-36 rounded-full bg-white/40" />
+          <MbtiResultIcon profile={profile} size="xl" />
+        </div>
         <h1 className="text-2xl font-extrabold text-zinc-900">{profile.title}</h1>
-        <p className="text-base font-medium text-zinc-800">{profile.subtitle}</p>
+        <div className="relative mt-1 max-w-xs rounded-2xl bg-white px-4 py-3 text-sm font-bold text-zinc-800 shadow-sm">
+          <span className="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 bg-white" />
+          {profile.subtitle}
+        </div>
       </div>
 
       <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
