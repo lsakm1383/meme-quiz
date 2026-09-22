@@ -14,7 +14,7 @@ import { safeEqual } from "@/lib/safe-equal";
 // 바디 없이 호출하면 기존처럼 등록된 모든 퀴즈/월드컵/분기형/조합형/MBTI 테스트를 전부 다시 시드한다.
 // 특정 테스트만 골라 시드하고 싶으면, 바디에 아래 필드 중 하나라도 넣어서 호출한다
 // (그 경우 명시하지 않은 종류는 아예 건드리지 않는다):
-// { "quizIds": ["flower-type"], "tournamentIds": [...], "decisionIds": ["dress", "honeymoon"], "toppingIds": [...], "mbtiIds": ["mbti-lite"] }
+// { "quizIds": ["flower-type"], "tournamentIds": [...], "decisionIds": ["dress", "honeymoon"], "toppingIds": [...], "mbtiIds": ["flavor-type"] }
 
 type SeedRequestBody = {
   quizIds?: string[];

@@ -17,7 +17,7 @@ const AXES: [string, string][] = [
 ];
 
 const mbtiLite: MbtiTestConfig = {
-  id: "mbti-lite",
+  id: "flavor-type",
   emoji: "👅",
   title: `"나는 무슨 맛?" 성격 테스트`,
   description:
@@ -29,7 +29,7 @@ const mbtiLite: MbtiTestConfig = {
 };
 
 const mbtiPrincess: MbtiTestConfig = {
-  id: "mbti-princess",
+  id: "princess-type",
   emoji: "👸",
   title: `"나는 어떤 공주?" 성격 테스트`,
   description:
@@ -41,7 +41,7 @@ const mbtiPrincess: MbtiTestConfig = {
 };
 
 const mbtiGamer: MbtiTestConfig = {
-  id: "mbti-gamer",
+  id: "gamer-type",
   emoji: "🎮",
   title: `"나는 어떤 포지션?" 성격 테스트`,
   description:

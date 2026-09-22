@@ -5,6 +5,7 @@ import { decisionTests } from "@/data/decisions";
 import { checklists } from "@/data/checklists";
 import { mbtiTests } from "@/data/mbti";
 import { AdSlot } from "@/components/AdSlot";
+import { MbtiResultIcon } from "@/components/MbtiResultIcon";
 
 export default function Home() {
   const typeQuizzes = quizzes.filter((quiz) => (quiz.category ?? "type") === "type");
@@ -72,14 +73,14 @@ export default function Home() {
       </div>
 
       <div className="flex w-full flex-col gap-3">
-        <h2 className="text-sm font-bold text-zinc-400">관계성 테스트</h2>
+        <h2 className="text-sm font-bold text-zinc-400">성격 유형 테스트</h2>
         {mbtiTests.map((test) => (
           <a
             key={test.id}
             href={`/m/${test.id}`}
             className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
           >
-            <span className="text-4xl">{test.emoji}</span>
+            <MbtiResultIcon profile={test.profiles[0]} size="lg" />
             <span className="flex flex-col">
               <span className="text-base font-bold">{test.title}</span>
               <span className="text-sm text-zinc-500">{test.description}</span>
