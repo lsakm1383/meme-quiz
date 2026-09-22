@@ -85,6 +85,7 @@ export async function POST(request: Request) {
     quiz.results.forEach((result, i) => {
       fields[result.id] = shares[i];
     });
+    await redis.del(`stats:quiz:${quiz.id}`);
     await redis.hset(`stats:quiz:${quiz.id}`, fields);
     summary[`quiz:${quiz.id}`] = fields;
   }
@@ -96,6 +97,7 @@ export async function POST(request: Request) {
     tournament.candidates.forEach((candidate, i) => {
       fields[candidate.id] = shares[i];
     });
+    await redis.del(`stats:tournament:${tournament.id}`);
     await redis.hset(`stats:tournament:${tournament.id}`, fields);
     summary[`tournament:${tournament.id}`] = fields;
   }
@@ -107,6 +109,7 @@ export async function POST(request: Request) {
     decision.results.forEach((result, i) => {
       fields[result.id] = shares[i];
     });
+    await redis.del(`stats:decision:${decision.id}`);
     await redis.hset(`stats:decision:${decision.id}`, fields);
     summary[`decision:${decision.id}`] = fields;
   }
@@ -138,6 +141,7 @@ export async function POST(request: Request) {
         fields[topping.id] = shares[i];
       });
     }
+    await redis.del(`ingredient-stats:${test.id}:counts`);
     await redis.hset(`ingredient-stats:${test.id}:counts`, fields);
     await redis.set(`ingredient-stats:${test.id}:participants`, participants);
     summary[`topping:${test.id}`] = { ...fields, __participants: participants };
@@ -150,6 +154,7 @@ export async function POST(request: Request) {
     test.profiles.forEach((profile, i) => {
       fields[profile.slug] = shares[i];
     });
+    await redis.del(`stats:mbti:${test.id}`);
     await redis.hset(`stats:mbti:${test.id}`, fields);
     summary[`mbti:${test.id}`] = fields;
   }

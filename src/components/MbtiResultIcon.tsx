@@ -32,22 +32,22 @@ const FLAVOR_PHOTO_SLUGS = new Set([
 
 // 크롭한 참고 이미지를 그대로 쓰는 공주 시리즈 slug — public/mbti/princess/<slug>.webp
 const PRINCESS_PHOTO_SLUGS = new Set([
-  "pyeonggang",
-  "jacheongbi",
-  "kongjwi",
-  "rapunzel",
-  "bari",
-  "mermaid",
-  "aurora",
-  "seonhwa",
-  "thumbelina",
-  "cinderella",
-  "nakrang",
-  "pea",
-  "belle",
-  "snowwhite",
-  "odette",
-  "frogprince",
+  "chimhollina",
+  "kopanella",
+  "elsayeon",
+  "jjaryeojasmin",
+  "udangtang-mermaid",
+  "routine-keep",
+  "flyswatter-fairy",
+  "nabdwo",
+  "jjingjjingi",
+  "chronic-fatigue",
+  "clear-eyed",
+  "missing-tooth",
+  "birdnest",
+  "maple-kingdom",
+  "joker-smile",
+  "tragic-heroine",
 ]);
 
 // 크롭한 참고 이미지를 그대로 쓰는 게임 포지션 시리즈 slug — public/mbti/gamer/<slug>.webp
