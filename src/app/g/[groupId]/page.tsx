@@ -59,7 +59,7 @@ function GroupPageContent({ groupId }: { groupId: string }) {
   return (
     <div className="flex w-full flex-col items-center gap-6 text-center">
       <h1 className="text-2xl font-extrabold">{data.title}</h1>
-      <p className="text-sm text-zinc-500">우리 사이, MBTI로 잇다</p>
+      <p className="text-sm text-zinc-500">우리 사이, 유형으로 잇다</p>
 
       {data.members.length > 0 && test ? (
         <div className="aspect-square w-full max-w-sm">
