@@ -2,8 +2,11 @@ import { NextResponse } from "next/server";
 import { getRedis } from "@/lib/redis";
 import { getQuiz, getResult } from "@/data/quizzes";
 import { getTournament, getCandidate } from "@/data/tournaments";
+import { getDecisionTest, getDecisionResult } from "@/data/decisions";
+import { getMbtiTest, getMbtiProfileBySlug } from "@/data/mbti";
+import { getClientIp, isRateLimited } from "@/lib/rate-limit";
 
-type Kind = "quiz" | "tournament";
+type Kind = "quiz" | "tournament" | "decision" | "mbti";
 
 function isValidTarget(kind: string, groupId: string, resultId: string) {
   if (kind === "quiz") {
@@ -14,10 +17,22 @@ function isValidTarget(kind: string, groupId: string, resultId: string) {
     const tournament = getTournament(groupId);
     return !!tournament && !!getCandidate(tournament, resultId);
   }
+  if (kind === "decision") {
+    const test = getDecisionTest(groupId);
+    return !!test && !!getDecisionResult(test, resultId);
+  }
+  if (kind === "mbti") {
+    const test = getMbtiTest(groupId);
+    return !!test && !!getMbtiProfileBySlug(test, resultId);
+  }
   return false;
 }
 
 export async function POST(request: Request) {
+  if (await isRateLimited(getClientIp(request))) {
+    return NextResponse.json({ error: "too many requests" }, { status: 429 });
+  }
+
   const body = await request.json().catch(() => null);
   const kind = body?.kind as Kind | undefined;
   const groupId = body?.groupId;

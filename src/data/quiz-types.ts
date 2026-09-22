@@ -38,6 +38,8 @@ export type QuizConfig = {
   description: string
   /** 퀴즈 전반의 테마 색 (버튼, 진행바 등) */
   accentColor: string
+  /** 홈 화면에서 어느 섹션에 묶일지. 생략하면 "type"(유형 테스트)로 취급한다. */
+  category?: "type" | "recommend"
   questions: QuizQuestion[]
   results: ResultType[]
 }

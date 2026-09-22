@@ -6,6 +6,15 @@ import type {
   TournamentCandidate,
   TournamentConfig,
 } from "@/data/tournament-types";
+import { TournamentIcon } from "@/components/TournamentIcon";
+import { RunnerNav } from "@/components/RunnerNav";
+
+type RoundState = {
+  round: TournamentCandidate[];
+  matchIndex: number;
+  winners: TournamentCandidate[];
+  matchesDone: number;
+};
 
 export function TournamentRunner({
   tournament,
@@ -20,10 +29,13 @@ export function TournamentRunner({
   const [matchIndex, setMatchIndex] = useState(0);
   const [winners, setWinners] = useState<TournamentCandidate[]>([]);
   const [matchesDone, setMatchesDone] = useState(0);
+  const [history, setHistory] = useState<RoundState[]>([]);
 
   const totalMatches = tournament.candidates.length - 1;
 
   function pick(winner: TournamentCandidate) {
+    setHistory((h) => [...h, { round, matchIndex, winners, matchesDone }]);
+
     const updatedWinners = [...winners, winner];
     const doneCount = matchesDone + 1;
     const isLastMatchInRound = matchIndex + 1 >= round.length / 2;
@@ -44,6 +56,19 @@ export function TournamentRunner({
     setWinners([]);
     setMatchIndex(0);
     setMatchesDone(doneCount);
+  }
+
+  function goBack() {
+    const previous = history[history.length - 1];
+    if (!previous) {
+      setStarted(false);
+      return;
+    }
+    setHistory(history.slice(0, -1));
+    setRound(previous.round);
+    setMatchIndex(previous.matchIndex);
+    setWinners(previous.winners);
+    setMatchesDone(previous.matchesDone);
   }
 
   if (!started) {
@@ -75,6 +100,7 @@ export function TournamentRunner({
 
   return (
     <div className="flex w-full flex-col gap-6">
+      <RunnerNav onBack={goBack} />
       <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
         <div
           className="h-full rounded-full transition-all duration-300"
@@ -95,7 +121,7 @@ export function TournamentRunner({
             onClick={() => pick(candidate)}
             className="flex flex-col items-center gap-2 rounded-3xl border border-zinc-200 px-6 py-8 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
           >
-            <span className="text-5xl">{candidate.emoji}</span>
+            <TournamentIcon candidate={candidate} />
             <span className="text-lg font-bold">{candidate.name}</span>
             <span className="text-sm text-zinc-500">{candidate.tagline}</span>
           </button>

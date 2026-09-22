@@ -3,6 +3,7 @@ import type { TournamentCandidate, TournamentConfig } from "@/data/tournament-ty
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
+import { TournamentIcon } from "@/components/TournamentIcon";
 
 export function TournamentResultView({
   tournament,
@@ -22,7 +23,7 @@ export function TournamentResultView({
         style={{ backgroundColor: winner.color }}
       >
         <div className="text-5xl">🏆</div>
-        <div className="text-6xl">{winner.emoji}</div>
+        <TournamentIcon candidate={winner} />
         <h1 className="mt-1 text-2xl font-extrabold text-zinc-900">
           {winner.name}
         </h1>
@@ -42,12 +43,13 @@ export function TournamentResultView({
           id: c.id,
           emoji: c.emoji,
           label: c.name,
+          icon: <TournamentIcon candidate={c} size="xs" />,
         }))}
       />
 
       <ShareBar
-        title={`나의 최종 우승은 "${winner.name}" ${winner.emoji}`}
-        text={`${tournament.title} — 최종 우승: ${winner.name} ${winner.emoji}\n${winner.tagline}`}
+        title={`${winner.emoji} 나의 최종 우승은 "${winner.name}"`}
+        text={`${tournament.title} 했더니 최종 우승은 "${winner.name}"!\n${winner.tagline}\n너는 뭐가 우승할까? 👉`}
         accentColor={tournament.accentColor}
       />
 

@@ -73,7 +73,7 @@ export default async function Image({
         >
           {result?.emoji ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={emojiImageUrl(result.emoji)} width={176} height={176} />
+            <img src={emojiImageUrl(result.emoji)} width={176} height={176} alt="" />
           ) : null}
           <div
             style={{
@@ -99,6 +99,9 @@ export default async function Image({
           >
             {result?.subtitle}
           </div>
+        </div>
+        <div style={{ display: "flex", fontSize: 28, color: "#a1a1aa", marginTop: 36 }}>
+          오늘의 밈 테스트 · 너도 해보러 가기 👉
         </div>
       </div>
     ),
