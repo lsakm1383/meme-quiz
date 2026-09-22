@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import type { ChecklistConfig } from "@/data/checklist-types";
 import { countChecklistItems } from "@/data/checklist-types";
 import { ShareBar } from "@/components/ShareBar";
@@ -51,9 +50,10 @@ export function ChecklistRunner({ checklist }: { checklist: ChecklistConfig }) {
     <div className="flex w-full flex-col gap-6">
       <div className="flex w-full items-center justify-between text-sm font-semibold text-zinc-400">
         <span />
-        <Link href="/" className="active:text-zinc-600 dark:active:text-zinc-300">
+        {/* 이 화면엔 광고가 있으므로 완전한 새로고침으로 이동 (자동 광고 잔존 방지) */}
+        <a href="/" className="active:text-zinc-600 dark:active:text-zinc-300">
           다른 테스트 하러 가기
-        </Link>
+        </a>
       </div>
 
       <div className="flex flex-col items-center gap-3 text-center">

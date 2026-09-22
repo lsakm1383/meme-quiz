@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import type { ToppingTestConfig } from "@/data/topping-types";
 import { groupComboByCategory, describeCombo } from "@/data/toppings";
 import { computeRarity } from "@/lib/topping-rarity";
@@ -79,20 +78,21 @@ export function ToppingResultView({
         accentColor={test.accentColor}
       />
 
+      {/* 광고 있는 화면 → 광고 없는 화면 이동은 완전한 새로고침으로 강제 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">
-        <Link
+        <a
           href={`/c/${test.id}`}
           className="text-sm font-semibold text-zinc-500 underline underline-offset-4"
         >
           다시 만들기
-        </Link>
+        </a>
         <span className="text-zinc-300">·</span>
-        <Link
+        <a
           href="/"
           className="text-sm font-semibold text-zinc-500 underline underline-offset-4"
         >
           다른 테스트 살펴보기
-        </Link>
+        </a>
       </div>
 
       <div className="w-full pt-4">

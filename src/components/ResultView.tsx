@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { QuizConfig, ResultType } from "@/data/quiz-types";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
@@ -50,20 +49,23 @@ export function ResultView({
         accentColor={quiz.accentColor}
       />
 
+      {/* 이 화면엔 광고가 있으므로, 다음 화면(광고 없음)으로 이동할 때 next/link의
+          클라이언트 사이드 라우팅 대신 완전한 새로고침을 강제한다. SPA 전환으로 넘어가면
+          구글 자동 광고 스크립트가 이전 화면의 흔적을 남길 수 있기 때문. */}
       <div className="flex items-center gap-4">
-        <Link
+        <a
           href={`/${quiz.id}`}
           className="text-sm font-semibold text-zinc-500 underline underline-offset-4"
         >
           다시 테스트하기
-        </Link>
+        </a>
         <span className="text-zinc-300">·</span>
-        <Link
+        <a
           href="/"
           className="text-sm font-semibold text-zinc-500 underline underline-offset-4"
         >
           다른 테스트 살펴보기
-        </Link>
+        </a>
       </div>
 
       <div className="w-full pt-4">

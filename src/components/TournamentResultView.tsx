@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { TournamentCandidate, TournamentConfig } from "@/data/tournament-types";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
@@ -53,20 +52,21 @@ export function TournamentResultView({
         accentColor={tournament.accentColor}
       />
 
+      {/* 광고 있는 화면 → 광고 없는 화면 이동은 완전한 새로고침으로 강제 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">
-        <Link
+        <a
           href={`/w/${tournament.id}`}
           className="text-sm font-semibold text-zinc-500 underline underline-offset-4"
         >
           다시 하기
-        </Link>
+        </a>
         <span className="text-zinc-300">·</span>
-        <Link
+        <a
           href="/"
           className="text-sm font-semibold text-zinc-500 underline underline-offset-4"
         >
           다른 테스트 살펴보기
-        </Link>
+        </a>
       </div>
 
       <div className="w-full pt-4">

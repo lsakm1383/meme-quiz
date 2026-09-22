@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { quizzes } from "@/data/quizzes";
 import { tournaments } from "@/data/tournaments";
 import { toppingTests } from "@/data/toppings";
@@ -22,7 +21,7 @@ export default function Home() {
       <div className="flex w-full flex-col gap-3">
         <h2 className="text-sm font-bold text-zinc-400">1분 테스트</h2>
         {typeQuizzes.map((quiz) => (
-          <Link
+          <a
             key={quiz.id}
             href={`/${quiz.id}`}
             className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
@@ -32,14 +31,14 @@ export default function Home() {
               <span className="text-base font-bold">{quiz.title}</span>
               <span className="text-sm text-zinc-500">{quiz.description}</span>
             </span>
-          </Link>
+          </a>
         ))}
       </div>
 
       <div className="flex w-full flex-col gap-3">
         <h2 className="text-sm font-bold text-zinc-400">월드컵</h2>
         {tournaments.map((tournament) => (
-          <Link
+          <a
             key={tournament.id}
             href={`/w/${tournament.id}`}
             className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
@@ -51,14 +50,14 @@ export default function Home() {
                 {tournament.description}
               </span>
             </span>
-          </Link>
+          </a>
         ))}
       </div>
 
       <div className="flex w-full flex-col gap-3">
         <h2 className="text-sm font-bold text-zinc-400">나만의 조합 만들기</h2>
         {toppingTests.map((test) => (
-          <Link
+          <a
             key={test.id}
             href={`/c/${test.id}`}
             className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
@@ -68,14 +67,14 @@ export default function Home() {
               <span className="text-base font-bold">{test.title}</span>
               <span className="text-sm text-zinc-500">{test.description}</span>
             </span>
-          </Link>
+          </a>
         ))}
       </div>
 
       <div className="flex w-full flex-col gap-3">
         <h2 className="text-sm font-bold text-zinc-400">관계성 테스트</h2>
         {mbtiTests.map((test) => (
-          <Link
+          <a
             key={test.id}
             href={`/m/${test.id}`}
             className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
@@ -85,14 +84,14 @@ export default function Home() {
               <span className="text-base font-bold">{test.title}</span>
               <span className="text-sm text-zinc-500">{test.description}</span>
             </span>
-          </Link>
+          </a>
         ))}
       </div>
 
       <div className="flex w-full flex-col gap-3">
         <h2 className="text-sm font-bold text-zinc-400">생활 편의</h2>
         {decisionTests.map((test) => (
-          <Link
+          <a
             key={test.id}
             href={`/d/${test.id}`}
             className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
@@ -102,10 +101,10 @@ export default function Home() {
               <span className="text-base font-bold">{test.title}</span>
               <span className="text-sm text-zinc-500">{test.description}</span>
             </span>
-          </Link>
+          </a>
         ))}
         {checklists.map((checklist) => (
-          <Link
+          <a
             key={checklist.id}
             href={`/l/${checklist.id}`}
             className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
@@ -115,7 +114,7 @@ export default function Home() {
               <span className="text-base font-bold">{checklist.title}</span>
               <span className="text-sm text-zinc-500">{checklist.description}</span>
             </span>
-          </Link>
+          </a>
         ))}
       </div>
 
