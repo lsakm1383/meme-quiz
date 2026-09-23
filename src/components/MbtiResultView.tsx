@@ -65,10 +65,7 @@ export function MbtiResultView({
         <span className="pointer-events-none absolute right-9 top-20 text-lg opacity-60">
           ✨
         </span>
-        <div className="relative flex items-center justify-center">
-          <div className="absolute h-36 w-36 rounded-full bg-white/40" />
-          <MbtiResultIcon profile={profile} size="xl" />
-        </div>
+        <MbtiResultIcon profile={profile} size="xl" />
         <h1 className="text-2xl font-extrabold text-zinc-900">{profile.title}</h1>
         <div className="relative mt-1 max-w-xs rounded-2xl bg-white px-4 py-3 text-sm font-bold text-zinc-800 shadow-sm">
           <span className="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 bg-white" />
