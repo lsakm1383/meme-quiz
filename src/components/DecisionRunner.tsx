@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { DecisionNode, DecisionTestConfig } from "@/data/decision-types";
 import { getMaxDepth } from "@/data/decision-types";
 import { RunnerNav } from "@/components/RunnerNav";
+import { PhotoIcon } from "@/components/PhotoIcon";
 
 export function DecisionRunner({ test }: { test: DecisionTestConfig }) {
   const router = useRouter();
@@ -35,7 +36,11 @@ export function DecisionRunner({ test }: { test: DecisionTestConfig }) {
   if (!started) {
     return (
       <div className="flex flex-col items-center gap-6 text-center">
-        <div className="text-7xl">{test.emoji}</div>
+        {test.image ? (
+          <PhotoIcon src={test.image} size="xl" />
+        ) : (
+          <div className="text-7xl">{test.emoji}</div>
+        )}
         <h1 className="text-2xl font-bold leading-snug">{test.title}</h1>
         <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           {test.description}

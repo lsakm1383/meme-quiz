@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import sharp from "sharp";
 import { decisionTests, getDecisionTest, getDecisionResult } from "@/data/decisions";
 
 export const alt = "테스트 결과";
@@ -41,6 +42,12 @@ export default async function Image({
   const result = test && getDecisionResult(test, resultId);
 
   const [bold, regular] = await Promise.all([notoBold, notoRegular]);
+  // 결과 화면과 같은 일러스트를 쓴다. 미리보기 렌더러(satori)가 webp를 못 읽어서 png로 변환한다.
+  const art = result?.image
+    ? `data:image/png;base64,${(
+        await sharp(join(process.cwd(), "public", result.image)).png().toBuffer()
+      ).toString("base64")}`
+    : null;
 
   return new ImageResponse(
     (
@@ -63,24 +70,27 @@ export default async function Image({
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: 760,
-            marginTop: 32,
-            padding: "56px 64px",
+            width: 960,
+            marginTop: 24,
+            padding: "40px 64px",
             borderRadius: 48,
             background: result?.color ?? "#e4e4e7",
           }}
         >
-          {result?.emoji ? (
+          {art ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={art} width={176} height={176} style={{ borderRadius: 24 }} alt="" />
+          ) : result?.emoji ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={emojiImageUrl(result.emoji)} width={176} height={176} alt="" />
           ) : null}
           <div
             style={{
               display: "flex",
-              fontSize: 76,
+              fontSize: 64,
               fontWeight: 700,
               color: "#18181b",
-              marginTop: 28,
+              marginTop: 24,
               textAlign: "center",
             }}
           >

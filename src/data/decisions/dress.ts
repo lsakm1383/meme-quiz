@@ -11,6 +11,7 @@ const test: DecisionTestConfig = {
   description:
     "선택지를 따라가면 나에게 어울리는 웨딩드레스 라인이 나와요. 웨딩홀 분위기부터 체형 커버, 소매 여부까지 실제 드레스 투어 고민 순서 그대로.",
   accentColor: "#db2777",
+  image: "/decision/dress/ball-gown.webp",
   root: {
     id: "mood",
     text: "웨딩홀 분위기가 어떤 느낌이에요?",
@@ -66,6 +67,7 @@ const test: DecisionTestConfig = {
       description:
         "허리부터 자연스럽게 퍼지는 라인이 체형을 부드럽게 커버해주는 타입이에요. 실패 없는 선택을 원한다면 가장 먼저 입어볼 만한 스타일입니다.",
       color: "#FBCFE8",
+      image: "/decision/dress/a-line.webp",
     },
     {
       id: "ball-gown",
@@ -75,6 +77,7 @@ const test: DecisionTestConfig = {
       description:
         "풍성하게 퍼지는 스커트가 존재감을 확실히 살려주는 타입이에요. 예식장을 가득 채우는 화려한 실루엣을 원하는 분께 잘 맞습니다.",
       color: "#F9A8D4",
+      image: "/decision/dress/ball-gown.webp",
     },
     {
       id: "mermaid",
@@ -84,6 +87,7 @@ const test: DecisionTestConfig = {
       description:
         "허리부터 무릎까지 몸에 붙다가 아래로 퍼지는 라인이 몸매를 자신 있게 드러내는 타입이에요. 자기 관리에 자신 있는 분들이 즐겨 찾습니다.",
       color: "#E9D5FF",
+      image: "/decision/dress/mermaid.webp",
     },
     {
       id: "long-sleeve",
@@ -93,6 +97,7 @@ const test: DecisionTestConfig = {
       description:
         "레이스 소매로 은근하게 팔을 가리면서도 모던한 느낌을 살리는 타입이에요. 과하지 않으면서 세련된 인상을 남기고 싶은 분께 잘 맞습니다.",
       color: "#E0E7FF",
+      image: "/decision/dress/long-sleeve.webp",
     },
     {
       id: "slip-dress",
@@ -102,6 +107,7 @@ const test: DecisionTestConfig = {
       description:
         "군더더기 없는 슬림한 라인으로 어깨와 팔을 시원하게 드러내는 타입이에요. 트렌디하고 시크한 분위기를 원하는 분께 딱입니다.",
       color: "#D6D3D1",
+      image: "/decision/dress/slip-dress.webp",
     },
     {
       id: "empire",
@@ -111,6 +117,7 @@ const test: DecisionTestConfig = {
       description:
         "가슴 바로 아래에서 허리선을 묶고 그 아래로 자연스럽게 흘러내리는 타입이에요. 하체 라인은 가리면서 다리는 길어 보이게, 편안하면서도 로맨틱한 무드를 원하는 분께 잘 맞습니다.",
       color: "#FDE68A",
+      image: "/decision/dress/empire.webp",
     },
   ],
 };

@@ -6,6 +6,7 @@ import { checklists } from "@/data/checklists";
 import { mbtiTests } from "@/data/mbti";
 import { AdSlot } from "@/components/AdSlot";
 import { MbtiResultIcon } from "@/components/MbtiResultIcon";
+import { PhotoIcon } from "@/components/PhotoIcon";
 
 export default function Home() {
   const typeQuizzes = quizzes.filter((quiz) => (quiz.category ?? "type") === "type");
@@ -97,7 +98,11 @@ export default function Home() {
             href={`/d/${test.id}`}
             className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
           >
-            <span className="text-4xl">{test.emoji}</span>
+            {test.image ? (
+              <PhotoIcon src={test.image} size="lg" />
+            ) : (
+              <span className="text-4xl">{test.emoji}</span>
+            )}
             <span className="flex flex-col">
               <span className="text-base font-bold">{test.title}</span>
               <span className="text-sm text-zinc-500">{test.description}</span>

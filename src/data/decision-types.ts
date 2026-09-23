@@ -12,6 +12,8 @@ export type DecisionResult = {
   subtitle: string;
   description: string;
   color: string;
+  /** 전용 일러스트 (public 기준 경로, 정사각형). 없으면 emoji로 대체한다. */
+  image?: string;
 };
 
 export type DecisionOption =
@@ -31,6 +33,8 @@ export type DecisionTestConfig = {
   title: string;
   description: string;
   accentColor: string;
+  /** 홈 카드·시작 화면에 쓸 대표 일러스트 (public 기준 경로, 정사각형). 없으면 emoji. */
+  image?: string;
   root: DecisionNode;
   /** 트리 안 모든 결과를 한 곳에 모아둔 목록 — 라우팅/OG 이미지/통계에 쓰인다. */
   results: DecisionResult[];

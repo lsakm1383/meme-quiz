@@ -77,7 +77,7 @@ export default async function Image({
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: 760,
+            width: 960,
             marginTop: 24,
             padding: "40px 64px",
             borderRadius: 48,
@@ -100,7 +100,7 @@ export default async function Image({
           <div
             style={{
               display: "flex",
-              fontSize: 58,
+              fontSize: 56,
               fontWeight: 700,
               color: "#18181b",
               marginTop: 20,
