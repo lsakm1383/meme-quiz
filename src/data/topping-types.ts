@@ -7,6 +7,8 @@ export type ToppingItem = {
   id: string;
   emoji: string;
   name: string;
+  /** 전용 일러스트 (public 기준 경로). 없으면 emoji로 대체한다. */
+  image?: string;
 };
 
 export type ToppingCategory = {
