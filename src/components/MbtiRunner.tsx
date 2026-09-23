@@ -6,6 +6,7 @@ import type { MbtiTestConfig } from "@/data/mbti-types";
 import { calculateMbtiCode } from "@/lib/scoring";
 import { getMbtiProfileByCode } from "@/data/mbti";
 import { RunnerNav } from "@/components/RunnerNav";
+import { MbtiResultIcon } from "@/components/MbtiResultIcon";
 
 type Phase = "intro" | "createTitle" | "nickname" | "quiz";
 
@@ -98,7 +99,7 @@ export function MbtiRunner({
   if (phase === "intro") {
     return (
       <div className="flex flex-col items-center gap-6 text-center">
-        <div className="text-7xl">{test.emoji}</div>
+        <MbtiResultIcon profile={test.profiles[0]} size="xl" />
         <h1 className="text-2xl font-bold leading-snug">{test.title}</h1>
         <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           {test.description}
