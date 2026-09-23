@@ -70,7 +70,27 @@ const GAMER_PHOTO_SLUGS = new Set([
   "highlight",
 ]);
 
-// 세 시리즈 모두 전용 참고 이미지를 쓰고, 매핑되지 않은 slug만 이모지로 대체한다.
+// 직장인 시리즈 slug — public/mbti/office/<slug>.webp (가로 약 2.8:1 배너형 이미지)
+const OFFICE_PHOTO_SLUGS = new Set([
+  "overtime",
+  "smoke-break",
+  "pantry",
+  "earphones",
+  "clock-out",
+  "excel-macro",
+  "nunchi",
+  "resignation",
+  "meeting",
+  "sales-king",
+  "dinner-host",
+  "stage-ace",
+  "red-pen",
+  "post-it",
+  "mentor",
+  "project-starter",
+]);
+
+// 모든 시리즈가 전용 참고 이미지를 쓰고, 매핑되지 않은 slug만 이모지로 대체한다.
 export function MbtiResultIcon({
   profile,
   size = "lg",
@@ -96,6 +116,16 @@ export function MbtiResultIcon({
         src={`/mbti/gamer/${profile.slug}.webp`}
         size={size}
         aspect="aspect-[14/9]"
+      />
+    );
+  }
+  if (OFFICE_PHOTO_SLUGS.has(profile.slug)) {
+    return (
+      <PhotoIcon
+        src={`/mbti/office/${profile.slug}.webp`}
+        size={size}
+        aspect="aspect-[398/141]"
+        sizeBy="width"
       />
     );
   }

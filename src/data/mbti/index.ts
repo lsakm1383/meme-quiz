@@ -5,6 +5,8 @@ import gamerQuestions from "@/data/mbti/gamer-questions";
 import profiles from "@/data/mbti/profiles";
 import princessProfiles from "@/data/mbti/princess-profiles";
 import gamerProfiles from "@/data/mbti/gamer-profiles";
+import officeQuestions from "@/data/mbti/office-questions";
+import officeProfiles from "@/data/mbti/office-profiles";
 
 // 같은 축(E/I,S/N,T/F,J/P)·같은 채점 엔진을 재사용하되, 문항 문구와 결과 프로필은
 // 시리즈마다 새로 쓴다. 문항까지 공유하면 세 테스트가 완전히 똑같아 보이기 때문에,
@@ -52,7 +54,19 @@ const mbtiGamer: MbtiTestConfig = {
   profiles: gamerProfiles,
 };
 
-export const mbtiTests: MbtiTestConfig[] = [mbtiLite, mbtiPrincess, mbtiGamer];
+const mbtiOffice: MbtiTestConfig = {
+  id: "office-type",
+  emoji: "💼",
+  title: `"나는 어떤 직장인?" 성격 테스트`,
+  description:
+    "20개 질문으로 알아보는 회사 속 나의 모습. 나랑 잘 통하는 동료, 서로 조심해야 할 동료까지 함께 알려줘요.",
+  accentColor: "#0f766e",
+  axes: AXES,
+  questions: officeQuestions,
+  profiles: officeProfiles,
+};
+
+export const mbtiTests: MbtiTestConfig[] = [mbtiLite, mbtiPrincess, mbtiGamer, mbtiOffice];
 
 export function getMbtiTest(id: string): MbtiTestConfig | undefined {
   return mbtiTests.find((test) => test.id === id);
