@@ -1,7 +1,11 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import sharp from "sharp";
 import { getToppingTest, isValidCombo, comboKeyToToppingIds, describeCombo } from "@/data/toppings";
+import type { ToppingTestConfig } from "@/data/topping-types";
+import { computeRarity } from "@/lib/topping-rarity";
+import { getRedis } from "@/lib/redis";
 
 export const alt = "조합 결과";
 export const size = { width: 1200, height: 630 };
@@ -27,6 +31,23 @@ function emojiImageUrl(emoji: string) {
   return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${codepoints}.svg`;
 }
 
+// 결과 화면과 같은 희귀도 등급을 보여주려고, 조회만(증가 없이) 재료 통계를 읽는다.
+// Redis 미설정이거나 읽기에 실패하면 null — 그땐 등급 없이 조합 설명으로 대신한다.
+async function loadRarity(test: ToppingTestConfig, toppingIds: string[]) {
+  const redis = getRedis();
+  if (!redis) return null;
+  try {
+    const raw = await redis.hgetall<Record<string, unknown>>(
+      `ingredient-stats:${test.id}:counts`
+    );
+    const counts: Record<string, number> = {};
+    for (const [field, value] of Object.entries(raw ?? {})) counts[field] = Number(value) || 0;
+    return computeRarity(test, toppingIds, counts);
+  } catch {
+    return null;
+  }
+}
+
 export default async function Image({
   params,
 }: {
@@ -36,9 +57,17 @@ export default async function Image({
   const test = getToppingTest(testId);
   const toppingIds = comboKeyToToppingIds(comboKey);
   const valid = test && isValidCombo(test, toppingIds);
-  const { title, subtitle } = valid
-    ? describeCombo(test, toppingIds)
-    : { title: "결과", subtitle: "" };
+  const rarity = valid ? await loadRarity(test, toppingIds) : null;
+  const { title, subtitle } = rarity
+    ? { title: rarity.title, subtitle: `희귀도 ${rarity.percent}% · ${rarity.subtitle}` }
+    : valid
+      ? describeCombo(test, toppingIds)
+      : { title: "결과", subtitle: "" };
+  const art = rarity
+    ? `data:image/png;base64,${(
+        await sharp(join(process.cwd(), "public", rarity.image)).png().toBuffer()
+      ).toString("base64")}`
+    : null;
 
   const [bold, regular] = await Promise.all([notoBold, notoRegular]);
 
@@ -63,14 +92,17 @@ export default async function Image({
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: 760,
+            width: 960,
             marginTop: 24,
             padding: "40px 64px",
             borderRadius: 48,
-            background: "#fee2e2",
+            background: rarity?.color ?? "#fee2e2",
           }}
         >
-          {test?.emoji ? (
+          {art ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={art} width={183} height={220} style={{ borderRadius: 24 }} alt="" />
+          ) : test?.emoji ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={emojiImageUrl(test.emoji)} width={140} height={140} alt="" />
           ) : null}

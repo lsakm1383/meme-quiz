@@ -40,7 +40,14 @@ export function ToppingResultView({
         className="flex w-full flex-col items-center gap-3 rounded-3xl px-6 py-10 shadow-sm"
         style={{ backgroundColor: cardColor }}
       >
-        <div className="text-6xl">{cardEmoji}</div>
+        {rarity ? (
+          <span className="inline-block h-44 aspect-[5/6] overflow-hidden rounded-2xl">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={rarity.image} alt="" className="h-full w-full object-cover" />
+          </span>
+        ) : (
+          <div className="text-6xl">{cardEmoji}</div>
+        )}
         <h1 className="text-2xl font-extrabold text-zinc-900 dark:text-zinc-100">
           {headline.title}
         </h1>

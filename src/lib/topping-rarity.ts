@@ -7,6 +7,8 @@ export type RarityResult = {
   subtitle: string;
   emoji: string;
   color: string;
+  /** 결과 카드·공유 미리보기에 쓰는 등급별 일러스트 (public 기준 경로, 5:6 비율) */
+  image: string;
 };
 
 // 낮을수록 흔한 조합, 높을수록 남들과 다르게 먹는 조합. emoji/color는 결과 카드에 그대로 쓰인다.
@@ -16,6 +18,7 @@ const TIERS: {
   subtitle: string;
   emoji: string;
   color: string;
+  image: string;
 }[] = [
   {
     max: 20,
@@ -23,6 +26,7 @@ const TIERS: {
     subtitle: "이 조합, 다들 비슷하게 먹어요",
     emoji: "🍚",
     color: "#e4e4e7",
+    image: "/topping/malatang/result/standard.webp",
   },
   {
     max: 40,
@@ -30,6 +34,7 @@ const TIERS: {
     subtitle: "평범하지만 실패 없는 조합",
     emoji: "🙂",
     color: "#dbeafe",
+    image: "/topping/malatang/result/plain.webp",
   },
   {
     max: 60,
@@ -37,6 +42,7 @@ const TIERS: {
     subtitle: "취향이 살짝 묻어나는 조합",
     emoji: "✨",
     color: "#ede9fe",
+    image: "/topping/malatang/result/unique.webp",
   },
   {
     max: 80,
@@ -44,6 +50,7 @@ const TIERS: {
     subtitle: "이렇게 먹는 사람 흔치 않아요",
     emoji: "💎",
     color: "#fef3c7",
+    image: "/topping/malatang/result/rare.webp",
   },
   {
     max: Infinity,
@@ -51,6 +58,7 @@ const TIERS: {
     subtitle: "지금까지 이런 조합은 없었다",
     emoji: "👑",
     color: "#fecaca",
+    image: "/topping/malatang/result/legend.webp",
   },
 ];
 
@@ -121,5 +129,6 @@ export function computeRarity(
     subtitle: tier.subtitle,
     emoji: tier.emoji,
     color: tier.color,
+    image: tier.image,
   };
 }
