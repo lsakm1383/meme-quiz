@@ -7,7 +7,6 @@ import {
   describeCombo,
 } from "@/data/toppings";
 import { ToppingResultView } from "@/components/ToppingResultView";
-import { getSiteUrl } from "@/lib/site";
 
 type Params = { testId: string; comboKey: string };
 
@@ -32,9 +31,8 @@ export async function generateMetadata({
     description,
     openGraph: { title, description, type: "website" },
     twitter: { card: "summary_large_image", title, description },
-    alternates: {
-      canonical: `${getSiteUrl()}/c/${test.id}/r/${comboKey}`,
-    },
+    // 결과 페이지는 공유용이라 검색 색인에서는 뺀다 (링크·미리보기는 그대로 동작, 페이지 안 링크는 follow).
+    robots: { index: false, follow: true },
   };
 }
 
