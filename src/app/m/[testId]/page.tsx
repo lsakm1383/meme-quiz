@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { mbtiTests, getMbtiTest } from "@/data/mbti";
 import { MbtiRunner } from "@/components/MbtiRunner";
+import { MbtiTestGuide } from "@/components/MbtiTestGuide";
 import { getSiteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -45,7 +46,11 @@ export default async function MbtiTestPage({
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
-      <MbtiRunner test={test} initialGroupId={group} />
+      <MbtiRunner
+        test={test}
+        initialGroupId={group}
+        guide={test.guide && <MbtiTestGuide test={test} guide={test.guide} />}
+      />
     </div>
   );
 }

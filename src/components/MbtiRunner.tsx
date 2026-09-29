@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import type { MbtiTestConfig } from "@/data/mbti-types";
 import { calculateMbtiCode } from "@/lib/scoring";
@@ -13,9 +13,12 @@ type Phase = "intro" | "createTitle" | "nickname" | "quiz";
 export function MbtiRunner({
   test,
   initialGroupId,
+  guide,
 }: {
   test: MbtiTestConfig;
   initialGroupId?: string;
+  /** 시작 화면 버튼 아래에 붙일 소개 섹션 (서버에서 렌더링해 넘긴다) */
+  guide?: ReactNode;
 }) {
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>(initialGroupId ? "nickname" : "intro");
@@ -121,6 +124,7 @@ export function MbtiRunner({
         <p className="text-xs text-zinc-400">
           질문 {test.questions.length}개 · 3분 소요
         </p>
+        {guide}
       </div>
     );
   }
