@@ -29,5 +29,7 @@ export type ToppingTestConfig = {
   title: string;
   description: string;
   accentColor: string;
+  /** 홈 카드·시작 화면·기본 미리보기용 대표 일러스트 (public 기준 경로, 5:6 비율). 없으면 emoji로 대체한다. */
+  image?: string;
   categories: ToppingCategory[];
 };

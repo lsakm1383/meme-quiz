@@ -63,9 +63,11 @@ export default async function Image({
     : valid
       ? describeCombo(test, toppingIds)
       : { title: "결과", subtitle: "" };
-  const art = rarity
+  // 등급을 못 구하면 테스트 대표 일러스트로 대신한다.
+  const artPath = rarity?.image ?? test?.image;
+  const art = artPath
     ? `data:image/png;base64,${(
-        await sharp(join(process.cwd(), "public", rarity.image)).png().toBuffer()
+        await sharp(join(process.cwd(), "public", artPath)).png().toBuffer()
       ).toString("base64")}`
     : null;
 
