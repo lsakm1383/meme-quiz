@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { MIN_STATS_PARTICIPANTS } from "@/lib/stats-threshold";
+import { StatsPending } from "@/components/StatsPending";
 
 export type StatItem = { id: string; emoji: string; label: string; icon?: ReactNode };
 
@@ -62,6 +64,7 @@ export function ResultStats({
 
   const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
   if (total === 0) return null;
+  if (total < MIN_STATS_PARTICIPANTS) return <StatsPending total={total} what="결과별 비율을" />;
 
   const ranked = items
     .map((item) => ({ ...item, count: counts[item.id] ?? 0 }))

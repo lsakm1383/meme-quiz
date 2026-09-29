@@ -6,6 +6,7 @@ import { getToppingTest, isValidCombo, comboKeyToToppingIds, describeCombo } fro
 import type { ToppingTestConfig } from "@/data/topping-types";
 import { computeRarity } from "@/lib/topping-rarity";
 import { getRedis } from "@/lib/redis";
+import { MIN_STATS_PARTICIPANTS } from "@/lib/stats-threshold";
 
 export const alt = "조합 결과";
 export const size = { width: 1200, height: 630 };
@@ -32,14 +33,16 @@ function emojiImageUrl(emoji: string) {
 }
 
 // 결과 화면과 같은 희귀도 등급을 보여주려고, 조회만(증가 없이) 재료 통계를 읽는다.
-// Redis 미설정이거나 읽기에 실패하면 null — 그땐 등급 없이 조합 설명으로 대신한다.
+// Redis 미설정·읽기 실패·참여자 기준 인원 미만이면 null — 그땐 등급 없이 조합 설명으로 대신한다.
 async function loadRarity(test: ToppingTestConfig, toppingIds: string[]) {
   const redis = getRedis();
   if (!redis) return null;
   try {
-    const raw = await redis.hgetall<Record<string, unknown>>(
-      `ingredient-stats:${test.id}:counts`
-    );
+    const [raw, participants] = await Promise.all([
+      redis.hgetall<Record<string, unknown>>(`ingredient-stats:${test.id}:counts`),
+      redis.get<number>(`ingredient-stats:${test.id}:participants`),
+    ]);
+    if ((Number(participants) || 0) < MIN_STATS_PARTICIPANTS) return null;
     const counts: Record<string, number> = {};
     for (const [field, value] of Object.entries(raw ?? {})) counts[field] = Number(value) || 0;
     return computeRarity(test, toppingIds, counts);

@@ -2,6 +2,8 @@ import type { ToppingTestConfig } from "@/data/topping-types";
 import { noneOptionId } from "@/data/toppings";
 import { ToppingIcon } from "@/components/ToppingIcon";
 import type { IngredientStatsResponse } from "@/lib/use-ingredient-stats";
+import { MIN_STATS_PARTICIPANTS } from "@/lib/stats-threshold";
+import { StatsPending } from "@/components/StatsPending";
 
 // 상단 "희귀도" 밈 카드가 같은 통계를 쓰기 때문에, 패칭은 ToppingResultView(부모)에서
 // 한 번만 하고 이 컴포넌트는 그 결과를 받아 카테고리별 상세 랭킹만 그린다.
@@ -15,6 +17,11 @@ export function ToppingIngredientStats({
   stats: IngredientStatsResponse | null;
 }) {
   if (!stats || stats.totalParticipants === 0) return null;
+  if (stats.totalParticipants < MIN_STATS_PARTICIPANTS) {
+    return (
+      <StatsPending total={stats.totalParticipants} what="재료별 인기 순위와 내 조합의 희귀도를" />
+    );
+  }
 
   const mineSet = new Set(toppingIds);
 

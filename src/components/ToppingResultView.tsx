@@ -4,6 +4,7 @@ import type { ToppingTestConfig } from "@/data/topping-types";
 import { groupComboByCategory, describeCombo } from "@/data/toppings";
 import { computeRarity } from "@/lib/topping-rarity";
 import { useIngredientStats } from "@/lib/use-ingredient-stats";
+import { MIN_STATS_PARTICIPANTS } from "@/lib/stats-threshold";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ToppingIngredientStats } from "@/components/ToppingIngredientStats";
@@ -23,9 +24,13 @@ export function ToppingResultView({
     (group) => group.items.length > 0
   );
 
-  // 통계가 아직 없으면(로딩 중이거나 Redis 미설정) 고른 조합 자체를 설명하는 문구로 대신 보여준다.
+  // 통계가 아직 없거나(로딩 중·Redis 미설정) 참여자가 기준 인원 미만이면 희귀도를 매기지 않고
+  // 고른 조합 자체를 설명하는 문구로 대신 보여준다.
   const fallback = describeCombo(test, toppingIds);
-  const rarity = stats ? computeRarity(test, toppingIds, stats.counts) : null;
+  const rarity =
+    stats && stats.totalParticipants >= MIN_STATS_PARTICIPANTS
+      ? computeRarity(test, toppingIds, stats.counts)
+      : null;
   const headline = rarity
     ? { title: rarity.title, subtitle: `희귀도 ${rarity.percent}% · ${rarity.subtitle}` }
     : fallback;
