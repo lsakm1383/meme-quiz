@@ -17,12 +17,13 @@ export type GuideItem = {
 export function ContentGuide({
   guide,
   accentColor,
-  items,
+  items = [],
   layout = "row",
 }: {
   guide: Guide;
   accentColor: string;
-  items: GuideItem[];
+  /** 비어 있거나 resultsHeading이 없으면 결과 목록 섹션을 생략한다 */
+  items?: GuideItem[];
   layout?: "row" | "stack";
 }) {
   const itemClass =
@@ -33,7 +34,7 @@ export function ContentGuide({
   return (
     <div className="mt-8 flex w-full flex-col gap-10 border-t border-zinc-200 pt-10 text-left dark:border-zinc-800">
       <section className="flex flex-col gap-3">
-        <h2 className="text-lg font-bold">이런 테스트예요</h2>
+        <h2 className="text-lg font-bold">{guide.introHeading ?? "이런 테스트예요"}</h2>
         {guide.intro.map((paragraph) => (
           <p key={paragraph} className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             {paragraph}
@@ -62,44 +63,46 @@ export function ContentGuide({
         </ol>
       </section>
 
-      <section className="flex flex-col gap-3">
-        <h2 className="text-lg font-bold">{guide.resultsHeading}</h2>
-        <ul className="flex flex-col gap-3">
-          {items.map((item) => {
-            const body = (
-              <>
-                {item.icon}
-                <span className="flex w-full min-w-0 flex-col gap-0.5">
-                  <span className="text-sm font-bold">{item.title}</span>
-                  {item.subtitle && (
-                    <span className="text-xs font-medium text-zinc-500">{item.subtitle}</span>
+      {guide.resultsHeading && items.length > 0 && (
+        <section className="flex flex-col gap-3">
+          <h2 className="text-lg font-bold">{guide.resultsHeading}</h2>
+          <ul className="flex flex-col gap-3">
+            {items.map((item) => {
+              const body = (
+                <>
+                  {item.icon}
+                  <span className="flex w-full min-w-0 flex-col gap-0.5">
+                    <span className="text-sm font-bold">{item.title}</span>
+                    {item.subtitle && (
+                      <span className="text-xs font-medium text-zinc-500">{item.subtitle}</span>
+                    )}
+                    {item.description && (
+                      <span className="mt-1 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+                        {item.description}
+                      </span>
+                    )}
+                  </span>
+                </>
+              );
+              return (
+                <li key={item.key}>
+                  {item.href ? (
+                    // 결과 화면(광고 있음)으로 가는 링크 — 다른 화면 이동과 같이 완전한 새로고침으로 연다
+                    <a
+                      href={item.href}
+                      className={`${itemClass} transition-colors active:bg-zinc-100 dark:active:bg-zinc-900`}
+                    >
+                      {body}
+                    </a>
+                  ) : (
+                    <div className={itemClass}>{body}</div>
                   )}
-                  {item.description && (
-                    <span className="mt-1 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
-                      {item.description}
-                    </span>
-                  )}
-                </span>
-              </>
-            );
-            return (
-              <li key={item.key}>
-                {item.href ? (
-                  // 결과 화면(광고 있음)으로 가는 링크 — 다른 화면 이동과 같이 완전한 새로고침으로 연다
-                  <a
-                    href={item.href}
-                    className={`${itemClass} transition-colors active:bg-zinc-100 dark:active:bg-zinc-900`}
-                  >
-                    {body}
-                  </a>
-                ) : (
-                  <div className={itemClass}>{body}</div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
 
       <section className="flex flex-col gap-3">
         <h2 className="text-lg font-bold">자주 묻는 질문</h2>

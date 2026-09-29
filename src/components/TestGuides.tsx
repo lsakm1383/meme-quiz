@@ -3,6 +3,7 @@ import type { TournamentConfig } from "@/data/tournament-types";
 import type { DecisionTestConfig } from "@/data/decision-types";
 import type { ToppingTestConfig } from "@/data/topping-types";
 import type { MbtiTestConfig } from "@/data/mbti-types";
+import type { ChecklistConfig } from "@/data/checklist-types";
 import { getGuide } from "@/data/guides";
 import { TIERS } from "@/lib/topping-rarity";
 import { ContentGuide } from "@/components/ContentGuide";
@@ -97,6 +98,13 @@ export function DecisionGuide({ test }: { test: DecisionTestConfig }) {
       }))}
     />
   );
+}
+
+// 체크리스트는 결과가 없으므로 결과 목록 없이 준비 가이드만 보여준다.
+export function ChecklistGuide({ checklist }: { checklist: ChecklistConfig }) {
+  const guide = getGuide(`l/${checklist.id}`);
+  if (!guide) return null;
+  return <ContentGuide guide={guide} accentColor={checklist.accentColor} />;
 }
 
 // 조합형은 결과가 고정돼 있지 않으므로 희귀도 등급 5가지를 결과 목록으로 보여준다.

@@ -1,12 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { ChecklistConfig } from "@/data/checklist-types";
 import { countChecklistItems } from "@/data/checklist-types";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 
-export function ChecklistRunner({ checklist }: { checklist: ChecklistConfig }) {
+export function ChecklistRunner({
+  checklist,
+  guide,
+}: {
+  checklist: ChecklistConfig;
+  /** 체크리스트 아래에 붙일 준비 가이드 (서버에서 렌더링해 넘긴다) */
+  guide?: ReactNode;
+}) {
   const storageKey = `meme-quiz:checklist:${checklist.id}`;
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [loaded, setLoaded] = useState(false);
@@ -133,6 +140,8 @@ export function ChecklistRunner({ checklist }: { checklist: ChecklistConfig }) {
         text={`${checklist.title} 체크하다 보니 ${doneCount}/${total}(${percent}%)! 너도 빠뜨린 거 없는지 확인해봐 👉`}
         accentColor={checklist.accentColor}
       />
+
+      {guide}
 
       <div className="w-full pt-2">
         <AdSlot slot="checklist-bottom" />

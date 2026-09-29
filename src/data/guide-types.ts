@@ -3,13 +3,15 @@
 // 어떤 결과가 있는지를 시작 페이지에서 충분히 설명한다. 결과 목록 자체는 각 테스트
 // 데이터에서 자동으로 그리므로 여기엔 섹션 제목만 둔다.
 export type ContentGuide = {
-  /** "이런 테스트예요" 문단들 */
+  /** 첫 섹션 제목. 생략하면 "이런 테스트예요" (체크리스트는 "이런 체크리스트예요" 등) */
+  introHeading?: string;
+  /** 첫 섹션 문단들 */
   intro: string[];
   /** 진행 방식·판단 기준 섹션 제목, 예: "네 가지 기준으로 봐요", "이렇게 진행돼요" */
   howHeading: string;
   /** highlight는 제목 아래 강조색 한 줄 (예: "사람들과 어울리며 ↔ 혼자 집중하며") */
   how: { title: string; highlight?: string; description: string }[];
-  /** 전체 결과 목록 섹션 제목, 예: "16가지 직장인 유형" */
-  resultsHeading: string;
+  /** 전체 결과 목록 섹션 제목, 예: "16가지 직장인 유형". 결과 목록이 없는 콘텐츠(체크리스트)는 생략 */
+  resultsHeading?: string;
   faq: { question: string; answer: string }[];
 };

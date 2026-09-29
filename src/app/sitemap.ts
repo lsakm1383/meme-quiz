@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const urls: MetadataRoute.Sitemap = [
     { url: base, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/privacy` },
+    { url: `${base}/about` },
   ];
 
   for (const quiz of quizzes) {

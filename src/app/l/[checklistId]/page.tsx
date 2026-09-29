@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { checklists, getChecklist } from "@/data/checklists";
 import { ChecklistRunner } from "@/components/ChecklistRunner";
+import { ChecklistGuide } from "@/components/TestGuides";
 import { getSiteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -42,7 +43,10 @@ export default async function ChecklistPage({
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center px-6 py-16">
-      <ChecklistRunner checklist={checklist} />
+      <ChecklistRunner
+        checklist={checklist}
+        guide={<ChecklistGuide checklist={checklist} />}
+      />
     </div>
   );
 }
