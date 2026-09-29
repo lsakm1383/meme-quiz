@@ -21,11 +21,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
+  // 월드컵 결과 페이지(후보별 한 줄 설명)는 색인하지 않으므로 시작 페이지만 싣는다.
   for (const tournament of tournaments) {
     urls.push({ url: `${base}/w/${tournament.id}` });
-    for (const candidate of tournament.candidates) {
-      urls.push({ url: `${base}/w/${tournament.id}/r/${candidate.id}` });
-    }
   }
 
   for (const test of toppingTests) {
