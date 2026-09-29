@@ -48,17 +48,4 @@ export type MbtiTestConfig = {
   questions: MbtiQuestion[];
   /** 16가지 조합 전부를 담은 결과 목록 */
   profiles: MbtiTypeProfile[];
-  /** 시작 화면 아래에 보여줄 테스트 소개글. 없으면 소개 섹션을 생략한다. */
-  guide?: MbtiTestGuide;
-};
-
-/** 시작 화면 소개 섹션 — 테스트 설명·판단 기준·전체 유형 목록·자주 묻는 질문 */
-export type MbtiTestGuide = {
-  /** "이런 테스트예요" 문단들 */
-  intro: string[];
-  /** axes 순서대로, 각 기준이 무엇을 보는지 */
-  axes: { name: string; poles: [string, string]; description: string }[];
-  /** 전체 유형 목록 섹션 제목, 예: "16가지 직장인 유형" */
-  typesHeading: string;
-  faq: { question: string; answer: string }[];
 };

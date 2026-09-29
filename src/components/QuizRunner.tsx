@@ -1,12 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import type { QuizConfig } from "@/data/quiz-types";
 import { calculateResultId } from "@/lib/scoring";
 import { RunnerNav } from "@/components/RunnerNav";
 
-export function QuizRunner({ quiz }: { quiz: QuizConfig }) {
+export function QuizRunner({
+  quiz,
+  guide,
+}: {
+  quiz: QuizConfig;
+  /** 시작 화면 아래에 붙일 소개 섹션 (서버에서 렌더링해 넘긴다) */
+  guide?: ReactNode;
+}) {
   const router = useRouter();
   const [started, setStarted] = useState(false);
   const [step, setStep] = useState(0);
@@ -53,6 +60,7 @@ export function QuizRunner({ quiz }: { quiz: QuizConfig }) {
         <p className="text-xs text-zinc-400">
           질문 {quiz.questions.length}개 · 30초 소요
         </p>
+        {guide}
       </div>
     );
   }

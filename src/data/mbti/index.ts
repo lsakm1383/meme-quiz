@@ -7,7 +7,6 @@ import princessProfiles from "@/data/mbti/princess-profiles";
 import gamerProfiles from "@/data/mbti/gamer-profiles";
 import officeQuestions from "@/data/mbti/office-questions";
 import officeProfiles from "@/data/mbti/office-profiles";
-import officeGuide from "@/data/mbti/office-guide";
 
 // 같은 축(E/I,S/N,T/F,J/P)·같은 채점 엔진을 재사용하되, 문항 문구와 결과 프로필은
 // 시리즈마다 새로 쓴다. 문항까지 공유하면 세 테스트가 완전히 똑같아 보이기 때문에,
@@ -65,7 +64,6 @@ const mbtiOffice: MbtiTestConfig = {
   axes: AXES,
   questions: officeQuestions,
   profiles: officeProfiles,
-  guide: officeGuide,
 };
 
 export const mbtiTests: MbtiTestConfig[] = [mbtiLite, mbtiPrincess, mbtiGamer, mbtiOffice];

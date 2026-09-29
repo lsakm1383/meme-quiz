@@ -5,7 +5,7 @@ const test: ToppingTestConfig = {
   emoji: "🍲",
   title: "나만의 마라탕 조합 만들기",
   description:
-    "실제 마라탕집 토핑을 그대로 골라 담아서 완성하는 나만의 마라탕. 같은 조합을 고른 사람이 몇 명인지, 인기 조합 랭킹은 어떤지도 확인해보세요.",
+    "실제 마라탕집 토핑을 그대로 골라 담아서 완성하는 나만의 마라탕. 내 조합이 얼마나 희귀한지, 재료별로 다른 사람들은 무엇을 많이 골랐는지도 확인해보세요.",
   accentColor: "#dc2626",
   image: "/topping/malatang/result/standard.webp",
   categories: [

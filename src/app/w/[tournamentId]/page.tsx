@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { tournaments, getTournament } from "@/data/tournaments";
 import { TournamentRunner } from "@/components/TournamentRunner";
+import { TournamentGuide } from "@/components/TestGuides";
 import { getSiteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -42,7 +43,10 @@ export default async function TournamentPage({
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
-      <TournamentRunner tournament={tournament} />
+      <TournamentRunner
+        tournament={tournament}
+        guide={<TournamentGuide tournament={tournament} />}
+      />
     </div>
   );
 }

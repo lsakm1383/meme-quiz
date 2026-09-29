@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { quizzes, getQuiz } from "@/data/quizzes";
 import { QuizRunner } from "@/components/QuizRunner";
+import { QuizGuide } from "@/components/TestGuides";
 import { getSiteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -42,7 +43,7 @@ export default async function QuizPage({
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
-      <QuizRunner quiz={quiz} />
+      <QuizRunner quiz={quiz} guide={<QuizGuide quiz={quiz} />} />
     </div>
   );
 }

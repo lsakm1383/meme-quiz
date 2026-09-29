@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { decisionTests, getDecisionTest } from "@/data/decisions";
 import { DecisionRunner } from "@/components/DecisionRunner";
+import { DecisionGuide } from "@/components/TestGuides";
 import { getSiteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -42,7 +43,7 @@ export default async function DecisionTestPage({
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
-      <DecisionRunner test={test} />
+      <DecisionRunner test={test} guide={<DecisionGuide test={test} />} />
     </div>
   );
 }

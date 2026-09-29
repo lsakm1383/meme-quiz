@@ -12,7 +12,7 @@ export type RarityResult = {
 };
 
 // 낮을수록 흔한 조합, 높을수록 남들과 다르게 먹는 조합. emoji/color는 결과 카드에 그대로 쓰인다.
-const TIERS: {
+export const TIERS: {
   max: number;
   title: string;
   subtitle: string;

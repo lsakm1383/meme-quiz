@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import type { ToppingTestConfig } from "@/data/topping-types";
 import { buildComboKey } from "@/data/toppings";
@@ -8,7 +8,14 @@ import { ToppingIcon } from "@/components/ToppingIcon";
 import { PhotoIcon } from "@/components/PhotoIcon";
 import { RunnerNav } from "@/components/RunnerNav";
 
-export function ToppingBuilderRunner({ test }: { test: ToppingTestConfig }) {
+export function ToppingBuilderRunner({
+  test,
+  guide,
+}: {
+  test: ToppingTestConfig;
+  /** 시작 화면 아래에 붙일 소개 섹션 (서버에서 렌더링해 넘긴다) */
+  guide?: ReactNode;
+}) {
   const router = useRouter();
   const [started, setStarted] = useState(false);
   const [step, setStep] = useState(0);
@@ -82,6 +89,7 @@ export function ToppingBuilderRunner({ test }: { test: ToppingTestConfig }) {
         <p className="text-xs text-zinc-400">
           {test.categories.length}단계 · 1분 소요
         </p>
+        {guide}
       </div>
     );
   }

@@ -1,13 +1,20 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import type { DecisionNode, DecisionTestConfig } from "@/data/decision-types";
 import { getMaxDepth } from "@/data/decision-types";
 import { RunnerNav } from "@/components/RunnerNav";
 import { PhotoIcon } from "@/components/PhotoIcon";
 
-export function DecisionRunner({ test }: { test: DecisionTestConfig }) {
+export function DecisionRunner({
+  test,
+  guide,
+}: {
+  test: DecisionTestConfig;
+  /** 시작 화면 아래에 붙일 소개 섹션 (서버에서 렌더링해 넘긴다) */
+  guide?: ReactNode;
+}) {
   const router = useRouter();
   const [started, setStarted] = useState(false);
   const [node, setNode] = useState<DecisionNode>(test.root);
@@ -53,6 +60,7 @@ export function DecisionRunner({ test }: { test: DecisionTestConfig }) {
           시작하기
         </button>
         <p className="text-xs text-zinc-400">선택마다 다음 질문이 달라져요 · 30초 소요</p>
+        {guide}
       </div>
     );
   }

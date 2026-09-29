@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import type {
   TournamentCandidate,
@@ -18,8 +18,11 @@ type RoundState = {
 
 export function TournamentRunner({
   tournament,
+  guide,
 }: {
   tournament: TournamentConfig;
+  /** 시작 화면 아래에 붙일 소개 섹션 (서버에서 렌더링해 넘긴다) */
+  guide?: ReactNode;
 }) {
   const router = useRouter();
   const [started, setStarted] = useState(false);
@@ -89,6 +92,7 @@ export function TournamentRunner({
         <p className="text-xs text-zinc-400">
           {tournament.candidates.length}강 토너먼트 · 1분 소요
         </p>
+        {guide}
       </div>
     );
   }

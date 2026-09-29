@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { toppingTests, getToppingTest } from "@/data/toppings";
 import { ToppingBuilderRunner } from "@/components/ToppingBuilderRunner";
+import { ToppingGuide } from "@/components/TestGuides";
 import { getSiteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -42,7 +43,7 @@ export default async function ToppingTestPage({
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
-      <ToppingBuilderRunner test={test} />
+      <ToppingBuilderRunner test={test} guide={<ToppingGuide test={test} />} />
     </div>
   );
 }

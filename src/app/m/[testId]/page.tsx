@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { mbtiTests, getMbtiTest } from "@/data/mbti";
 import { MbtiRunner } from "@/components/MbtiRunner";
-import { MbtiTestGuide } from "@/components/MbtiTestGuide";
+import { MbtiGuide } from "@/components/TestGuides";
 import { getSiteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -49,7 +49,7 @@ export default async function MbtiTestPage({
       <MbtiRunner
         test={test}
         initialGroupId={group}
-        guide={test.guide && <MbtiTestGuide test={test} guide={test.guide} />}
+        guide={<MbtiGuide test={test} />}
       />
     </div>
   );
