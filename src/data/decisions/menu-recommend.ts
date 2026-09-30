@@ -113,6 +113,7 @@ const test: DecisionTestConfig = {
     {
       id: "sushi",
       emoji: "🍣",
+      image: "/decision/menu-recommend/sushi.webp",
       title: "깔끔한 신선파",
       subtitle: "가볍고 담백한 걸 즐기는 타입",
       description:
@@ -162,6 +163,7 @@ const test: DecisionTestConfig = {
     {
       id: "burger",
       emoji: "🍔",
+      image: "/decision/menu-recommend/burger.webp",
       title: "가성비 최고파",
       subtitle: "간편하고 든든한 한 끼파",
       description:
