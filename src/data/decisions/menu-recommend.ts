@@ -10,6 +10,7 @@ const test: DecisionTestConfig = {
   description:
     "지금 상태에 맞춰 선택지를 따라가면 나에게 맞는 메뉴가 나와요. 배고픈 정도, 국물 여부, 스타일까지 실제 고민 순서 그대로.",
   accentColor: "#f97316",
+  image: "/decision/menu-recommend/bibimbap.webp",
   root: {
     id: "hunger",
     text: "지금 배고픈 정도는 어때요?",
@@ -92,6 +93,7 @@ const test: DecisionTestConfig = {
     {
       id: "kimchi-jjigae",
       emoji: "🍲",
+      image: "/decision/menu-recommend/kimchi-jjigae.webp",
       title: "든든한 얼큰파",
       subtitle: "국물 없인 못 사는 타입",
       description:
@@ -101,6 +103,7 @@ const test: DecisionTestConfig = {
     {
       id: "donkatsu",
       emoji: "🍖",
+      image: "/decision/menu-recommend/donkatsu.webp",
       title: "바삭한 든든파",
       subtitle: "바삭바삭 튀김류 최고 타입",
       description:
@@ -119,6 +122,7 @@ const test: DecisionTestConfig = {
     {
       id: "pasta",
       emoji: "🍝",
+      image: "/decision/menu-recommend/pasta.webp",
       title: "고소한 느끼파",
       subtitle: "크리미한 소스에 진심인 타입",
       description:
@@ -128,6 +132,7 @@ const test: DecisionTestConfig = {
     {
       id: "jjajangmyeon",
       emoji: "🍜",
+      image: "/decision/menu-recommend/jjajangmyeon.webp",
       title: "든든한 배달파",
       subtitle: "고민 없이 한중식 콜하는 타입",
       description:
@@ -137,6 +142,7 @@ const test: DecisionTestConfig = {
     {
       id: "salad",
       emoji: "🥗",
+      image: "/decision/menu-recommend/salad.webp",
       title: "가벼운 헬시파",
       subtitle: "속 편한 한 끼를 선호하는 타입",
       description:
@@ -146,6 +152,7 @@ const test: DecisionTestConfig = {
     {
       id: "gukbap",
       emoji: "🍚",
+      image: "/decision/menu-recommend/gukbap.webp",
       title: "해장 필수파",
       subtitle: "뜨끈한 국밥 한 그릇이면 되는 타입",
       description:
@@ -164,6 +171,7 @@ const test: DecisionTestConfig = {
     {
       id: "tteokbokki",
       emoji: "🍢",
+      image: "/decision/menu-recommend/tteokbokki.webp",
       title: "매콤한 떡볶이파",
       subtitle: "매콤함 없인 못 사는 타입",
       description:
@@ -173,6 +181,7 @@ const test: DecisionTestConfig = {
     {
       id: "chicken",
       emoji: "🍗",
+      image: "/decision/menu-recommend/chicken.webp",
       title: "바삭한 치킨파",
       subtitle: "겉바속촉 튀김에 진심인 타입",
       description:
@@ -182,6 +191,7 @@ const test: DecisionTestConfig = {
     {
       id: "bibimbap",
       emoji: "🍱",
+      image: "/decision/menu-recommend/bibimbap.webp",
       title: "골고루 비빔밥파",
       subtitle: "건강하고 균형 잡힌 한 끼를 좋아하는 타입",
       description:
@@ -191,6 +201,7 @@ const test: DecisionTestConfig = {
     {
       id: "jokbal-bossam",
       emoji: "🐷",
+      image: "/decision/menu-recommend/jokbal-bossam.webp",
       title: "푸짐한 족발보쌈파",
       subtitle: "여럿이 나눠먹는 푸짐함을 좋아하는 타입",
       description:
