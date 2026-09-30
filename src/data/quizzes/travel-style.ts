@@ -3,6 +3,7 @@ import type { QuizConfig } from "@/data/quiz-types";
 const quiz: QuizConfig = {
   id: "travel-style",
   emoji: "✈️",
+  image: { src: "/quiz/travel-style/cover.webp", aspect: "aspect-[793/427]", wide: true },
   title: "여행 스타일 유형 테스트",
   description:
     "나는 여행 갈 때 어떤 사람일까? 6개 질문으로 알아보는 나의 여행 유형.",
@@ -73,6 +74,7 @@ const quiz: QuizConfig = {
     {
       id: "planner",
       emoji: "🗺️",
+      image: { src: "/quiz/travel-style/planner.webp", aspect: "aspect-[392/330]" },
       title: "분 단위 계획형",
       subtitle: "일정표 없이는 여행이 불안한 타입",
       description:
@@ -82,6 +84,7 @@ const quiz: QuizConfig = {
     {
       id: "balanced",
       emoji: "🧭",
+      image: { src: "/quiz/travel-style/balanced.webp", aspect: "aspect-[392/330]" },
       title: "적당히 계획하고 즉흥도 즐기는형",
       subtitle: "큰 틀만 잡고 나머지는 흘러가는 대로",
       description:
@@ -91,6 +94,7 @@ const quiz: QuizConfig = {
     {
       id: "spontaneous",
       emoji: "🎒",
+      image: { src: "/quiz/travel-style/spontaneous.webp", aspect: "aspect-[392/330]" },
       title: "몸이 먼저 움직이는 즉흥형",
       subtitle: "계획은 도착해서 생각하는 타입",
       description:
@@ -100,6 +104,7 @@ const quiz: QuizConfig = {
     {
       id: "homebody",
       emoji: "🛋️",
+      image: { src: "/quiz/travel-style/homebody.webp", aspect: "aspect-[391/330]" },
       title: "숙소가 제일 좋은 집순이형",
       subtitle: "여행지보다 침대가 더 그리운 타입",
       description:
