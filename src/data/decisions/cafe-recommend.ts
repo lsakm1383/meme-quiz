@@ -10,6 +10,7 @@ const test: DecisionTestConfig = {
   description:
     "지금 상태에 맞춰 선택지를 따라가면 나에게 맞는 음료가 나와요. 배부른 정도, 날씨, 당 충전 여부까지 실제 고민 순서 그대로.",
   accentColor: "#78350f",
+  image: "/decision/cafe-recommend/americano.webp",
   root: {
     id: "full",
     text: "지금 배가 좀 부른 편이에요?",
