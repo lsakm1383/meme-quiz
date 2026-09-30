@@ -1,7 +1,9 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import sharp from "sharp";
 import { quizzes, getQuiz, getResult } from "@/data/quizzes";
+import type { QuizImage } from "@/data/quiz-types";
 
 export const alt = "테스트 결과";
 export const size = { width: 1200, height: 630 };
@@ -31,6 +33,21 @@ function emojiImageUrl(emoji: string) {
   return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${codepoints}.svg`;
 }
 
+// 결과 일러스트가 있으면 이모지 대신 쓴다. 원본 비율을 유지한 채 이 상자 안에 맞춘다.
+const ART_BOX = { width: 560, height: 220 };
+
+async function loadArt(image: QuizImage) {
+  const meta = await sharp(join(process.cwd(), "public", image.src)).metadata();
+  const scale = Math.min(ART_BOX.width / meta.width!, ART_BOX.height / meta.height!);
+  // 미리보기 렌더러(satori)가 webp를 못 읽으므로 png로 변환해서 넣는다.
+  const png = await sharp(join(process.cwd(), "public", image.src)).png().toBuffer();
+  return {
+    src: `data:image/png;base64,${png.toString("base64")}`,
+    width: Math.round(meta.width! * scale),
+    height: Math.round(meta.height! * scale),
+  };
+}
+
 export default async function Image({
   params,
 }: {
@@ -41,6 +58,7 @@ export default async function Image({
   const result = quiz && getResult(quiz, resultId);
 
   const [bold, regular] = await Promise.all([notoBold, notoRegular]);
+  const art = result?.image ? await loadArt(result.image) : null;
 
   return new ImageResponse(
     (
@@ -64,24 +82,27 @@ export default async function Image({
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: 760,
-            marginTop: 32,
-            padding: "56px 64px",
+            width: art ? 960 : 760,
+            marginTop: art ? 24 : 32,
+            padding: art ? "40px 64px" : "56px 64px",
             borderRadius: 48,
             background: result?.color ?? "#e4e4e7",
           }}
         >
-          {result?.emoji ? (
+          {art ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={art.src} width={art.width} height={art.height} style={{ borderRadius: 24 }} alt="" />
+          ) : result?.emoji ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={emojiImageUrl(result.emoji)} width={176} height={176} alt="" />
           ) : null}
           <div
             style={{
               display: "flex",
-              fontSize: 76,
+              fontSize: art ? 60 : 76,
               fontWeight: 700,
               color: "#18181b",
-              marginTop: 28,
+              marginTop: art ? 20 : 28,
               textAlign: "center",
             }}
           >
@@ -90,17 +111,17 @@ export default async function Image({
           <div
             style={{
               display: "flex",
-              fontSize: 36,
+              fontSize: art ? 30 : 36,
               fontWeight: 400,
               color: "#27272a",
-              marginTop: 16,
+              marginTop: art ? 12 : 16,
               textAlign: "center",
             }}
           >
             {result?.subtitle}
           </div>
         </div>
-        <div style={{ display: "flex", fontSize: 28, color: "#a1a1aa", marginTop: 36 }}>
+        <div style={{ display: "flex", fontSize: 28, color: "#a1a1aa", marginTop: art ? 20 : 36 }}>
           오늘의 밈 테스트 · 너도 해보러 가기 👉
         </div>
       </div>

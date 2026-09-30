@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import type { QuizConfig } from "@/data/quiz-types";
+import { QuizIcon } from "@/components/QuizIcon";
 import { calculateResultId } from "@/lib/scoring";
 import { RunnerNav } from "@/components/RunnerNav";
 
@@ -45,7 +46,7 @@ export function QuizRunner({
   if (!started) {
     return (
       <div className="flex flex-col items-center gap-6 text-center">
-        <div className="text-7xl">{quiz.emoji}</div>
+        <QuizIcon image={quiz.image} emoji={quiz.emoji} size="xl" />
         <h1 className="text-2xl font-bold leading-snug">{quiz.title}</h1>
         <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           {quiz.description}

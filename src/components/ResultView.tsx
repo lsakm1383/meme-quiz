@@ -2,6 +2,7 @@ import type { QuizConfig, ResultType } from "@/data/quiz-types";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
+import { QuizIcon } from "@/components/QuizIcon";
 
 export function ResultView({
   quiz,
@@ -18,7 +19,7 @@ export function ResultView({
         className="flex w-full flex-col items-center gap-3 rounded-3xl px-6 py-10 shadow-sm"
         style={{ backgroundColor: result.color }}
       >
-        <div className="text-7xl">{result.emoji}</div>
+        <QuizIcon image={result.image} emoji={result.emoji} size="xl" />
         <h1 className="text-2xl font-extrabold text-zinc-900">
           {result.title}
         </h1>
@@ -40,6 +41,7 @@ export function ResultView({
           id: r.id,
           emoji: r.emoji,
           label: r.title,
+          icon: r.image ? <QuizIcon image={r.image} emoji={r.emoji} size="xs" /> : undefined,
         }))}
       />
 

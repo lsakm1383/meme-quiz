@@ -3,6 +3,7 @@ import type { QuizConfig } from "@/data/quiz-types";
 const quiz: QuizConfig = {
   id: "internet-pickle",
   emoji: "🥒",
+  image: { src: "/quiz/internet-pickle/cover.webp", aspect: "aspect-[4/5]" },
   title: "인터넷 절임 지수 테스트",
   description:
     "나는 인터넷에 얼마나 절여졌을까? 6개 질문으로 알아보는 나의 인터넷 중독 유형.",
@@ -73,6 +74,7 @@ const quiz: QuizConfig = {
     {
       id: "newborn",
       emoji: "🐣",
+      image: { src: "/quiz/internet-pickle/newborn.webp", aspect: "aspect-[2/1]", wide: true },
       title: "인터넷 순수 신생아",
       subtitle: "밈이 뭔지도 모르는 청정 지역 주민",
       description:
@@ -82,6 +84,7 @@ const quiz: QuizConfig = {
     {
       id: "casual",
       emoji: "📱",
+      image: { src: "/quiz/internet-pickle/casual.webp", aspect: "aspect-[2/1]", wide: true },
       title: "알잘딱 캐주얼러",
       subtitle: "필요한 만큼만 절여진 밸런스형 인터넷 유저",
       description:
@@ -91,6 +94,7 @@ const quiz: QuizConfig = {
     {
       id: "deep",
       emoji: "🧠",
+      image: { src: "/quiz/internet-pickle/deep.webp", aspect: "aspect-[2/1]", wide: true },
       title: "밈 마스터",
       subtitle: "밈의 원본과 계보를 줄줄 꿰고 있는 인터넷 원주민",
       description:
@@ -100,6 +104,7 @@ const quiz: QuizConfig = {
     {
       id: "terminal",
       emoji: "💀",
+      image: { src: "/quiz/internet-pickle/terminal.webp", aspect: "aspect-[2/1]", wide: true },
       title: "인터넷 그 자체",
       subtitle: "유행을 따라가는 게 아니라 만들어내는 수준",
       description:

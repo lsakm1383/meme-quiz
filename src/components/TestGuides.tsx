@@ -11,6 +11,7 @@ import { MbtiResultIcon } from "@/components/MbtiResultIcon";
 import { TournamentIcon } from "@/components/TournamentIcon";
 import { DecisionResultIcon } from "@/components/DecisionResultIcon";
 import { PhotoIcon } from "@/components/PhotoIcon";
+import { QuizIcon } from "@/components/QuizIcon";
 
 // 콘텐츠 유형별로 결과 목록을 ContentGuide 항목으로 바꿔 넘기는 얇은 래퍼들.
 // 소개글이 등록되지 않은 테스트는 null — 시작 화면에 소개 섹션 없이 버튼만 보인다.
@@ -42,9 +43,13 @@ export function QuizGuide({ quiz }: { quiz: QuizConfig }) {
     <ContentGuide
       guide={guide}
       accentColor={quiz.accentColor}
+      // 결과 일러스트가 있으면 그림이 잘 보이도록 위에 크게 둔다
+      layout={quiz.results.some((result) => result.image) ? "stack" : "row"}
       items={quiz.results.map((result) => ({
         key: result.id,
-        icon: <span className="shrink-0 text-4xl">{result.emoji}</span>,
+        icon: (
+          <QuizIcon image={result.image} emoji={result.emoji} size={result.image ? "xl" : "lg"} />
+        ),
         title: result.title,
         subtitle: result.subtitle,
         description: result.description,

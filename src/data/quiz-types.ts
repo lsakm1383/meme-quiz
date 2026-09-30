@@ -14,10 +14,25 @@ export type QuizQuestion = {
   options: QuizOption[]
 }
 
+/** 이모지 대신 쓰는 일러스트 */
+export type QuizImage = {
+  /** public 기준 경로 */
+  src: string
+  /**
+   * 그림 비율에 맞춘 Tailwind 클래스, 예: "aspect-[2/1]". Tailwind는 소스에 그대로 적힌
+   * 클래스만 만들기 때문에 숫자로 조립하지 말고 데이터 파일에 문자열 그대로 적는다.
+   */
+  aspect: string
+  /** 가로로 긴 그림이면 true — 높이 대신 너비 기준으로 크기를 잡아 카드 폭을 넘치지 않게 한다 */
+  wide?: boolean
+}
+
 export type ResultType = {
   /** URL에 노출되는 결과 슬러그 (영문 소문자, 하이픈) */
   id: string
   emoji: string
+  /** 결과 일러스트. 없으면 emoji로 대체한다. */
+  image?: QuizImage
   /** 결과 제목, 예: "인터넷 순수 신생아" */
   title: string
   /** 카드 한 줄 요약 (공유 시 미리보기 문구로도 사용) */
@@ -32,6 +47,8 @@ export type QuizConfig = {
   /** URL에 노출되는 퀴즈 슬러그 (영문 소문자, 하이픈) */
   id: string
   emoji: string
+  /** 홈 카드·시작 화면용 대표 일러스트. 없으면 emoji로 대체한다. */
+  image?: QuizImage
   /** 목록/헤더용 제목 */
   title: string
   /** 시작 화면 및 og:description에 쓰이는 소개 문구 */
