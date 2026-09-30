@@ -3,7 +3,7 @@ import type { QuizConfig } from "@/data/quiz-types";
 const quiz: QuizConfig = {
   id: "internet-pickle",
   emoji: "🥒",
-  image: { src: "/quiz/internet-pickle/cover.webp", aspect: "aspect-[4/5]" },
+  image: { src: "/quiz/internet-pickle/cover.webp", aspect: "aspect-[16/9]", wide: true },
   title: "인터넷 절임 지수 테스트",
   description:
     "나는 인터넷에 얼마나 절여졌을까? 6개 질문으로 알아보는 나의 인터넷 중독 유형.",
