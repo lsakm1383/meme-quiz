@@ -92,6 +92,7 @@ const test: DecisionTestConfig = {
     {
       id: "americano",
       emoji: "☕",
+      image: "/decision/cafe-recommend/americano.webp",
       title: "깔끔한 아메리카노파",
       subtitle: "군더더기 없는 걸 좋아하는 타입",
       description:
@@ -101,6 +102,7 @@ const test: DecisionTestConfig = {
     {
       id: "latte",
       emoji: "🥛",
+      image: "/decision/cafe-recommend/latte.webp",
       title: "부드러운 라떼파",
       subtitle: "고소하고 편안한 맛을 즐기는 타입",
       description:
@@ -110,6 +112,7 @@ const test: DecisionTestConfig = {
     {
       id: "vanilla-latte",
       emoji: "🍦",
+      image: "/decision/cafe-recommend/vanilla-latte.webp",
       title: "달콤한 바닐라라떼파",
       subtitle: "은은한 단맛이 필요한 타입",
       description:
@@ -119,6 +122,7 @@ const test: DecisionTestConfig = {
     {
       id: "einspanner",
       emoji: "🍯",
+      image: "/decision/cafe-recommend/einspanner.webp",
       title: "특별한 아인슈페너파",
       subtitle: "비주얼도 맛도 챙기는 타입",
       description:
@@ -128,6 +132,7 @@ const test: DecisionTestConfig = {
     {
       id: "strawberry-latte",
       emoji: "🍓",
+      image: "/decision/cafe-recommend/strawberry-latte.webp",
       title: "상큼달콤 딸기라떼파",
       subtitle: "핑크빛 무드를 즐기는 타입",
       description:
@@ -137,6 +142,7 @@ const test: DecisionTestConfig = {
     {
       id: "grapefruit-ade",
       emoji: "🍊",
+      image: "/decision/cafe-recommend/grapefruit-ade.webp",
       title: "상큼한 자몽에이드파",
       subtitle: "탄산·상큼함이 필요한 타입",
       description:
@@ -146,6 +152,7 @@ const test: DecisionTestConfig = {
     {
       id: "cold-brew",
       emoji: "🧊",
+      image: "/decision/cafe-recommend/cold-brew.webp",
       title: "묵직한 콜드브루파",
       subtitle: "진하고 시원한 걸 원하는 타입",
       description:
@@ -155,6 +162,7 @@ const test: DecisionTestConfig = {
     {
       id: "caramel-macchiato",
       emoji: "🍮",
+      image: "/decision/cafe-recommend/caramel-macchiato.webp",
       title: "디저트 같은 카라멜마키아또파",
       subtitle: "당 충전이 시급한 타입",
       description:
@@ -164,6 +172,7 @@ const test: DecisionTestConfig = {
     {
       id: "earl-grey",
       emoji: "🍵",
+      image: "/decision/cafe-recommend/earl-grey.webp",
       title: "은은한 얼그레이파",
       subtitle: "우아하고 향긋한 걸 즐기는 타입",
       description:
@@ -173,6 +182,7 @@ const test: DecisionTestConfig = {
     {
       id: "yuja-tea",
       emoji: "🍯",
+      image: "/decision/cafe-recommend/yuja-tea.webp",
       title: "따뜻한 유자차파",
       subtitle: "몸도 마음도 녹이는 온기를 좋아하는 타입",
       description:
@@ -182,6 +192,7 @@ const test: DecisionTestConfig = {
     {
       id: "mango-smoothie",
       emoji: "🥭",
+      image: "/decision/cafe-recommend/mango-smoothie.webp",
       title: "상큼달콤 망고스무디파",
       subtitle: "건강하고 든든한 한 잔을 좋아하는 타입",
       description:
@@ -191,6 +202,7 @@ const test: DecisionTestConfig = {
     {
       id: "blueberry-smoothie",
       emoji: "🫐",
+      image: "/decision/cafe-recommend/blueberry-smoothie.webp",
       title: "새콤달콤 블루베리스무디파",
       subtitle: "상큼함과 건강 둘 다 챙기는 타입",
       description:
