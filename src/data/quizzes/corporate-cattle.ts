@@ -3,6 +3,7 @@ import type { QuizConfig } from "@/data/quiz-types";
 const quiz: QuizConfig = {
   id: "corporate-cattle",
   emoji: "🐮",
+  image: { src: "/quiz/corporate-cattle/cover.webp", aspect: "aspect-[468/640]" },
   title: "사축 지수 테스트",
   description:
     "나는 몇 년차 사축(회사+가축)일까? 6개 질문으로 알아보는 나의 직장인 절임 정도.",
@@ -82,6 +83,7 @@ const quiz: QuizConfig = {
     {
       id: "newbie",
       emoji: "🐥",
+      image: { src: "/quiz/corporate-cattle/newbie.webp", aspect: "aspect-[452/400]" },
       title: "아직 순수한 신입",
       subtitle: "사회생활에 아직 안 절여진 청정 구역",
       description:
@@ -91,6 +93,7 @@ const quiz: QuizConfig = {
     {
       id: "balanced",
       emoji: "😐",
+      image: { src: "/quiz/corporate-cattle/balanced.webp", aspect: "aspect-[444/400]" },
       title: "적당히 굴러가는 사원",
       subtitle: "일과 마음의 셔터를 적당히 내릴 줄 아는 타입",
       description:
@@ -100,6 +103,7 @@ const quiz: QuizConfig = {
     {
       id: "burned",
       emoji: "🥵",
+      image: { src: "/quiz/corporate-cattle/burned.webp", aspect: "aspect-[509/400]" },
       title: "번아웃 직전 사축",
       subtitle: "몸은 자리에, 마음은 이미 퇴사 절차 진행 중",
       description:
@@ -109,6 +113,7 @@ const quiz: QuizConfig = {
     {
       id: "ultimate",
       emoji: "🐮",
+      image: { src: "/quiz/corporate-cattle/ultimate.webp", aspect: "aspect-[514/400]" },
       title: "이미 완전체 사축",
       subtitle: "회사보다 회사 생각을 더 많이 하는 경지",
       description:
