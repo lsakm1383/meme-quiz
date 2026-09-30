@@ -3,6 +3,7 @@ import type { QuizConfig } from "@/data/quiz-types";
 const quiz: QuizConfig = {
   id: "flower-type",
   emoji: "🌷",
+  image: { src: "/quiz/flower-type/cover.webp", aspect: "aspect-[508/295]", wide: true },
   title: "나의 꽃 유형 테스트",
   description: "나는 어떤 꽃에 가까울까? 6개 질문으로 알아보는 나의 꽃 페르소나.",
   accentColor: "#ec4899",
@@ -78,6 +79,7 @@ const quiz: QuizConfig = {
     {
       id: "rose",
       emoji: "🌹",
+      image: { src: "/quiz/flower-type/rose.webp", aspect: "aspect-[508/279]", wide: true },
       title: "열정적인 장미형",
       subtitle: "존재감 확실한, 화려함의 대명사",
       description:
@@ -87,6 +89,7 @@ const quiz: QuizConfig = {
     {
       id: "sunflower",
       emoji: "🌻",
+      image: { src: "/quiz/flower-type/sunflower.webp", aspect: "aspect-[508/279]", wide: true },
       title: "밝은 해바라기형",
       subtitle: "긍정 에너지 뿜뿜, 분위기 메이커",
       description:
@@ -96,6 +99,7 @@ const quiz: QuizConfig = {
     {
       id: "cherry-blossom",
       emoji: "🌸",
+      image: { src: "/quiz/flower-type/cherry-blossom.webp", aspect: "aspect-[508/280]", wide: true },
       title: "몽글몽글 벚꽃형",
       subtitle: "짧고 강렬한 임팩트, 트렌디한 감성",
       description:
@@ -105,6 +109,7 @@ const quiz: QuizConfig = {
     {
       id: "lavender",
       emoji: "🪻",
+      image: { src: "/quiz/flower-type/lavender.webp", aspect: "aspect-[508/280]", wide: true },
       title: "차분한 라벤더형",
       subtitle: "잔잔하지만 오래가는 편안함",
       description:
@@ -114,6 +119,7 @@ const quiz: QuizConfig = {
     {
       id: "daisy",
       emoji: "🌼",
+      image: { src: "/quiz/flower-type/daisy.webp", aspect: "aspect-[508/280]", wide: true },
       title: "소탈한 데이지형",
       subtitle: "편안하고 부담 없는 존재",
       description:
