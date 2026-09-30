@@ -3,6 +3,7 @@ import type { QuizConfig } from "@/data/quiz-types";
 const quiz: QuizConfig = {
   id: "reply-speed",
   emoji: "💬",
+  image: { src: "/quiz/reply-speed/cover.webp", aspect: "aspect-[534/400]" },
   title: "카톡 답장 유형 테스트",
   description:
     "나는 카톡 답장이 얼마나 빠를까? 6개 질문으로 알아보는 나의 답장 스타일.",
@@ -73,6 +74,7 @@ const quiz: QuizConfig = {
     {
       id: "instant",
       emoji: "⚡",
+      image: { src: "/quiz/reply-speed/instant.webp", aspect: "aspect-[672/400]" },
       title: "초스피드 반사신경형",
       subtitle: "메시지 오자마자 답장 완료, 읽씹이 뭔가요",
       description:
@@ -82,6 +84,7 @@ const quiz: QuizConfig = {
     {
       id: "normal",
       emoji: "🙂",
+      image: { src: "/quiz/reply-speed/normal.webp", aspect: "aspect-[670/400]" },
       title: "적당한 텀 유지형",
       subtitle: "바쁘지 않으면 금방, 바쁘면 나중에",
       description:
@@ -91,6 +94,7 @@ const quiz: QuizConfig = {
     {
       id: "delayed",
       emoji: "🐢",
+      image: { src: "/quiz/reply-speed/delayed.webp", aspect: "aspect-[646/400]" },
       title: "정신 차리면 하루 지남형",
       subtitle: "읽었는데 깜빡하는 타입, 미워하지 말아주세요",
       description:
@@ -100,6 +104,7 @@ const quiz: QuizConfig = {
     {
       id: "ghost",
       emoji: "👻",
+      image: { src: "/quiz/reply-speed/ghost.webp", aspect: "aspect-[647/400]" },
       title: "전설의 읽씹러",
       subtitle: "1은 사라졌는데 답장은 실종 상태",
       description:
