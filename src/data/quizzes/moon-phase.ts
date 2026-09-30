@@ -3,6 +3,7 @@ import type { QuizConfig } from "@/data/quiz-types";
 const quiz: QuizConfig = {
   id: "moon-phase",
   emoji: "🌙",
+  image: { src: "/quiz/moon-phase/cover.webp", aspect: "aspect-[1040/341]", wide: true },
   title: "나의 달 모양 테스트",
   description:
     "지금 내 에너지는 어떤 달의 모양에 가까울까? 6개 질문으로 알아보는 나의 달 페르소나.",
@@ -79,6 +80,7 @@ const quiz: QuizConfig = {
     {
       id: "waxing-crescent",
       emoji: "🌒",
+      image: { src: "/quiz/moon-phase/waxing-crescent.webp", aspect: "aspect-[292/257]" },
       title: "시작하는 초승달형",
       subtitle: "새로운 도전이 반가운 타입",
       description:
@@ -88,6 +90,7 @@ const quiz: QuizConfig = {
     {
       id: "first-quarter",
       emoji: "🌓",
+      image: { src: "/quiz/moon-phase/first-quarter.webp", aspect: "aspect-[292/257]" },
       title: "성장하는 상현달형",
       subtitle: "꾸준히 쌓아가는 타입",
       description:
@@ -97,6 +100,7 @@ const quiz: QuizConfig = {
     {
       id: "full-moon",
       emoji: "🌕",
+      image: { src: "/quiz/moon-phase/full-moon.webp", aspect: "aspect-[293/257]" },
       title: "폭발하는 보름달형",
       subtitle: "에너지 최고조인 타입",
       description:
@@ -106,6 +110,7 @@ const quiz: QuizConfig = {
     {
       id: "last-quarter",
       emoji: "🌗",
+      image: { src: "/quiz/moon-phase/last-quarter.webp", aspect: "aspect-[292/257]" },
       title: "정리하는 하현달형",
       subtitle: "비워내고 다듬는 타입",
       description:
@@ -115,6 +120,7 @@ const quiz: QuizConfig = {
     {
       id: "new-moon",
       emoji: "🌑",
+      image: { src: "/quiz/moon-phase/new-moon.webp", aspect: "aspect-[292/257]" },
       title: "재충전하는 그믐달형",
       subtitle: "조용히 내면에 집중하는 타입",
       description:
