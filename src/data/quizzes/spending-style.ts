@@ -3,6 +3,7 @@ import type { QuizConfig } from "@/data/quiz-types";
 const quiz: QuizConfig = {
   id: "spending-style",
   emoji: "💸",
+  image: { src: "/quiz/spending-style/cover.webp", aspect: "aspect-[1200/536]", wide: true },
   title: "짠테크 vs 플렉스 지수 테스트",
   description:
     "나는 통장 지키는 짠테크파일까, 지르고 보는 플렉스파일까? 6개 질문으로 알아보는 나의 소비 유형.",
@@ -73,6 +74,7 @@ const quiz: QuizConfig = {
     {
       id: "saver",
       emoji: "🐷",
+      image: { src: "/quiz/spending-style/saver.webp", aspect: "aspect-[393/323]" },
       title: "극한의 짠테크러",
       subtitle: "통장 잔고가 곧 자존감인 타입",
       description:
@@ -82,6 +84,7 @@ const quiz: QuizConfig = {
     {
       id: "planner",
       emoji: "📊",
+      image: { src: "/quiz/spending-style/planner.webp", aspect: "aspect-[394/323]" },
       title: "계획형 소비러",
       subtitle: "쓸 땐 쓰고 모을 땐 모으는 전략가",
       description:
@@ -91,6 +94,7 @@ const quiz: QuizConfig = {
     {
       id: "balanced",
       emoji: "🛍️",
+      image: { src: "/quiz/spending-style/balanced.webp", aspect: "aspect-[394/323]" },
       title: "적당히 지르는 밸런스형",
       subtitle: "쓰고 나서 살짝 후회하지만 또 씀",
       description:
@@ -100,6 +104,7 @@ const quiz: QuizConfig = {
     {
       id: "flexer",
       emoji: "💳",
+      image: { src: "/quiz/spending-style/flexer.webp", aspect: "aspect-[392/323]" },
       title: "일단 지르고 보는 플렉스형",
       subtitle: "결제가 곧 스트레스 해소, 후회는 나중에",
       description:
