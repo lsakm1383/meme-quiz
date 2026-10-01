@@ -3,7 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import type { SajuTestConfig } from "@/data/saju";
-import { computeSaju, isSajuError, type CalendarType } from "@/lib/saju/engine";
+import { computeSaju, hasLeapMonth, isSajuError, type CalendarType } from "@/lib/saju/engine";
 import { saveSubmission } from "@/lib/saju/storage";
 import { PhotoIcon } from "@/components/PhotoIcon";
 
@@ -57,6 +57,9 @@ export function SajuForm({ test, guide }: { test: SajuTestConfig; guide?: ReactN
   const [gender, setGender] = useState<"female" | "male">("female");
   const [error, setError] = useState<string | null>(null);
 
+  // 음력 날짜는 기본적으로 평달로 보고, 그해 그 달에 윤달이 있을 때만 어느 쪽인지 물어본다.
+  const leapAvailable = calendar === "lunar" && hasLeapMonth(year, month);
+
   const days = Array.from({ length: calendar === "lunar" ? 30 : 31 }, (_, i) => i + 1);
 
   function submit() {
@@ -72,7 +75,7 @@ export function SajuForm({ test, guide }: { test: SajuTestConfig; guide?: ReactN
     }
     const input = {
       calendar,
-      leapMonth: calendar === "lunar" && leapMonth,
+      leapMonth: leapAvailable && leapMonth,
       year,
       month,
       day,
@@ -112,7 +115,6 @@ export function SajuForm({ test, guide }: { test: SajuTestConfig; guide?: ReactN
             value={calendar}
             onChange={(value) => {
               setCalendar(value);
-              if (value === "solar") setLeapMonth(false);
               if (value === "lunar" && day > 30) setDay(30);
             }}
             options={[
@@ -121,17 +123,6 @@ export function SajuForm({ test, guide }: { test: SajuTestConfig; guide?: ReactN
             ]}
             accentColor={test.accentColor}
           />
-          {calendar === "lunar" && (
-            <label className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-              <input
-                type="checkbox"
-                checked={leapMonth}
-                onChange={(event) => setLeapMonth(event.target.checked)}
-                className="h-4 w-4"
-              />
-              윤달이에요
-            </label>
-          )}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -175,6 +166,23 @@ export function SajuForm({ test, guide }: { test: SajuTestConfig; guide?: ReactN
             </select>
           </div>
         </div>
+
+        {leapAvailable && (
+          <div className="flex flex-col gap-2 rounded-2xl bg-violet-50 p-3 dark:bg-violet-950">
+            <span className="text-sm font-bold">
+              {year}년에는 윤{month}월이 있어요. 윤달에 태어나셨나요?
+            </span>
+            <Toggle
+              value={leapMonth ? "leap" : "normal"}
+              onChange={(value) => setLeapMonth(value === "leap")}
+              options={[
+                { value: "normal", label: `평달 ${month}월` },
+                { value: "leap", label: `윤${month}월` },
+              ]}
+              accentColor={test.accentColor}
+            />
+          </div>
+        )}
 
         <div className="flex flex-col gap-2">
           <span className="text-sm font-bold">태어난 시간</span>

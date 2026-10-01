@@ -143,21 +143,35 @@ function isValidSolarDate(y: number, m: number, d: number): boolean {
   return date.getUTCFullYear() === y && date.getUTCMonth() === m - 1 && date.getUTCDate() === d;
 }
 
+/**
+ * 그 음력 해의 해당 달에 윤달이 있는지 — 있을 때만 "윤달에 태어났는지" 물어본다.
+ * (예: 2023년은 2월 다음에 윤2월이 있어 같은 "음력 2월 1일"이 두 날짜가 될 수 있다)
+ */
+export function hasLeapMonth(year: number, month: number): boolean {
+  const calendar = new KoreanLunarCalendar();
+  if (!calendar.setLunarDate(year, month, 1, true)) return false;
+  const solar = calendar.getSolarCalendar();
+  const back = new KoreanLunarCalendar();
+  back.setSolarDate(solar.year, solar.month, solar.day);
+  const lunar = back.getLunarCalendar();
+  return !!lunar.intercalation && lunar.month === month;
+}
+
 export function computeSaju(input: BirthInput): SajuChart | SajuError {
   let { year, month, day } = input;
 
   if (input.calendar === "lunar") {
     const calendar = new KoreanLunarCalendar();
     if (!calendar.setLunarDate(year, month, day, input.leapMonth)) {
-      return { error: "존재하지 않는 음력 날짜예요. 날짜나 윤달 여부를 확인해주세요." };
+      return { error: "존재하지 않는 음력 날짜예요. 날짜를 다시 확인해주세요." };
     }
     const solar = calendar.getSolarCalendar();
-    // 윤달이 없는 달에 윤달을 체크하면 라이브러리가 평달로 바꿔버리므로 직접 확인한다.
+    // 윤달이 없는 달을 윤달로 넣으면 라이브러리가 평달로 바꿔버리므로 직접 확인한다.
     const back = new KoreanLunarCalendar();
     back.setSolarDate(solar.year, solar.month, solar.day);
     const lunar = back.getLunarCalendar();
     if (!!lunar.intercalation !== input.leapMonth || lunar.month !== month || lunar.day !== day) {
-      return { error: "존재하지 않는 음력 날짜예요. 날짜나 윤달 여부를 확인해주세요." };
+      return { error: "존재하지 않는 음력 날짜예요. 날짜를 다시 확인해주세요." };
     }
     ({ year, month, day } = solar);
   } else if (!isValidSolarDate(year, month, day)) {
