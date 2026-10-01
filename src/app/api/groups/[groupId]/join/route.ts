@@ -11,6 +11,8 @@ import {
   type GroupMember,
 } from "@/lib/groups";
 import { getMbtiTest, getMbtiProfileByCode } from "@/data/mbti";
+import { getSajuTest, getDayMaster } from "@/data/saju";
+import { isValidScores, type FortuneScores } from "@/lib/saju/fortune";
 
 export async function POST(
   request: Request,
@@ -41,8 +43,21 @@ export async function POST(
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }
 
-  const test = getMbtiTest(parsed.meta.testId);
-  if (!test || !getMbtiProfileByCode(test, code)) {
+  // 성격 유형 그룹은 유형 코드를, 사주 운세 그룹은 일간 슬러그와 운세 점수를 받는다.
+  // 사주 점수는 생년월일을 서버로 보내지 않으려고 기기에서 계산해 보내므로 범위만 검사한다.
+  let scores: FortuneScores | undefined;
+  const mbtiTest = getMbtiTest(parsed.meta.testId);
+  if (mbtiTest) {
+    if (!getMbtiProfileByCode(mbtiTest, code)) {
+      return NextResponse.json({ error: "invalid request" }, { status: 400 });
+    }
+  } else if (getSajuTest(parsed.meta.testId)?.kind === "fortune") {
+    if (!getDayMaster(code) || !isValidScores(body?.scores)) {
+      return NextResponse.json({ error: "invalid request" }, { status: 400 });
+    }
+    const raw = body.scores as FortuneScores;
+    scores = { wealth: raw.wealth, love: raw.love, marriage: raw.marriage, career: raw.career };
+  } else {
     return NextResponse.json({ error: "invalid request" }, { status: 400 });
   }
 
@@ -55,6 +70,7 @@ export async function POST(
     id: memberId,
     nickname: nickname.trim(),
     code,
+    ...(scores ? { scores } : {}),
     joinedAt: Date.now(),
   };
   await redis.hset(key, { [memberField(memberId)]: member });

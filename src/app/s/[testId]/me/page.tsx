@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { sajuTests, getSajuTest } from "@/data/saju";
 import { SajuResult } from "@/components/saju/SajuResult";
+import { FortuneResult } from "@/components/saju/FortuneResult";
 
 export function generateStaticParams() {
   return sajuTests.map((test) => ({ testId: test.id }));
@@ -29,7 +30,7 @@ export default async function SajuResultPage({ params }: { params: Promise<{ tes
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center px-6 py-16">
-      <SajuResult test={test} />
+      {test.kind === "fortune" ? <FortuneResult test={test} /> : <SajuResult test={test} />}
     </div>
   );
 }

@@ -9,7 +9,9 @@ import { DayMasterIcon } from "@/components/saju/DayMasterIcon";
 type Params = { testId: string; slug: string };
 
 export function generateStaticParams() {
-  return sajuTests.flatMap((test) => dayMasters.map((profile) => ({ testId: test.id, slug: profile.slug })));
+  return sajuTests
+    .filter((test) => test.kind === "chart")
+    .flatMap((test) => dayMasters.map((profile) => ({ testId: test.id, slug: profile.slug })));
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
@@ -35,7 +37,7 @@ export default async function SajuTypePage({ params }: { params: Promise<Params>
   const { testId, slug } = await params;
   const test = getSajuTest(testId);
   const profile = getDayMaster(slug);
-  if (!test || !profile) notFound();
+  if (!test || test.kind !== "chart" || !profile) notFound();
 
   const stem = STEMS.find((item) => item.slug === profile.slug)!;
   const element = getElement(stem.element);

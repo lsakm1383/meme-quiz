@@ -14,7 +14,9 @@ const notoBold = readFile(join(process.cwd(), "assets/fonts/NotoSansKR-Bold.ttf"
 const notoRegular = readFile(join(process.cwd(), "assets/fonts/NotoSansKR-Regular.ttf"));
 
 export function generateStaticParams() {
-  return sajuTests.flatMap((test) => dayMasters.map((profile) => ({ testId: test.id, slug: profile.slug })));
+  return sajuTests
+    .filter((test) => test.kind === "chart")
+    .flatMap((test) => dayMasters.map((profile) => ({ testId: test.id, slug: profile.slug })));
 }
 
 // 사토리는 색깔 이모지를 못 그리므로 Twemoji SVG를 코드포인트로 가져와 <img>로 그린다.

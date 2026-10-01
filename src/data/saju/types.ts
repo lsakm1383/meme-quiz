@@ -45,3 +45,17 @@ export type ElementProfile = {
   /** 단계별 성향 풀이 2~3문장 */
   levels: Record<ElementLevel, string>;
 };
+
+/** 그룹 운세(재물운·연애운·결혼운·직업운) 해석 */
+export type FortuneProfile = {
+  key: "wealth" | "love" | "marriage" | "career";
+  /** 예: "재물운" */
+  name: string;
+  emoji: string;
+  /** 순위표·막대 색 */
+  color: string;
+  /** 이 운세가 원국의 무엇을 보고 점수를 매기는지 1~2문장 */
+  basis: string;
+  /** 점수 구간별 별칭과 풀이 — min 이상이면 해당. 높은 구간부터 5개 */
+  tiers: { min: number; title: string; text: string }[];
+};

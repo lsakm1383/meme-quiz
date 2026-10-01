@@ -6,7 +6,10 @@
 export type GroupMember = {
   id: string;
   nickname: string;
+  /** 성격 유형 그룹은 유형 코드, 사주 운세 그룹은 일간 슬러그 */
   code: string;
+  /** 사주 운세 그룹만 — 운세별 점수 (생년월일·원국은 저장하지 않는다) */
+  scores?: Record<string, number>;
   joinedAt: number;
 };
 

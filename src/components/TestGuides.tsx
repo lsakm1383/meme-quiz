@@ -132,6 +132,13 @@ export function SajuGuide({ test }: { test: SajuTestConfig }) {
   );
 }
 
+// 그룹 운세는 고정된 결과 목록 대신 점수 규칙 설명이 중심이라 결과 목록 없이 보여준다.
+export function FortuneGuide({ test }: { test: SajuTestConfig }) {
+  const guide = getGuide(`s/${test.id}`);
+  if (!guide) return null;
+  return <ContentGuide guide={guide} accentColor={test.accentColor} />;
+}
+
 // 체크리스트는 결과가 없으므로 결과 목록 없이 준비 가이드만 보여준다.
 export function ChecklistGuide({ checklist }: { checklist: ChecklistConfig }) {
   const guide = getGuide(`l/${checklist.id}`);

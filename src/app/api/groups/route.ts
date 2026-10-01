@@ -4,6 +4,7 @@ import { getClientIp, isGroupRateLimited } from "@/lib/rate-limit";
 import { generateShortId } from "@/lib/id";
 import { groupKey, isValidTitle, type GroupMeta } from "@/lib/groups";
 import { getMbtiTest } from "@/data/mbti";
+import { getSajuTest } from "@/data/saju";
 
 export async function POST(request: Request) {
   if (await isGroupRateLimited(getClientIp(request))) {
@@ -14,7 +15,9 @@ export async function POST(request: Request) {
   const title = body?.title;
   const testId = body?.testId;
 
-  if (!isValidTitle(title) || typeof testId !== "string" || !getMbtiTest(testId)) {
+  if (!isValidTitle(title) ||
+    typeof testId !== "string" ||
+    !(getMbtiTest(testId) || getSajuTest(testId)?.kind === "fortune")) {
     return NextResponse.json({ error: "invalid request" }, { status: 400 });
   }
 

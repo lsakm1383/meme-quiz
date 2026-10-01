@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { sajuTests, getSajuTest } from "@/data/saju";
 import { SajuForm } from "@/components/saju/SajuForm";
-import { SajuGuide } from "@/components/TestGuides";
+import { FortuneStart } from "@/components/saju/FortuneStart";
+import { SajuGuide, FortuneGuide } from "@/components/TestGuides";
 import { getSiteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -28,14 +29,25 @@ export async function generateMetadata({
   };
 }
 
-export default async function SajuTestPage({ params }: { params: Promise<{ testId: string }> }) {
+export default async function SajuTestPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ testId: string }>;
+  searchParams: Promise<{ group?: string }>;
+}) {
   const { testId } = await params;
+  const { group } = await searchParams;
   const test = getSajuTest(testId);
   if (!test) notFound();
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
-      <SajuForm test={test} guide={<SajuGuide test={test} />} />
+      {test.kind === "fortune" ? (
+        <FortuneStart test={test} initialGroupId={group} guide={<FortuneGuide test={test} />} />
+      ) : (
+        <SajuForm test={test} guide={<SajuGuide test={test} />} />
+      )}
     </div>
   );
 }

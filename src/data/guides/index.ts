@@ -21,6 +21,7 @@ import cMalatang from "@/data/guides/c-malatang";
 import lWedding from "@/data/guides/l-wedding";
 import lAppliances from "@/data/guides/l-appliances";
 import sSaju from "@/data/guides/s-saju";
+import sFortune from "@/data/guides/s-fortune";
 
 // 시작 페이지 경로(맨 앞 "/" 제외) → 소개글. 새 테스트를 추가하면 여기에도 등록한다.
 const guides: Record<string, ContentGuide> = {
@@ -46,6 +47,7 @@ const guides: Record<string, ContentGuide> = {
   "l/wedding": lWedding,
   "l/appliances": lAppliances,
   "s/saju": sSaju,
+  "s/fortune": sFortune,
 };
 
 export function getGuide(path: string): ContentGuide | undefined {
