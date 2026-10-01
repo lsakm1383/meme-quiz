@@ -6,6 +6,7 @@ import { toppingTests } from "@/data/toppings";
 import { decisionTests } from "@/data/decisions";
 import { checklists } from "@/data/checklists";
 import { mbtiTests } from "@/data/mbti";
+import { sajuTests } from "@/data/saju";
 
 // 결과 페이지(/r/)는 공유용이라 색인하지 않으므로, 홈·시작 페이지·체크리스트만 싣는다.
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -38,6 +39,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   for (const test of mbtiTests) {
     urls.push({ url: `${base}/m/${test.id}` });
+  }
+
+  for (const test of sajuTests) {
+    urls.push({ url: `${base}/s/${test.id}` });
   }
 
   return urls;

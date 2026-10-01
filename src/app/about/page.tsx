@@ -5,6 +5,7 @@ import { toppingTests } from "@/data/toppings";
 import { decisionTests } from "@/data/decisions";
 import { checklists } from "@/data/checklists";
 import { mbtiTests } from "@/data/mbti";
+import { sajuTests } from "@/data/saju";
 import { getSiteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -28,6 +29,12 @@ const categories = [
     description:
       "20개 질문으로 네 가지 성향을 살펴 16가지 유형 중 하나를 알려줘요. 친구들과 그룹을 만들어 서로의 관계도 볼 수 있어요.",
     links: mbtiTests.map((test) => ({ href: `/m/${test.id}`, emoji: test.emoji, title: test.title })),
+  },
+  {
+    title: "사주 시리즈",
+    description:
+      "생년월일과 태어난 시간으로 사주 여덟 글자를 세우고, 오행 분포와 타고난 성향을 풀어드리는 시리즈예요. 계산은 이용자의 기기 안에서만 이루어져요.",
+    links: sajuTests.map((test) => ({ href: `/s/${test.id}`, emoji: test.emoji, title: test.title })),
   },
   {
     title: "월드컵",

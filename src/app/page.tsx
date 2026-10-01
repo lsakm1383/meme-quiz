@@ -4,6 +4,7 @@ import { toppingTests } from "@/data/toppings";
 import { decisionTests } from "@/data/decisions";
 import { checklists } from "@/data/checklists";
 import { mbtiTests } from "@/data/mbti";
+import { sajuTests } from "@/data/saju";
 import { AdSlot } from "@/components/AdSlot";
 import { MbtiResultIcon } from "@/components/MbtiResultIcon";
 import { PhotoIcon } from "@/components/PhotoIcon";
@@ -76,6 +77,28 @@ export default function Home() {
             )}
             <span className="flex flex-col">
               <span className="text-base font-bold">{test.title}</span>
+              <span className="text-sm text-zinc-500">{test.description}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+
+      <div className="flex w-full flex-col gap-3">
+        <h2 className="text-sm font-bold text-zinc-400">사주 시리즈</h2>
+        {sajuTests.map((test) => (
+          <a
+            key={test.id}
+            href={`/s/${test.id}`}
+            className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
+          >
+            <span className="text-4xl">{test.emoji}</span>
+            <span className="flex flex-col">
+              <span className="text-base font-bold">
+                {test.title}{" "}
+                <span className="text-xs font-semibold" style={{ color: test.accentColor }}>
+                  {test.episode}
+                </span>
+              </span>
               <span className="text-sm text-zinc-500">{test.description}</span>
             </span>
           </a>

@@ -14,7 +14,7 @@ export function ResultStats({
   items,
   accentColor,
 }: {
-  kind: "quiz" | "tournament" | "decision" | "mbti";
+  kind: "quiz" | "tournament" | "decision" | "mbti" | "saju";
   groupId: string;
   resultId: string;
   items: StatItem[];

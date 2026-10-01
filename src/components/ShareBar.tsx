@@ -6,16 +6,19 @@ export function ShareBar({
   title,
   text,
   accentColor,
+  path,
 }: {
   title: string;
   text: string;
   accentColor: string;
+  /** 지금 주소 대신 공유할 경로 (예: 개인 정보가 담긴 화면에서 유형 페이지를 공유할 때) */
+  path?: string;
 }) {
   const [copied, setCopied] = useState(false);
 
   async function handleShare() {
     // 배포 도메인(NEXT_PUBLIC_SITE_URL) 설정과 무관하게, 지금 보고 있는 실제 주소를 공유한다.
-    const url = window.location.href;
+    const url = path ? new URL(path, window.location.origin).href : window.location.href;
 
     if (navigator.share) {
       try {

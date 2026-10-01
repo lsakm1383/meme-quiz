@@ -4,6 +4,7 @@ import type { DecisionTestConfig } from "@/data/decision-types";
 import type { ToppingTestConfig } from "@/data/topping-types";
 import type { MbtiTestConfig } from "@/data/mbti-types";
 import type { ChecklistConfig } from "@/data/checklist-types";
+import { dayMasters, type SajuTestConfig } from "@/data/saju";
 import { getGuide } from "@/data/guides";
 import { TIERS } from "@/lib/topping-rarity";
 import { ContentGuide } from "@/components/ContentGuide";
@@ -104,6 +105,26 @@ export function DecisionGuide({ test }: { test: DecisionTestConfig }) {
         subtitle: result.subtitle,
         description: result.description,
         href: `/d/${test.id}/r/${result.id}`,
+      }))}
+    />
+  );
+}
+
+// 사주는 일간 10유형을 결과 목록으로 보여주고, 각 유형 소개 페이지로 연결한다.
+export function SajuGuide({ test }: { test: SajuTestConfig }) {
+  const guide = getGuide(`s/${test.id}`);
+  if (!guide) return null;
+  return (
+    <ContentGuide
+      guide={guide}
+      accentColor={test.accentColor}
+      items={dayMasters.map((profile) => ({
+        key: profile.slug,
+        icon: <span className="shrink-0 text-4xl">{profile.emoji}</span>,
+        title: `${profile.name} · ${profile.title}`,
+        subtitle: profile.subtitle,
+        description: profile.description,
+        href: `/s/${test.id}/t/${profile.slug}`,
       }))}
     />
   );

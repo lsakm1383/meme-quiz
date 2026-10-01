@@ -4,9 +4,10 @@ import { getQuiz, getResult } from "@/data/quizzes";
 import { getTournament, getCandidate } from "@/data/tournaments";
 import { getDecisionTest, getDecisionResult } from "@/data/decisions";
 import { getMbtiTest, getMbtiProfileBySlug } from "@/data/mbti";
+import { getSajuTest, getDayMaster } from "@/data/saju";
 import { getClientIp, isRateLimited } from "@/lib/rate-limit";
 
-type Kind = "quiz" | "tournament" | "decision" | "mbti";
+type Kind = "quiz" | "tournament" | "decision" | "mbti" | "saju";
 
 function isValidTarget(kind: string, groupId: string, resultId: string) {
   if (kind === "quiz") {
@@ -20,6 +21,10 @@ function isValidTarget(kind: string, groupId: string, resultId: string) {
   if (kind === "decision") {
     const test = getDecisionTest(groupId);
     return !!test && !!getDecisionResult(test, resultId);
+  }
+  if (kind === "saju") {
+    // 사주는 생년월일 대신 일간 유형(천간 슬러그)만 집계한다.
+    return !!getSajuTest(groupId) && !!getDayMaster(resultId);
   }
   if (kind === "mbti") {
     const test = getMbtiTest(groupId);
