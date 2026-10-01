@@ -97,7 +97,7 @@ export default function Home() {
               <span className="text-4xl">{test.emoji}</span>
             )}
             <span className="flex flex-col">
-              <span className="text-base font-bold">{test.title}</span>
+              <span className="text-base font-bold">{test.homeTitle ?? test.title}</span>
               <span className="text-sm text-zinc-500">{test.description}</span>
             </span>
           </a>
