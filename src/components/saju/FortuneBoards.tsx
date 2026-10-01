@@ -1,6 +1,7 @@
 import type { GroupMember } from "@/lib/groups";
 import { FORTUNE_KEYS, type FortuneKey, type FortuneScores } from "@/lib/saju/fortune";
 import { rankMembers } from "@/lib/saju/ranking";
+import { topPercent } from "@/lib/saju/percentile";
 import { getFortune, fortuneTier } from "@/data/saju";
 
 // 운세 카드(내 점수·별칭·풀이)와 그룹 순위표. 개인 결과·그룹 결과·그룹 페이지가 함께 쓴다.
@@ -89,6 +90,15 @@ export function FortuneCard({
         {myRank && members && (
           <span className="text-sm font-bold" style={{ color: fortune.color }}>
             {members.length}명 중 {myRank.rank}위
+          </span>
+        )}
+        {/* 그룹이 아니면 전체(가능한 모든 원국) 기준 백분위를 보여준다 */}
+        {!members && score !== undefined && (
+          <span
+            className="rounded-full px-2.5 py-1 text-xs font-bold text-white"
+            style={{ backgroundColor: fortune.color }}
+          >
+            전체 상위 {topPercent(fortuneKey, score)}%
           </span>
         )}
       </div>

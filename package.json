@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "saju:distribution": "npx -y tsx --tsconfig tsconfig.json scripts/build-fortune-distribution.ts"
   },
   "dependencies": {
     "@upstash/ratelimit": "^2.1.0",
