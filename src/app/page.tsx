@@ -125,7 +125,11 @@ export default function Home() {
             href={`/l/${checklist.id}`}
             className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
           >
-            <span className="text-4xl">{checklist.emoji}</span>
+            {checklist.image ? (
+              <PhotoIcon src={checklist.image} size="lg" />
+            ) : (
+              <span className="text-4xl">{checklist.emoji}</span>
+            )}
             <span className="flex flex-col">
               <span className="text-base font-bold">{checklist.title}</span>
               <span className="text-sm text-zinc-500">{checklist.description}</span>

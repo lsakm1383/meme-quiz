@@ -7,6 +7,7 @@ const checklist: ChecklistConfig = {
   description:
     "예식 준비부터 신혼여행까지, 빠뜨리기 쉬운 항목들을 하나씩 체크해보세요. 체크한 내용은 지금 쓰는 브라우저에만 저장돼요.",
   accentColor: "#db2777",
+  image: "/checklist/wedding/cover.webp",
   sections: [
     {
       id: "venue",

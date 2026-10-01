@@ -5,6 +5,7 @@ import type { ChecklistConfig } from "@/data/checklist-types";
 import { countChecklistItems } from "@/data/checklist-types";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
+import { PhotoIcon } from "@/components/PhotoIcon";
 
 export function ChecklistRunner({
   checklist,
@@ -64,7 +65,11 @@ export function ChecklistRunner({
       </div>
 
       <div className="flex flex-col items-center gap-3 text-center">
-        <div className="text-6xl">{checklist.emoji}</div>
+        {checklist.image ? (
+          <PhotoIcon src={checklist.image} size="xl" />
+        ) : (
+          <div className="text-6xl">{checklist.emoji}</div>
+        )}
         <h1 className="text-2xl font-bold leading-snug">{checklist.title}</h1>
         <p className="max-w-sm text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
           {checklist.description}

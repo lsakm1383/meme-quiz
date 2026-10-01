@@ -23,6 +23,8 @@ export type ChecklistConfig = {
   title: string;
   description: string;
   accentColor: string;
+  /** 홈 카드·체크리스트 화면·공유 미리보기용 대표 일러스트 (public 기준 경로, 정사각형에 가까운 그림). 없으면 emoji. */
+  image?: string;
   sections: ChecklistSection[];
 };
 

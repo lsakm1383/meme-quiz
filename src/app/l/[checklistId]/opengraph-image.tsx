@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import sharp from "sharp";
 import { checklists, getChecklist } from "@/data/checklists";
 import { countChecklistItems } from "@/data/checklist-types";
 
@@ -38,6 +39,13 @@ export default async function Image({
 
   const [bold, regular] = await Promise.all([notoBold, notoRegular]);
 
+  // 대표 일러스트가 있으면 이모지 대신 쓴다. 미리보기 렌더러(satori)가 webp를 못 읽어서 png로 변환한다.
+  const art = checklist?.image
+    ? `data:image/png;base64,${(
+        await sharp(join(process.cwd(), "public", checklist.image)).resize(176, 176, { fit: "cover" }).png().toBuffer()
+      ).toString("base64")}`
+    : null;
+
   return new ImageResponse(
     (
       <div
@@ -62,7 +70,10 @@ export default async function Image({
             background: checklist ? `${checklist.accentColor}1a` : "#e4e4e7",
           }}
         >
-          {checklist?.emoji ? (
+          {art ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={art} width={176} height={176} alt="" />
+          ) : checklist?.emoji ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={emojiImageUrl(checklist.emoji)} width={176} height={176} alt="" />
           ) : null}
