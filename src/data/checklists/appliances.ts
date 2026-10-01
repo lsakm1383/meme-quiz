@@ -7,6 +7,7 @@ const checklist: ChecklistConfig = {
   description:
     "신혼살림이든 자취든, 놓치기 쉬운 가전을 방·용도별로 체크해보세요. 체크한 내용은 지금 쓰는 브라우저에만 저장돼요.",
   accentColor: "#0891b2",
+  image: "/checklist/appliances/cover.webp",
   sections: [
     {
       id: "kitchen",
