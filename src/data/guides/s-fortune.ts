@@ -1,4 +1,4 @@
-// "우리 그룹 사주 운세 랭킹" (사주 시리즈) 시작 화면 소개글.
+// "사주 랭킹 확인하기" (사주 시리즈) 시작 화면 소개글.
 import type { ContentGuide } from "@/data/guide-types";
 
 const guide: ContentGuide = {

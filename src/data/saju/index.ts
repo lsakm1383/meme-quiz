@@ -12,8 +12,6 @@ export type SajuTestConfig = {
   kind: "chart" | "fortune";
   emoji: string;
   title: string;
-  /** 홈 카드에만 쓰는 제목. 없으면 title */
-  homeTitle?: string;
   description: string;
   accentColor: string;
   /** 홈 카드·시작 화면용 대표 일러스트 (public 기준 경로, 정사각형). 없으면 emoji. */
@@ -35,8 +33,7 @@ export const sajuTests: SajuTestConfig[] = [
     id: "fortune",
     kind: "fortune",
     emoji: "🏆",
-    title: "우리 그룹 사주 운세 랭킹",
-    homeTitle: "사주 랭킹 확인하기",
+    title: "사주 랭킹 확인하기",
     description:
       "사주 원국으로 재물운·연애운·결혼운·직업운 점수를 매겨요. 친구들과 그룹을 만들면 운세별 순위를 한눈에 비교할 수 있어요.",
     accentColor: "#b45309",
