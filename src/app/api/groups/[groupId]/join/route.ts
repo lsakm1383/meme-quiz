@@ -12,7 +12,7 @@ import {
 } from "@/lib/groups";
 import { getMbtiTest, getMbtiProfileByCode } from "@/data/mbti";
 import { getSajuTest, getDayMaster } from "@/data/saju";
-import { isValidScores, type FortuneScores } from "@/lib/saju/fortune";
+import { FORTUNE_KEYS, isValidScores, type FortuneScores } from "@/lib/saju/fortune";
 
 export async function POST(
   request: Request,
@@ -56,7 +56,8 @@ export async function POST(
       return NextResponse.json({ error: "invalid request" }, { status: 400 });
     }
     const raw = body.scores as FortuneScores;
-    scores = { wealth: raw.wealth, love: raw.love, marriage: raw.marriage, career: raw.career };
+    // 알려진 운세 키만 골라 저장한다 (다른 필드가 섞여 들어오지 않게)
+    scores = Object.fromEntries(FORTUNE_KEYS.map((key) => [key, raw[key]])) as FortuneScores;
   } else {
     return NextResponse.json({ error: "invalid request" }, { status: 400 });
   }

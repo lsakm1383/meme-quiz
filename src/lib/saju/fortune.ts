@@ -10,8 +10,29 @@ import type { ElementKey } from "@/data/saju/types";
 //   관성(나를 극하는 오행) · 인성(나를 생하는 오행)
 // 자리마다 무게가 다르다. 계절을 정하는 월지가 가장 크고, 배우자 자리인 일지가 그다음이다.
 
-export type FortuneKey = "wealth" | "love" | "marriage" | "career";
-export const FORTUNE_KEYS: FortuneKey[] = ["wealth", "love", "marriage", "career"];
+export type FortuneKey =
+  | "wealth"
+  | "love"
+  | "marriage"
+  | "career"
+  | "popularity"
+  | "helper"
+  | "travel"
+  | "study"
+  | "honor"
+  | "relationship";
+export const FORTUNE_KEYS: FortuneKey[] = [
+  "wealth",
+  "love",
+  "marriage",
+  "career",
+  "popularity",
+  "helper",
+  "travel",
+  "study",
+  "honor",
+  "relationship",
+];
 
 export type Gender = "female" | "male";
 
@@ -100,6 +121,21 @@ function clashes(a: number, b: number): boolean {
   return Math.abs(a - b) === 6;
 }
 
+/** 지지 육합(六合): 子丑·寅亥·卯戌·辰酉·巳申·午未 — 인덱스 합이 12로 나눠 1 남는 짝 */
+function combines(a: number, b: number): boolean {
+  return a !== b && (a + b) % 12 === 1;
+}
+
+/** 일간(천간 인덱스)별 신살 자리 (지지 인덱스: 子0 丑1 寅2 卯3 辰4 巳5 午6 未7 申8 酉9 戌10 亥11) */
+// 홍염살: 甲乙→午 丙→寅 丁→未 戊己→辰 庚→戌 辛→酉 壬→子 癸→申
+const RED_FLAME = [6, 6, 2, 7, 4, 4, 10, 9, 0, 8];
+// 천을귀인: 甲戊庚→丑未 乙己→子申 丙丁→亥酉 辛→寅午 壬癸→巳卯
+const NOBLE: number[][] = [[1, 7], [0, 8], [11, 9], [11, 9], [1, 7], [0, 8], [1, 7], [2, 6], [5, 3], [5, 3]];
+// 문창귀인: 甲→巳 乙→午 丙戊→申 丁己→酉 庚→亥 辛→子 壬→寅 癸→卯
+const LITERARY = [5, 6, 8, 9, 8, 9, 11, 0, 2, 3];
+/** 역마(驛馬): 寅申巳亥 */
+const TRAVELING_HORSE = new Set([2, 8, 5, 11]);
+
 // 운세마다 규칙에서 나오는 원점수의 분포가 달라서(결혼운은 좁고 직업운은 높게 몰림),
 // 무작위 생년월일 6,000개로 잰 평균·표준편차를 써서 모두 평균 62·표준편차 14로 맞춘다.
 // 고정 상수라서 같은 원국이면 항상 같은 점수가 나온다.
@@ -108,6 +144,13 @@ const RAW_STATS: Record<FortuneKey, { mean: number; sd: number }> = {
   love: { mean: 64.2, sd: 13.2 },
   marriage: { mean: 56.1, sd: 8.3 },
   career: { mean: 69.8, sd: 11.6 },
+  // 아래 여섯 운세는 1930년~현재 모든 날짜 × 12시진 × 성별 2로 잰 값 (기존 네 운세 상수는 그대로 둔다)
+  popularity: { mean: 63.2, sd: 10.6 },
+  helper: { mean: 60.3, sd: 11.2 },
+  travel: { mean: 61.1, sd: 10.8 },
+  study: { mean: 61.3, sd: 11.1 },
+  honor: { mean: 55.7, sd: 11.0 },
+  relationship: { mean: 57.8, sd: 9.2 },
 };
 
 function normalize(key: FortuneKey, raw: number): number {
@@ -118,7 +161,8 @@ function normalize(key: FortuneKey, raw: number): number {
 
 export type FortuneScores = Record<FortuneKey, number>;
 
-export function computeFortunes(chart: SajuChart, gender: Gender): FortuneScores {
+/** 정규화 전 원점수 — 분포 상수(RAW_STATS)를 다시 잴 때만 직접 쓴다 */
+export function computeRawFortunes(chart: SajuChart, gender: Gender): FortuneScores {
   const slots = slotsOf(chart);
   const total = slots.reduce((sum, slot) => sum + slot.weight, 0);
   // 시간을 모르면 글자가 적으니 비율로 맞춘다 (8글자 기준 총 무게 ≈ 7.3)
@@ -171,12 +215,77 @@ export function computeFortunes(chart: SajuChart, gender: Gender): FortuneScores
   if (officer > 0) careerScore += strong ? 5 : officer > 2.5 ? -6 : 0;
   if (officer === 0 && output > 1) careerScore += 4; // 조직보다 기술·창작형
 
-  return {
-    wealth: normalize("wealth", wealthScore),
-    love: normalize("love", loveScore),
-    marriage: normalize("marriage", marriageScore),
-    career: normalize("career", careerScore),
+  const dayStem = chart.day.stem;
+  const branches = [chart.year.branch, chart.month.branch, chart.day.branch];
+  if (chart.hour) branches.push(chart.hour.branch);
+  const branchScale = 4 / branches.length; // 시간을 모르면 지지 3개 → 4개 기준으로 맞춘다
+  const pairs: [number, number][] = [];
+  for (let i = 0; i < branches.length; i++)
+    for (let j = i + 1; j < branches.length; j++) pairs.push([branches[i], branches[j]]);
+  const clashCount = pairs.filter(([a, b]) => clashes(a, b)).length;
+  const combineCount = pairs.filter(([a, b]) => combines(a, b)).length;
+  const countIn = (targets: number[] | Set<number>) => {
+    const set = targets instanceof Set ? targets : new Set(targets);
+    return branches.filter((branch) => set.has(branch)).length * branchScale;
   };
+  const inPillar = (targets: number[] | Set<number>, branch: number) =>
+    (targets instanceof Set ? targets : new Set(targets)).has(branch);
+
+  // 인기운: 도화(子午卯酉)·홍염살이 사람을 끌고, 식상(표현력)이 그 매력을 드러낸다.
+  let popularityScore = 40 + Math.min(peach * branchScale, 3) * 8 + Math.min(output, 2.5) * 6;
+  if (countIn([RED_FLAME[dayStem]]) > 0) popularityScore += 9;
+  if (peer > 0.5 && peer < 2.5) popularityScore += 3; // 어울리는 또래(비겁)가 적당히 있음
+
+  // 귀인운: 일간별 천을귀인이 원국에 있는지(월지·일지면 더 크게), 나를 돕는 인성이 있는지.
+  const noble = NOBLE[dayStem];
+  let helperScore = 42 + Math.min(countIn(noble), 2) * 12 + Math.min(resource, 2.5) * 6;
+  if (inPillar(noble, chart.month.branch) || inPillar(noble, chart.day.branch)) helperScore += 6;
+  if (resource > 0 && officer > 0) helperScore += 4; // 관인상생 — 윗사람의 도움
+
+  // 이동운: 역마(寅申巳亥)와 지지끼리 부딪히는 충(沖)이 많을수록 움직임이 많다. 식상은 활동성.
+  let travelScore = 40 + Math.min(countIn(TRAVELING_HORSE), 3) * 9 + Math.min(clashCount, 2) * 7;
+  travelScore += Math.min(output, 2) * 3;
+  if (inPillar(TRAVELING_HORSE, chart.day.branch) || inPillar(TRAVELING_HORSE, chart.month.branch)) travelScore += 4;
+
+  // 학업운: 인성(배움)·문창귀인(글재주)이 중심, 관인상생이면 더하고 재성이 인성을 누르면(재극인) 뺀다.
+  let studyScore = 40 + Math.min(resource, 2.5) * 9 + Math.min(countIn([LITERARY[dayStem]]), 1.5) * 10;
+  if (resource > 0 && officer > 0) studyScore += 7;
+  studyScore += Math.min(w("output", (slot) => !slot.direct), 1.5) * 4; // 식신 — 파고드는 탐구심
+  if (wealth > 2.5 && resource > 0) studyScore -= 6;
+
+  // 명예운: 관성 중에서도 정관, 월지의 관성, 관인상생, 관성을 감당할 힘(신강)을 본다. 상관이 많으면 감점.
+  const directOfficer = w("officer", (slot) => slot.direct);
+  let honorScore = 40 + Math.min(directOfficer, 2) * 10 + Math.min(officer - directOfficer, 2) * 5;
+  if (slots.some((slot) => slot.position === "monthBranch" && slot.group === "officer")) honorScore += 7;
+  if (officer > 0 && resource > 0) honorScore += 6;
+  if (officer > 0 && strong) honorScore += 4;
+  if (w("output", (slot) => slot.direct) > 2 && officer > 0) honorScore -= 6; // 상관견관
+
+  // 인간관계운: 지지 육합이 많으면 어울림, 충이 많으면 부딪힘. 비겁은 적당할 때, 식상은 소통.
+  let relationshipScore = 46 + Math.min(combineCount, 2) * 9 - Math.min(clashCount, 2) * 6;
+  relationshipScore += Math.min(output, 2) * 4 + Math.min(resource, 2) * 2;
+  if (peer > 0.5 && peer <= 2.5) relationshipScore += 6;
+  else if (peer > 3) relationshipScore -= 5; // 비겁 과다 — 경쟁
+
+  return {
+    wealth: wealthScore,
+    love: loveScore,
+    marriage: marriageScore,
+    career: careerScore,
+    popularity: popularityScore,
+    helper: helperScore,
+    travel: travelScore,
+    study: studyScore,
+    honor: honorScore,
+    relationship: relationshipScore,
+  };
+}
+
+export function computeFortunes(chart: SajuChart, gender: Gender): FortuneScores {
+  const raw = computeRawFortunes(chart, gender);
+  return Object.fromEntries(
+    FORTUNE_KEYS.map((key) => [key, normalize(key, raw[key])])
+  ) as FortuneScores;
 }
 
 export function isValidScores(value: unknown): value is FortuneScores {

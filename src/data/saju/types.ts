@@ -1,3 +1,5 @@
+import type { FortuneKey } from "@/lib/saju/fortune";
+
 // 사주 시리즈 해석 문구용 타입. 명식 계산은 src/lib/saju 에서 하고,
 // 여기 데이터는 계산 결과(일간·오행 분포)에 맞춰 골라 보여줄 미리 쓴 풀이다.
 
@@ -46,9 +48,9 @@ export type ElementProfile = {
   levels: Record<ElementLevel, string>;
 };
 
-/** 그룹 운세(재물운·연애운·결혼운·직업운) 해석 */
+/** 그룹 운세(재물운·연애운 등 10가지) 해석 */
 export type FortuneProfile = {
-  key: "wealth" | "love" | "marriage" | "career";
+  key: FortuneKey;
   /** 예: "재물운" */
   name: string;
   emoji: string;

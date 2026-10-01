@@ -35,7 +35,7 @@ export const sajuTests: SajuTestConfig[] = [
     emoji: "🏆",
     title: "사주 랭킹 확인하기",
     description:
-      "사주 원국으로 재물운·연애운·결혼운·직업운 점수를 매겨요. 친구들과 그룹을 만들면 운세별 순위를 한눈에 비교할 수 있어요.",
+      "사주 원국으로 재물운·연애운·인기운·귀인운 등 10가지 운세 점수를 매겨요. 친구들과 그룹을 만들면 운세별 순위를 한눈에 비교할 수 있어요.",
     accentColor: "#b45309",
     image: "/saju/fortune-cover.webp",
   },

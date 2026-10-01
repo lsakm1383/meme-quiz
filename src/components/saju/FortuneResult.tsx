@@ -8,7 +8,7 @@ import { computeFortunes, type FortuneScores } from "@/lib/saju/fortune";
 import { STEMS } from "@/lib/saju/constants";
 import { loadSubmission } from "@/lib/saju/storage";
 import type { GroupMember } from "@/lib/groups";
-import { FortuneCards } from "@/components/saju/FortuneBoards";
+import { FortuneCards, FortuneSummary } from "@/components/saju/FortuneBoards";
 import { PhotoIcon } from "@/components/PhotoIcon";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
@@ -111,13 +111,15 @@ export function FortuneResult({ test }: { test: SajuTestConfig }) {
         </p>
       )}
 
+      <FortuneSummary scores={scores} members={group?.members} highlightId={group?.me} />
+
       <FortuneCards scores={scores} members={group?.members} highlightId={group?.me} />
 
       {group ? (
         <>
           <ShareBar
             title={`🏆 "${group.title}" 사주 운세 랭킹`}
-            text={`"${group.title}" 그룹 사주 운세 순위가 나왔어! 재물운·연애운·결혼운·직업운 1등은 누굴까?\n너도 참여해서 순위 확인해봐 👉`}
+            text={`"${group.title}" 그룹 사주 운세 순위가 나왔어! 재물운부터 인기운·귀인운까지 10가지 운세 1등은 누굴까?\n너도 참여해서 순위 확인해봐 👉`}
             accentColor={test.accentColor}
             path={`/s/${test.id}/g/${group.id}`}
           />
@@ -139,7 +141,7 @@ export function FortuneResult({ test }: { test: SajuTestConfig }) {
           </a>
           <ShareBar
             title={`🏆 ${test.title}`}
-            text={`사주로 재물운·연애운·결혼운·직업운 점수를 매겨봤어! 너는 몇 점일까? 👉`}
+            text={`사주로 재물운·연애운·인기운 등 10가지 운세 점수를 매겨봤어! 너는 몇 점일까? 👉`}
             accentColor={test.accentColor}
             path={`/s/${test.id}`}
           />

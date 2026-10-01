@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const test = getSajuTest(testId);
   if (!test) return {};
   const title = `🏆 우리 그룹 사주 운세 순위 | ${test.title}`;
-  const description = "재물운·연애운·결혼운·직업운, 우리 그룹 1등은 누구일까? 참여해서 순위를 확인해보세요.";
+  const description = "재물운·연애운·인기운·귀인운… 10가지 운세, 우리 그룹 1등은 누구일까? 참여해서 순위를 확인해보세요.";
   return {
     title,
     description,

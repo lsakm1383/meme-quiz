@@ -76,20 +76,22 @@ export function FortuneCard({
   const fortune = getFortune(fortuneKey);
   const score = scores?.[fortuneKey];
   const tier = score !== undefined ? fortuneTier(fortuneKey, score) : null;
-  const myRank =
-    members && highlightId
-      ? rankMembers(members, fortuneKey).find((entry) => entry.member.id === highlightId)
-      : undefined;
+  // 운세가 나중에 추가되면 예전 참여자에게는 그 점수가 없으므로, 점수가 있는 사람만 센다.
+  const ranked = members ? rankMembers(members, fortuneKey) : [];
+  const myRank = highlightId ? ranked.find((entry) => entry.member.id === highlightId) : undefined;
 
   return (
-    <section className="flex w-full flex-col gap-3 rounded-3xl border border-zinc-200 p-5 text-left dark:border-zinc-800">
+    <section
+      id={`fortune-${fortuneKey}`}
+      className="flex w-full scroll-mt-4 flex-col gap-3 rounded-3xl border border-zinc-200 p-5 text-left dark:border-zinc-800"
+    >
       <div className="flex items-center justify-between gap-3">
         <h2 className="text-lg font-bold">
           {fortune.emoji} {fortune.name}
         </h2>
-        {myRank && members && (
+        {myRank && (
           <span className="text-sm font-bold" style={{ color: fortune.color }}>
-            {members.length}명 중 {myRank.rank}위
+            {ranked.length}명 중 {myRank.rank}위
           </span>
         )}
         {/* 그룹이 아니면 전체(가능한 모든 원국) 기준 백분위를 보여준다 */}
@@ -125,6 +127,49 @@ export function FortuneCard({
 
       <p className="text-xs leading-relaxed text-zinc-400">{fortune.basis}</p>
     </section>
+  );
+}
+
+/** 결과 맨 위 요약 — 운세 10개의 점수와 순위(또는 전체 상위 %)를 한눈에, 누르면 해당 카드로 이동 */
+export function FortuneSummary({
+  scores,
+  members,
+  highlightId,
+}: {
+  scores: FortuneScores;
+  members?: GroupMember[];
+  highlightId?: string;
+}) {
+  return (
+    <div className="grid w-full grid-cols-2 gap-2">
+      {FORTUNE_KEYS.map((key) => {
+        const fortune = getFortune(key);
+        const score = scores[key];
+        const ranked = members ? rankMembers(members, key) : [];
+        const rank = highlightId ? ranked.find((entry) => entry.member.id === highlightId)?.rank : undefined;
+        return (
+          <a
+            key={key}
+            href={`#fortune-${key}`}
+            className="flex items-center gap-2 rounded-2xl px-3 py-2.5 text-left"
+            style={{ backgroundColor: `${fortune.color}1f` }}
+          >
+            <span className="text-lg">{fortune.emoji}</span>
+            <span className="flex min-w-0 flex-1 flex-col">
+              <span className="truncate text-xs font-bold text-zinc-600 dark:text-zinc-300">
+                {fortune.name}
+              </span>
+              <span className="text-[11px] text-zinc-500">
+                {members ? (rank ? `${ranked.length}명 중 ${rank}위` : "순위 없음") : `상위 ${topPercent(key, score)}%`}
+              </span>
+            </span>
+            <span className="text-base font-extrabold" style={{ color: fortune.color }}>
+              {score}
+            </span>
+          </a>
+        );
+      })}
+    </div>
   );
 }
 
