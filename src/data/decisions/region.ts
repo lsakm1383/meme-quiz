@@ -11,6 +11,8 @@ const test: DecisionTestConfig = {
   description:
     "선택지를 따라가면 나랑 잘 맞는 지역이 나와요. 도시냐 자연이냐 전통이냐부터, 각 지역 특징을 분석해서 반영한 진짜 고민 순서 그대로.",
   accentColor: "#0284c7",
+  image: "/decision/region/chungcheong.webp",
+  imageShape: { aspect: "aspect-[354/216]", wide: true },
   root: {
     id: "vibe",
     text: "어떤 곳에서 지낼 때 제일 나답게 느껴져요?",
@@ -72,6 +74,7 @@ const test: DecisionTestConfig = {
     {
       id: "seoul",
       emoji: "🏙️",
+      image: "/decision/region/seoul.webp",
       title: "서울",
       subtitle: "모든 게 다 있는 트렌드의 중심",
       description:
@@ -81,6 +84,7 @@ const test: DecisionTestConfig = {
     {
       id: "gyeonggi",
       emoji: "🚉",
+      image: "/decision/region/gyeonggi.webp",
       title: "경기도",
       subtitle: "서울과 가깝고 실속 있는 신도시",
       description:
@@ -90,6 +94,7 @@ const test: DecisionTestConfig = {
     {
       id: "incheon",
       emoji: "✈️",
+      image: "/decision/region/incheon.webp",
       title: "인천",
       subtitle: "국제공항과 항구가 있는 개방적인 도시",
       description:
@@ -99,6 +104,7 @@ const test: DecisionTestConfig = {
     {
       id: "busan",
       emoji: "🌊",
+      image: "/decision/region/busan.webp",
       title: "부산",
       subtitle: "바다와 도시, 축제가 있는 화끈한 곳",
       description:
@@ -108,6 +114,7 @@ const test: DecisionTestConfig = {
     {
       id: "gangwon",
       emoji: "⛰️",
+      image: "/decision/region/gangwon.webp",
       title: "강원도",
       subtitle: "산과 바다를 동시에 가진 청정 자연",
       description:
@@ -117,6 +124,7 @@ const test: DecisionTestConfig = {
     {
       id: "jeju",
       emoji: "🍊",
+      image: "/decision/region/jeju.webp",
       title: "제주도",
       subtitle: "이국적인 자연 속 자유로운 섬 생활",
       description:
@@ -126,6 +134,7 @@ const test: DecisionTestConfig = {
     {
       id: "chungcheong",
       emoji: "😌",
+      image: "/decision/region/chungcheong.webp",
       title: "충청도",
       subtitle: "느긋하고 무난한, 대한민국의 중심",
       description:
@@ -135,6 +144,7 @@ const test: DecisionTestConfig = {
     {
       id: "jeolla",
       emoji: "🍚",
+      image: "/decision/region/jeolla.webp",
       title: "전라도",
       subtitle: "미식과 예술이 살아있는 정 넘치는 남도",
       description:
@@ -144,6 +154,7 @@ const test: DecisionTestConfig = {
     {
       id: "gyeongbuk",
       emoji: "🏯",
+      image: "/decision/region/gyeongbuk.webp",
       title: "경상북도",
       subtitle: "천년 역사가 살아있는 전통의 고장",
       description:
@@ -153,6 +164,7 @@ const test: DecisionTestConfig = {
     {
       id: "daegu",
       emoji: "🔥",
+      image: "/decision/region/daegu.webp",
       title: "대구",
       subtitle: "뜨거운 여름만큼 씩씩하고 정 많은 도시",
       description:
@@ -162,6 +174,7 @@ const test: DecisionTestConfig = {
     {
       id: "gyeongnam",
       emoji: "⚓",
+      image: "/decision/region/gyeongnam.webp",
       title: "경상남도",
       subtitle: "바다와 산업이 공존하는 실속형 동네",
       description:
