@@ -6,6 +6,7 @@ const tournament: TournamentConfig = {
   title: "아이스크림 취향 월드컵",
   description: "32개 아이스크림 중 단 하나, 나의 최종 우승 아이스크림은? 1:1 대결로 끝까지 골라보세요.",
   accentColor: "#f472b6",
+  image: "/tournament/icecream-worldcup/cover.webp",
   candidates: [
     {
       id: "melona",
