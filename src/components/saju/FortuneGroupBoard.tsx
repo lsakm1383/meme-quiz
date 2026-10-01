@@ -77,6 +77,19 @@ export function FortuneGroupBoard({ test, groupId }: { test: SajuTestConfig; gro
         운세 점수는 사주 원국을 정해진 규칙으로 계산한 재미용 지표예요. 그룹 링크를 아는 사람은 누구나 이
         순위를 볼 수 있어요.
       </p>
+
+      <div className="flex items-center gap-4">
+        <a
+          href={`/s/${test.id}`}
+          className="text-sm font-semibold text-zinc-500 underline underline-offset-4"
+        >
+          다시 하기
+        </a>
+        <span className="text-zinc-300">·</span>
+        <a href="/" className="text-sm font-semibold text-zinc-500 underline underline-offset-4">
+          다른 테스트 살펴보기
+        </a>
+      </div>
     </div>
   );
 }
