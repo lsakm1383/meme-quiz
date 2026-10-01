@@ -15,6 +15,8 @@ export type DayMasterProfile = {
   /** 천간 한글 + 오행 (예: "갑목") */
   name: string;
   emoji: string;
+  /** 유형 일러스트 (public 기준 경로, 348x216 가로형). 없으면 emoji로 대체한다. */
+  image?: string;
   /** 유형 이름 (예: "곧게 뻗는 큰 나무") */
   title: string;
   /** 한 줄 요약 (카드·공유 문구) */

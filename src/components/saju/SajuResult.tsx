@@ -9,6 +9,7 @@ import { loadSubmission, type SajuSubmission } from "@/lib/saju/storage";
 import { PillarTable, ElementBars, pillarText } from "@/components/saju/SajuChartView";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
+import { DayMasterIcon } from "@/components/saju/DayMasterIcon";
 
 type State =
   | { status: "loading" }
@@ -110,7 +111,7 @@ export function SajuResult({ test }: { test: SajuTestConfig }) {
           나의 일간 · {profile.name}({stem.hanja}
           {dayElement.hanja})
         </p>
-        <div className="text-6xl">{profile.emoji}</div>
+        <DayMasterIcon profile={profile} />
         <h1 className="text-2xl font-extrabold text-zinc-900">{profile.title}</h1>
         <p className="text-base font-medium text-zinc-800">{profile.subtitle}</p>
       </div>

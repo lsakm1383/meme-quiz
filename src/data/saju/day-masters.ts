@@ -7,6 +7,7 @@ const dayMasters: DayMasterProfile[] = [
     hanja: "甲",
     name: "갑목",
     emoji: "🌳",
+    image: "/saju/day-master/gap.webp",
     title: "곧게 뻗는 큰 나무",
     subtitle: "한번 정한 길은 끝까지 가는 성장형 리더",
     description:
@@ -20,6 +21,7 @@ const dayMasters: DayMasterProfile[] = [
     hanja: "乙",
     name: "을목",
     emoji: "🌷",
+    image: "/saju/day-master/eul.webp",
     title: "어디서든 피어나는 꽃",
     subtitle: "부드럽게 휘어도 꺾이지 않는 적응력 장인",
     description:
@@ -33,6 +35,7 @@ const dayMasters: DayMasterProfile[] = [
     hanja: "丙",
     name: "병화",
     emoji: "☀️",
+    image: "/saju/day-master/byeong.webp",
     title: "모두를 비추는 태양",
     subtitle: "있는 곳마다 분위기를 환하게 켜는 사람",
     description:
@@ -46,6 +49,7 @@ const dayMasters: DayMasterProfile[] = [
     hanja: "丁",
     name: "정화",
     emoji: "🕯️",
+    image: "/saju/day-master/jeong.webp",
     title: "곁을 밝히는 등불",
     subtitle: "조용히 오래 타오르며 곁을 지키는 사람",
     description:
@@ -59,6 +63,7 @@ const dayMasters: DayMasterProfile[] = [
     hanja: "戊",
     name: "무토",
     emoji: "⛰️",
+    image: "/saju/day-master/mu.webp",
     title: "든든한 큰 산",
     subtitle: "흔들리지 않는 믿음직한 버팀목",
     description:
@@ -72,6 +77,7 @@ const dayMasters: DayMasterProfile[] = [
     hanja: "己",
     name: "기토",
     emoji: "🌱",
+    image: "/saju/day-master/gi.webp",
     title: "무엇이든 키우는 텃밭",
     subtitle: "사람과 일을 차곡차곡 길러내는 살림꾼",
     description:
@@ -85,6 +91,7 @@ const dayMasters: DayMasterProfile[] = [
     hanja: "庚",
     name: "경금",
     emoji: "⚙️",
+    image: "/saju/day-master/gyeong.webp",
     title: "곧고 단단한 무쇠",
     subtitle: "옳다고 믿는 일엔 망설임 없는 실행가",
     description:
@@ -98,6 +105,7 @@ const dayMasters: DayMasterProfile[] = [
     hanja: "辛",
     name: "신금",
     emoji: "💎",
+    image: "/saju/day-master/sin.webp",
     title: "섬세하게 빛나는 보석",
     subtitle: "작은 디테일까지 반짝이게 다듬는 완성가",
     description:
@@ -111,6 +119,7 @@ const dayMasters: DayMasterProfile[] = [
     hanja: "壬",
     name: "임수",
     emoji: "🌊",
+    image: "/saju/day-master/im.webp",
     title: "넓게 흐르는 큰 바다",
     subtitle: "큰 그림을 품고 자유롭게 흐르는 탐험가",
     description:
@@ -124,6 +133,7 @@ const dayMasters: DayMasterProfile[] = [
     hanja: "癸",
     name: "계수",
     emoji: "🌧️",
+    image: "/saju/day-master/gye.webp",
     title: "조용히 스며드는 단비",
     subtitle: "말없이 스며들어 마음을 적시는 공감러",
     description:

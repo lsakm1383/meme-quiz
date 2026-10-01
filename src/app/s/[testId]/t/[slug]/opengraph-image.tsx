@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import sharp from "sharp";
 import { sajuTests, getSajuTest, dayMasters, getDayMaster, getElement } from "@/data/saju";
 import { STEMS } from "@/lib/saju/constants";
 
@@ -33,6 +34,10 @@ export default async function Image({ params }: { params: Promise<{ testId: stri
   const element = stem && getElement(stem.element);
 
   const [bold, regular] = await Promise.all([notoBold, notoRegular]);
+  // 유형 일러스트가 있으면 이모지 대신 쓴다. 미리보기 렌더러(satori)가 webp를 못 읽어서 png로 변환한다.
+  const art = profile?.image
+    ? `data:image/png;base64,${(await sharp(join(process.cwd(), "public", profile.image)).png().toBuffer()).toString("base64")}`
+    : null;
 
   return new ImageResponse(
     (
@@ -63,7 +68,10 @@ export default async function Image({ params }: { params: Promise<{ testId: stri
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-            {profile ? (
+            {art ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={art} width={290} height={180} style={{ borderRadius: 24 }} alt="" />
+            ) : profile ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={emojiImageUrl(profile.emoji)} width={140} height={140} alt="" />
             ) : null}

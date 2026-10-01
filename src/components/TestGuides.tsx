@@ -12,6 +12,7 @@ import { MbtiResultIcon } from "@/components/MbtiResultIcon";
 import { TournamentIcon } from "@/components/TournamentIcon";
 import { DecisionResultIcon } from "@/components/DecisionResultIcon";
 import { PhotoIcon } from "@/components/PhotoIcon";
+import { DayMasterIcon } from "@/components/saju/DayMasterIcon";
 import { QuizIcon } from "@/components/QuizIcon";
 
 // 콘텐츠 유형별로 결과 목록을 ContentGuide 항목으로 바꿔 넘기는 얇은 래퍼들.
@@ -118,9 +119,10 @@ export function SajuGuide({ test }: { test: SajuTestConfig }) {
     <ContentGuide
       guide={guide}
       accentColor={test.accentColor}
+      layout="stack"
       items={dayMasters.map((profile) => ({
         key: profile.slug,
-        icon: <span className="shrink-0 text-4xl">{profile.emoji}</span>,
+        icon: <DayMasterIcon profile={profile} />,
         title: `${profile.name} · ${profile.title}`,
         subtitle: profile.subtitle,
         description: profile.description,

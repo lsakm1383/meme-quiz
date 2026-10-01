@@ -4,6 +4,7 @@ import { sajuTests, getSajuTest, dayMasters, getDayMaster, getElement } from "@/
 import { STEMS } from "@/lib/saju/constants";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
+import { DayMasterIcon } from "@/components/saju/DayMasterIcon";
 
 type Params = { testId: string; slug: string };
 
@@ -54,7 +55,7 @@ export default async function SajuTypePage({ params }: { params: Promise<Params>
             {profile.name}({stem.hanja}
             {element.hanja}) · {stem.yang ? "양" : "음"}의 {element.name}
           </p>
-          <div className="text-6xl">{profile.emoji}</div>
+          <DayMasterIcon profile={profile} />
           <h1 className="text-2xl font-extrabold text-zinc-900">{profile.title}</h1>
           <p className="text-base font-medium text-zinc-800">{profile.subtitle}</p>
         </div>
