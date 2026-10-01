@@ -7,6 +7,7 @@ const tournament: TournamentConfig = {
   description:
     "64개 라면 중 단 하나, 나의 최종 우승 라면은? 1:1 대결로 끝까지 골라보세요.",
   accentColor: "#0ea5e9",
+  image: "/tournament/ramen-worldcup/cover.webp",
   candidates: [
     {
       id: "shin",

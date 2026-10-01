@@ -20,6 +20,8 @@ export type TournamentConfig = {
   title: string;
   description: string;
   accentColor: string;
+  /** 홈 카드·시작 화면용 대표 일러스트 (public 기준 경로, 정사각형). 없으면 emoji로 대체한다. */
+  image?: string;
   /** 반드시 2의 거듭제곱 (8강이면 8개) */
   candidates: TournamentCandidate[];
 };

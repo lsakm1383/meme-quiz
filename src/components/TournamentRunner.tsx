@@ -8,6 +8,7 @@ import type {
 } from "@/data/tournament-types";
 import { TournamentIcon } from "@/components/TournamentIcon";
 import { RunnerNav } from "@/components/RunnerNav";
+import { PhotoIcon } from "@/components/PhotoIcon";
 
 type RoundState = {
   round: TournamentCandidate[];
@@ -77,7 +78,11 @@ export function TournamentRunner({
   if (!started) {
     return (
       <div className="flex flex-col items-center gap-6 text-center">
-        <div className="text-7xl">{tournament.emoji}</div>
+        {tournament.image ? (
+          <PhotoIcon src={tournament.image} size="xl" />
+        ) : (
+          <div className="text-7xl">{tournament.emoji}</div>
+        )}
         <h1 className="text-2xl font-bold leading-snug">{tournament.title}</h1>
         <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           {tournament.description}
