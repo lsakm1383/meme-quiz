@@ -1,4 +1,4 @@
-import type { DecisionResult } from "@/data/decision-types";
+import type { DecisionImageShape, DecisionResult } from "@/data/decision-types";
 import { PhotoIcon } from "@/components/PhotoIcon";
 
 type IconSize = "xl" | "lg" | "sm" | "xs";
@@ -12,11 +12,23 @@ const TEXT: Record<IconSize, string> = {
 
 export function DecisionResultIcon({
   result,
+  shape,
   size = "lg",
 }: {
   result: DecisionResult;
+  /** 테스트의 imageShape — 없으면 정사각형 */
+  shape?: DecisionImageShape;
   size?: IconSize;
 }) {
-  if (result.image) return <PhotoIcon src={result.image} size={size} />;
+  if (result.image) {
+    return (
+      <PhotoIcon
+        src={result.image}
+        size={size}
+        aspect={shape?.aspect}
+        sizeBy={shape?.wide ? "width" : "height"}
+      />
+    );
+  }
   return <span className={TEXT[size]}>{result.emoji}</span>;
 }

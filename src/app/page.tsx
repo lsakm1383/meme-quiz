@@ -104,7 +104,12 @@ export default function Home() {
             className="flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900"
           >
             {test.image ? (
-              <PhotoIcon src={test.image} size="lg" />
+              <PhotoIcon
+                src={test.image}
+                size="lg"
+                aspect={test.imageShape?.aspect}
+                sizeBy={test.imageShape?.wide ? "width" : "height"}
+              />
             ) : (
               <span className="text-4xl">{test.emoji}</span>
             )}

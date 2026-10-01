@@ -11,6 +11,8 @@ const test: DecisionTestConfig = {
   description:
     "선택지를 따라가면 나에게 맞는 신혼여행지가 나와요. 휴양이냐 액티비티냐, 혹은 색다른 경험이냐부터 예산과 분위기까지 실제 고민 순서 그대로.",
   accentColor: "#0d9488",
+  image: "/decision/honeymoon/hawaii.webp",
+  imageShape: { aspect: "aspect-[384/162]", wide: true },
   root: {
     id: "style",
     text: "신혼여행, 어떤 스타일을 원해요?",
@@ -109,6 +111,7 @@ const test: DecisionTestConfig = {
     {
       id: "danang",
       emoji: "🏖️",
+      image: "/decision/honeymoon/danang.webp",
       title: "다낭·나트랑",
       subtitle: "가성비 좋은 동남아 휴양",
       description:
@@ -118,6 +121,7 @@ const test: DecisionTestConfig = {
     {
       id: "phuket",
       emoji: "🍹",
+      image: "/decision/honeymoon/phuket.webp",
       title: "푸켓·코사무이",
       subtitle: "가성비 좋은 풀빌라 휴양",
       description:
@@ -127,6 +131,7 @@ const test: DecisionTestConfig = {
     {
       id: "bali",
       emoji: "🌺",
+      image: "/decision/honeymoon/bali.webp",
       title: "발리",
       subtitle: "가성비와 감성을 동시에 잡은 휴양",
       description:
@@ -136,6 +141,7 @@ const test: DecisionTestConfig = {
     {
       id: "maldives",
       emoji: "🏝️",
+      image: "/decision/honeymoon/maldives.webp",
       title: "몰디브",
       subtitle: "한 번뿐인 럭셔리 리조트 휴양",
       description:
@@ -145,6 +151,7 @@ const test: DecisionTestConfig = {
     {
       id: "bora-bora",
       emoji: "🌊",
+      image: "/decision/honeymoon/bora-bora.webp",
       title: "보라보라",
       subtitle: "산호초 라군 위 전설의 신혼여행지",
       description:
@@ -154,6 +161,7 @@ const test: DecisionTestConfig = {
     {
       id: "mauritius",
       emoji: "🌈",
+      image: "/decision/honeymoon/mauritius.webp",
       title: "모리셔스",
       subtitle: "휴양과 자연을 같이 담은 인도양의 보석",
       description:
@@ -163,6 +171,7 @@ const test: DecisionTestConfig = {
     {
       id: "italy",
       emoji: "🏛️",
+      image: "/decision/honeymoon/italy.webp",
       title: "이탈리아",
       subtitle: "예술과 미식이 있는 로맨틱 도시 여행",
       description:
@@ -172,6 +181,7 @@ const test: DecisionTestConfig = {
     {
       id: "switzerland-france",
       emoji: "🗼",
+      image: "/decision/honeymoon/switzerland-france.webp",
       title: "스위스·프랑스",
       subtitle: "알프스와 파리, 고급스러운 유럽 감성",
       description:
@@ -181,6 +191,7 @@ const test: DecisionTestConfig = {
     {
       id: "hawaii",
       emoji: "🏄",
+      image: "/decision/honeymoon/hawaii.webp",
       title: "하와이",
       subtitle: "휴양과 액티비티를 동시에",
       description:
@@ -190,6 +201,7 @@ const test: DecisionTestConfig = {
     {
       id: "newzealand",
       emoji: "🏔️",
+      image: "/decision/honeymoon/newzealand.webp",
       title: "뉴질랜드·호주",
       subtitle: "청량한 대자연 액티비티",
       description:
@@ -199,6 +211,7 @@ const test: DecisionTestConfig = {
     {
       id: "iceland",
       emoji: "🌋",
+      image: "/decision/honeymoon/iceland.webp",
       title: "아이슬란드",
       subtitle: "화산·빙하·오로라의 신비로운 대자연",
       description:
@@ -208,6 +221,7 @@ const test: DecisionTestConfig = {
     {
       id: "kenya",
       emoji: "🦁",
+      image: "/decision/honeymoon/kenya.webp",
       title: "케냐 사파리",
       subtitle: "사파리 지프 투어, 야생 그대로의 경험",
       description:
@@ -217,6 +231,7 @@ const test: DecisionTestConfig = {
     {
       id: "mallorca",
       emoji: "⛵",
+      image: "/decision/honeymoon/mallorca.webp",
       title: "스페인 마요르카",
       subtitle: "한국인에게 아직 낯선 지중해 숨은 보석",
       description:
@@ -226,6 +241,7 @@ const test: DecisionTestConfig = {
     {
       id: "cancun",
       emoji: "🌵",
+      image: "/decision/honeymoon/cancun.webp",
       title: "칸쿤",
       subtitle: "마야 유적과 세노테, 활기찬 카리브해 리조트",
       description:

@@ -12,8 +12,19 @@ export type DecisionResult = {
   subtitle: string;
   description: string;
   color: string;
-  /** 전용 일러스트 (public 기준 경로, 정사각형). 없으면 emoji로 대체한다. */
+  /** 전용 일러스트 (public 기준 경로, 기본은 정사각형 — 다른 비율이면 테스트의 imageShape). 없으면 emoji로 대체한다. */
   image?: string;
+};
+
+/** 정사각형이 아닌 일러스트의 비율 */
+export type DecisionImageShape = {
+  /**
+   * Tailwind 비율 클래스, 예: "aspect-[384/162]". Tailwind는 소스에 그대로 적힌 클래스만
+   * 만들기 때문에 숫자로 조립하지 말고 데이터 파일에 문자열 그대로 적는다.
+   */
+  aspect: string;
+  /** 가로로 긴 그림이면 true — 높이 대신 너비 기준으로 크기를 잡는다 */
+  wide?: boolean;
 };
 
 export type DecisionOption =
@@ -35,6 +46,8 @@ export type DecisionTestConfig = {
   accentColor: string;
   /** 홈 카드·시작 화면에 쓸 대표 일러스트 (public 기준 경로, 정사각형). 없으면 emoji. */
   image?: string;
+  /** 대표·결과 일러스트가 정사각형이 아닐 때의 비율 (테스트 안의 모든 그림에 공통 적용) */
+  imageShape?: DecisionImageShape;
   root: DecisionNode;
   /** 트리 안 모든 결과를 한 곳에 모아둔 목록 — 라우팅/OG 이미지/통계에 쓰인다. */
   results: DecisionResult[];

@@ -89,9 +89,13 @@ export function DecisionGuide({ test }: { test: DecisionTestConfig }) {
     <ContentGuide
       guide={guide}
       accentColor={test.accentColor}
+      // 가로로 긴 일러스트는 옆에 두면 너무 작아지므로 위에 크게 둔다
+      layout={test.imageShape?.wide ? "stack" : "row"}
       items={test.results.map((result) => ({
         key: result.id,
-        icon: (
+        icon: test.imageShape?.wide ? (
+          <DecisionResultIcon result={result} shape={test.imageShape} size="xl" />
+        ) : (
           <span className="flex w-16 shrink-0 justify-center">
             <DecisionResultIcon result={result} size="lg" />
           </span>

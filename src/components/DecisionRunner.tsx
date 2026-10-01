@@ -44,7 +44,12 @@ export function DecisionRunner({
     return (
       <div className="flex flex-col items-center gap-6 text-center">
         {test.image ? (
-          <PhotoIcon src={test.image} size="xl" />
+          <PhotoIcon
+            src={test.image}
+            size="xl"
+            aspect={test.imageShape?.aspect}
+            sizeBy={test.imageShape?.wide ? "width" : "height"}
+          />
         ) : (
           <div className="text-7xl">{test.emoji}</div>
         )}

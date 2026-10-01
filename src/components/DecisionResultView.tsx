@@ -19,7 +19,7 @@ export function DecisionResultView({
         className="flex w-full flex-col items-center gap-3 rounded-3xl px-6 py-10 shadow-sm"
         style={{ backgroundColor: result.color }}
       >
-        <DecisionResultIcon result={result} size="xl" />
+        <DecisionResultIcon result={result} shape={test.imageShape} size="xl" />
         <h1 className="text-2xl font-extrabold text-zinc-900">{result.title}</h1>
         <p className="text-base font-medium text-zinc-800">{result.subtitle}</p>
       </div>
@@ -37,7 +37,7 @@ export function DecisionResultView({
           id: r.id,
           emoji: r.emoji,
           label: r.title,
-          icon: <DecisionResultIcon result={r} size="xs" />,
+          icon: <DecisionResultIcon result={r} shape={test.imageShape} size="xs" />,
         }))}
       />
 

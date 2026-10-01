@@ -32,6 +32,24 @@ function emojiImageUrl(emoji: string) {
   return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${codepoints}.svg`;
 }
 
+// 정사각형 일러스트는 176px 정사각형, 다른 비율(imageShape)은 원본 비율을 유지한 채 이 상자에 맞춘다.
+const WIDE_BOX = { width: 520, height: 200 };
+
+async function loadArt(src: string, keepRatio: boolean) {
+  const path = join(process.cwd(), "public", src);
+  // 미리보기 렌더러(satori)가 webp를 못 읽으므로 png로 변환해서 넣는다.
+  const png = await sharp(path).png().toBuffer();
+  let width = 176;
+  let height = 176;
+  if (keepRatio) {
+    const meta = await sharp(path).metadata();
+    const scale = Math.min(WIDE_BOX.width / meta.width!, WIDE_BOX.height / meta.height!);
+    width = Math.round(meta.width! * scale);
+    height = Math.round(meta.height! * scale);
+  }
+  return { src: `data:image/png;base64,${png.toString("base64")}`, width, height };
+}
+
 export default async function Image({
   params,
 }: {
@@ -43,11 +61,7 @@ export default async function Image({
 
   const [bold, regular] = await Promise.all([notoBold, notoRegular]);
   // 결과 화면과 같은 일러스트를 쓴다. 미리보기 렌더러(satori)가 webp를 못 읽어서 png로 변환한다.
-  const art = result?.image
-    ? `data:image/png;base64,${(
-        await sharp(join(process.cwd(), "public", result.image)).png().toBuffer()
-      ).toString("base64")}`
-    : null;
+  const art = result?.image ? await loadArt(result.image, !!test?.imageShape) : null;
 
   return new ImageResponse(
     (
@@ -79,7 +93,7 @@ export default async function Image({
         >
           {art ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={art} width={176} height={176} style={{ borderRadius: 24 }} alt="" />
+            <img src={art.src} width={art.width} height={art.height} style={{ borderRadius: 24 }} alt="" />
           ) : result?.emoji ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={emojiImageUrl(result.emoji)} width={176} height={176} alt="" />
