@@ -7,7 +7,6 @@ import { computeSaju, isSajuError, type SajuChart } from "@/lib/saju/engine";
 import { STEMS, ELEMENT_ORDER } from "@/lib/saju/constants";
 import { loadSubmission, type SajuSubmission } from "@/lib/saju/storage";
 import { PillarTable, ElementBars, pillarText } from "@/components/saju/SajuChartView";
-import { ResultStats } from "@/components/ResultStats";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 
@@ -181,14 +180,6 @@ export function SajuResult({ test }: { test: SajuTestConfig }) {
           );
         })}
       </section>
-
-      <ResultStats
-        kind="saju"
-        groupId={test.id}
-        resultId={profile.slug}
-        accentColor={test.accentColor}
-        items={dayMasters.map((item) => ({ id: item.slug, emoji: item.emoji, label: item.name }))}
-      />
 
       <ShareBar
         title={`${profile.emoji} 내 일간은 ${profile.name} "${profile.title}"`}
