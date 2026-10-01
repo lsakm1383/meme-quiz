@@ -10,6 +10,8 @@ export type SajuTestConfig = {
   title: string;
   description: string;
   accentColor: string;
+  /** 홈 카드·시작 화면용 대표 일러스트 (public 기준 경로, 정사각형). 없으면 emoji. */
+  image?: string;
   /** 시리즈 회차 표시 (예: "1편") */
   episode: string;
 };
@@ -22,6 +24,7 @@ export const sajuTests: SajuTestConfig[] = [
     description:
       "생년월일과 태어난 시간으로 사주 여덟 글자를 세우고, 오행 분포와 타고난 성향을 풀어드려요.",
     accentColor: "#6d28d9",
+    image: "/saju/cover.webp",
     episode: "1편",
   },
 ];

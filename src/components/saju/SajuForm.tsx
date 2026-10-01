@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { SajuTestConfig } from "@/data/saju";
 import { computeSaju, isSajuError, type CalendarType } from "@/lib/saju/engine";
 import { saveSubmission } from "@/lib/saju/storage";
+import { PhotoIcon } from "@/components/PhotoIcon";
 
 const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: CURRENT_YEAR - 1930 + 1 }, (_, i) => CURRENT_YEAR - i);
@@ -91,7 +92,11 @@ export function SajuForm({ test, guide }: { test: SajuTestConfig; guide?: ReactN
 
   return (
     <div className="flex flex-col items-center gap-6 text-center">
-      <div className="text-7xl">{test.emoji}</div>
+      {test.image ? (
+        <PhotoIcon src={test.image} size="xl" />
+      ) : (
+        <div className="text-7xl">{test.emoji}</div>
+      )}
       <p className="text-sm font-bold" style={{ color: test.accentColor }}>
         사주 시리즈 {test.episode}
       </p>

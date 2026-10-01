@@ -10,6 +10,7 @@ import { PillarTable, ElementBars, pillarText } from "@/components/saju/SajuChar
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { DayMasterIcon } from "@/components/saju/DayMasterIcon";
+import { PhotoIcon } from "@/components/PhotoIcon";
 
 type State =
   | { status: "loading" }
@@ -48,7 +49,11 @@ export function SajuResult({ test }: { test: SajuTestConfig }) {
   if (state.status === "missing") {
     return (
       <div className="flex flex-col items-center gap-4 py-16 text-center">
-        <div className="text-5xl">{test.emoji}</div>
+        {test.image ? (
+          <PhotoIcon src={test.image} size="lg" />
+        ) : (
+          <div className="text-5xl">{test.emoji}</div>
+        )}
         <p className="text-base font-semibold">입력한 정보가 없어요</p>
         <p className="text-sm text-zinc-500">
           생년월일은 이 기기에만 잠시 보관돼서, 탭을 닫으면 다시 입력해야 해요.
