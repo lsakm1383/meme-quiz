@@ -98,7 +98,7 @@ export function SajuForm({ test, guide }: { test: SajuTestConfig; guide?: ReactN
         <div className="text-7xl">{test.emoji}</div>
       )}
       <p className="text-sm font-bold" style={{ color: test.accentColor }}>
-        사주 시리즈 {test.episode}
+        사주 시리즈
       </p>
       <h1 className="-mt-4 text-2xl font-bold leading-snug">{test.title}</h1>
       <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
@@ -209,7 +209,7 @@ export function SajuForm({ test, guide }: { test: SajuTestConfig; guide?: ReactN
             accentColor={test.accentColor}
           />
           <span className="text-xs text-zinc-400">
-            대운 방향을 정할 때 쓰여요. 1편 풀이에는 영향을 주지 않아요.
+            대운 방향을 정할 때 쓰여요. 원국 풀이에는 영향을 주지 않아요.
           </span>
         </div>
 

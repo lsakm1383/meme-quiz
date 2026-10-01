@@ -2,7 +2,7 @@ import type { DayMasterProfile, ElementKey, ElementLevel, ElementProfile } from 
 import dayMasters from "@/data/saju/day-masters";
 import elements from "@/data/saju/elements";
 
-// 사주 시리즈 설정. 1편은 원국(8글자)·오행·일간 성향 풀이이고, 이후 편(재물운·결혼운 등)도
+// 사주 시리즈 설정. 첫 테스트는 원국(8글자)·오행·일간 성향 풀이이고, 이후 테스트(재물운·결혼운 등)도
 // 같은 계산 엔진(src/lib/saju)과 /s/<id> 경로를 쓰도록 목록으로 둔다.
 export type SajuTestConfig = {
   id: string;
@@ -12,8 +12,6 @@ export type SajuTestConfig = {
   accentColor: string;
   /** 홈 카드·시작 화면용 대표 일러스트 (public 기준 경로, 정사각형). 없으면 emoji. */
   image?: string;
-  /** 시리즈 회차 표시 (예: "1편") */
-  episode: string;
 };
 
 export const sajuTests: SajuTestConfig[] = [
@@ -25,7 +23,6 @@ export const sajuTests: SajuTestConfig[] = [
       "생년월일과 태어난 시간으로 사주 여덟 글자를 세우고, 오행 분포와 타고난 성향을 풀어드려요.",
     accentColor: "#6d28d9",
     image: "/saju/cover.webp",
-    episode: "1편",
   },
 ];
 

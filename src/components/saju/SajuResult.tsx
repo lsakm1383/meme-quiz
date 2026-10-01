@@ -86,7 +86,7 @@ export function SajuResult({ test }: { test: SajuTestConfig }) {
     <div className="flex w-full flex-col items-center gap-8 text-center">
       <div className="flex flex-col items-center gap-1">
         <p className="text-sm font-medium text-zinc-400">
-          사주 시리즈 {test.episode} · {test.title}
+          사주 시리즈 · {test.title}
         </p>
         <p className="text-xs text-zinc-400">{describeInput(submission)}</p>
       </div>

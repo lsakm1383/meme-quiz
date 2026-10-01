@@ -44,7 +44,7 @@ export default async function SajuTypePage({ params }: { params: Promise<Params>
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
       <div className="flex w-full flex-col items-center gap-6 text-center">
         <p className="text-sm font-medium text-zinc-400">
-          사주 시리즈 {test.episode} · 일간 유형
+          사주 시리즈 · 일간 유형
         </p>
 
         <div
