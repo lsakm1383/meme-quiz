@@ -45,10 +45,11 @@ export function ToppingResultView({
         className="flex w-full flex-col items-center gap-3 rounded-3xl px-6 py-10 shadow-sm"
         style={{ backgroundColor: cardColor }}
       >
-        {rarity ? (
+        {/* 등급이 정해지면 등급 일러스트, 집계 중이면 테스트 대표 일러스트 (둘 다 5:6) */}
+        {rarity || test.image ? (
           <span className="inline-block h-44 aspect-[5/6] overflow-hidden rounded-2xl">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={rarity.image} alt="" className="h-full w-full object-cover" />
+            <img src={rarity?.image ?? test.image} alt="" className="h-full w-full object-cover" />
           </span>
         ) : (
           <div className="text-6xl">{cardEmoji}</div>

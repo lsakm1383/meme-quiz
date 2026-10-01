@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import sharp from "sharp";
 import { tournaments, getTournament, getCandidate } from "@/data/tournaments";
 
 export const alt = "월드컵 결과";
@@ -43,6 +44,13 @@ export default async function Image({
   const winner = tournament && getCandidate(tournament, winnerId);
 
   const [bold, regular] = await Promise.all([notoBold, notoRegular]);
+  // 후보별 그림은 실제 상품을 본뜰 수 없어 따로 없으므로, 월드컵 대표 일러스트(트로피 포함)를 쓴다.
+  // 미리보기 렌더러(satori)가 webp를 못 읽어서 png로 변환한다.
+  const cover = tournament?.image
+    ? `data:image/png;base64,${(
+        await sharp(join(process.cwd(), "public", tournament.image)).resize(200, 200).png().toBuffer()
+      ).toString("base64")}`
+    : null;
 
   return new ImageResponse(
     (
@@ -72,9 +80,14 @@ export default async function Image({
             background: winner?.color ?? "#e4e4e7",
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={emojiImageUrl("🏆")} width={64} height={64} alt="" />
-          {winner?.emoji ? (
+          {cover ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={cover} width={200} height={200} alt="" />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={emojiImageUrl("🏆")} width={64} height={64} alt="" />
+          )}
+          {!cover && winner?.emoji ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={emojiImageUrl(winner.emoji)}
