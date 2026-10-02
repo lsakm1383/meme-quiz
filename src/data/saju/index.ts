@@ -57,6 +57,7 @@ export const sajuTests: SajuTestConfig[] = [
     description:
       "10년마다 바뀌는 큰 운의 흐름, 대운을 계산해 인생 그래프로 보여드려요. 지금 지나고 있는 대운의 테마와 기회, 주의할 점도 함께 알려드려요.",
     accentColor: "#4d7c0f",
+    image: "/saju/daeun-cover.webp",
   },
 ];
 
