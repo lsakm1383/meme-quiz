@@ -76,6 +76,14 @@ export function FortuneGroupBoard({ test, groupId }: { test: SajuTestConfig; gro
         accentColor={test.accentColor}
       />
 
+      <a
+        href={`/s/${test.id}?create=1`}
+        className="w-full max-w-xs rounded-full border-2 px-8 py-3 text-base font-bold"
+        style={{ borderColor: test.accentColor, color: test.accentColor }}
+      >
+        새 그룹 만들기
+      </a>
+
       <p className="text-xs leading-relaxed text-zinc-400">
         운세 점수는 사주 원국을 정해진 규칙으로 계산한 재미용 지표예요. 그룹 링크를 아는 사람은 누구나 이
         순위를 볼 수 있어요.
