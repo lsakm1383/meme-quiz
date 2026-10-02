@@ -4,7 +4,7 @@ import { sajuTests, getSajuTest } from "@/data/saju";
 import { SajuForm } from "@/components/saju/SajuForm";
 import { FortuneStart } from "@/components/saju/FortuneStart";
 import { DailyStart } from "@/components/saju/DailyStart";
-import { SajuGuide, FortuneGuide, DailyGuide } from "@/components/TestGuides";
+import { SajuGuide, FortuneGuide, DailyGuide, DaeunGuide } from "@/components/TestGuides";
 import { getSiteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -53,6 +53,13 @@ export default async function SajuTestPage({
         />
       ) : test.kind === "daily" ? (
         <DailyStart test={test} guide={<DailyGuide test={test} />} />
+      ) : test.kind === "daeun" ? (
+        <SajuForm
+          test={test}
+          guide={<DaeunGuide test={test} />}
+          submitLabel="내 대운 보기"
+          genderNote="대운이 앞으로 흐를지(순행) 거꾸로 흐를지(역행)를 정할 때 쓰여요."
+        />
       ) : (
         <SajuForm test={test} guide={<SajuGuide test={test} />} />
       )}

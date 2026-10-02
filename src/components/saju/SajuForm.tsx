@@ -7,7 +7,17 @@ import { saveSubmission } from "@/lib/saju/storage";
 import { PhotoIcon } from "@/components/PhotoIcon";
 import { BirthForm } from "@/components/saju/BirthForm";
 
-export function SajuForm({ test, guide }: { test: SajuTestConfig; guide?: ReactNode }) {
+export function SajuForm({
+  test,
+  guide,
+  submitLabel = "사주 풀이 보기",
+  genderNote = "대운 방향을 정할 때 쓰여요. 원국 풀이에는 영향을 주지 않아요.",
+}: {
+  test: SajuTestConfig;
+  guide?: ReactNode;
+  submitLabel?: string;
+  genderNote?: string;
+}) {
   const router = useRouter();
 
   return (
@@ -27,8 +37,8 @@ export function SajuForm({ test, guide }: { test: SajuTestConfig; guide?: ReactN
 
       <BirthForm
         accentColor={test.accentColor}
-        submitLabel="사주 풀이 보기"
-        genderNote="대운 방향을 정할 때 쓰여요. 원국 풀이에는 영향을 주지 않아요."
+        submitLabel={submitLabel}
+        genderNote={genderNote}
         onValid={(submission) => {
           if (!saveSubmission(submission)) {
             return "브라우저 설정 때문에 결과를 열 수 없어요. 시크릿 모드를 끄고 다시 시도해주세요.";

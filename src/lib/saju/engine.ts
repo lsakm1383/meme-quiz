@@ -42,6 +42,8 @@ export type SajuChart = {
   solarDate: { year: number; month: number; day: number };
   /** 시간을 몰라서 절입일 등 경계가 애매할 때 보여줄 안내 */
   notes: string[];
+  /** 대운 계산용 — 태어난 순간과 그 앞뒤 절입 시각 (UTC ms, 시간을 모르면 그날 정오 기준) */
+  birth: { instant: number; prevJie: number; nextJie: number };
 };
 
 export type SajuError = { error: string };
@@ -250,6 +252,11 @@ export function computeSaju(input: BirthInput): SajuChart | SajuError {
     elements,
     solarDate: { year, month, day },
     notes,
+    birth: {
+      instant,
+      prevJie: current.time,
+      nextJie: jies.find((jie) => jie.time > instant)?.time ?? current.time,
+    },
   };
 }
 

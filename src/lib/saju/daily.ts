@@ -39,6 +39,34 @@ const branchClash = (a: number, b: number) => Math.abs(a - b) === 6;
 /** 子午卯酉 — 도화 */
 const PEACH = new Set([0, 3, 6, 9]);
 
+/** 신강: 원국에서 일간과 같은 오행 + 일간을 생하는 오행이 절반 이상인가 (오늘의 운세·대운 공용) */
+export function isStrongChart(chart: SajuChart): boolean {
+  const me = STEMS[chart.day.stem];
+  const total = ELEMENT_ORDER.reduce((sum, key) => sum + chart.elements[key], 0);
+  const resourceElement = ELEMENT_ORDER.find((key) => GENERATES[key] === me.element)!;
+  return (chart.elements[me.element] + chart.elements[resourceElement]) / total >= 0.5;
+}
+
+/** 원국에서 가장 적은 오행. 동률이면 일간을 생하는 오행 → 상생 순서 (오늘의 운세·대운 공용) */
+export function scarcestElement(chart: SajuChart): ElementKey {
+  const me = STEMS[chart.day.stem];
+  const resourceElement = ELEMENT_ORDER.find((key) => GENERATES[key] === me.element)!;
+  const order = [resourceElement, ...ELEMENT_ORDER.filter((key) => key !== resourceElement)];
+  return order.reduce((best, key) => (chart.elements[key] < chart.elements[best] ? key : best));
+}
+
+/** 십성이 내 강약에 맞는 정도 — 신약하면 비겁·인성이, 신강하면 식상·재성·관성이 힘이 된다 */
+export function tenGodFit(tenGod: TenGod, strong: boolean): number {
+  let fit: number;
+  if (tenGod === "bigyeon" || tenGod === "geopjae") fit = strong ? -3 : 8;
+  else if (tenGod === "pyeonin" || tenGod === "jeongin") fit = strong ? 2 : 10;
+  else if (tenGod === "siksin" || tenGod === "sanggwan") fit = strong ? 9 : -2;
+  else if (tenGod === "pyeonjae" || tenGod === "jeongjae") fit = strong ? 10 : -4;
+  else fit = strong ? 6 : -6; // 관성
+  if (tenGod === "sanggwan" || tenGod === "pyeongwan" || tenGod === "geopjae") fit -= 2; // 기복이 큰 십성
+  return fit;
+}
+
 /** 한국 날짜로 오늘 */
 export function todayInKorea(now = new Date()): { year: number; month: number; day: number } {
   const parts = Object.fromEntries(
@@ -102,14 +130,9 @@ function hourLabel(branch: number): string {
 export function computeDaily(chart: SajuChart, gender: "female" | "male", now = new Date()): DailyFortune {
   const date = todayInKorea(now);
   const pillar = dayPillarForDate(date.year, date.month, date.day);
-  const me = STEMS[chart.day.stem];
   const tenGod = tenGodOf(chart.day.stem, pillar.stem);
 
-  // 신강: 원국에서 일간과 같은 오행 + 일간을 생하는 오행이 절반 이상인가
-  const total = ELEMENT_ORDER.reduce((sum, key) => sum + chart.elements[key], 0);
-  const resourceElement = ELEMENT_ORDER.find((key) => GENERATES[key] === me.element)!;
-  const support = chart.elements[me.element] + chart.elements[resourceElement];
-  const strong = support / total >= 0.5;
+  const strong = isStrongChart(chart);
 
   const dayBranch = chart.day.branch;
   const todayBranch = pillar.branch;
@@ -124,20 +147,13 @@ export function computeDaily(chart: SajuChart, gender: "female" | "male", now = 
           : null;
   const yearClash = branchClash(chart.year.branch, todayBranch);
 
-  // 행운의 오행: 원국에서 가장 적은 오행. 동률이면 일간을 생하는 오행 → 상생 순서대로.
-  const order = [resourceElement, ...ELEMENT_ORDER.filter((key) => key !== resourceElement)];
-  const luckyElement = order.reduce((best, key) => (chart.elements[key] < chart.elements[best] ? key : best));
+  // 행운의 오행: 원국에서 가장 적은 오행
+  const luckyElement = scarcestElement(chart);
   const fillsLacking =
     STEMS[pillar.stem].element === luckyElement || BRANCHES[pillar.branch].element === luckyElement;
 
   // 총운: 오늘 십성이 내 강약에 맞는지 + 일지와의 합·충 + 부족한 기운 보충
-  let score = 62;
-  if (tenGod === "bigyeon" || tenGod === "geopjae") score += strong ? -3 : 8;
-  else if (tenGod === "pyeonin" || tenGod === "jeongin") score += strong ? 2 : 10;
-  else if (tenGod === "siksin" || tenGod === "sanggwan") score += strong ? 9 : -2;
-  else if (tenGod === "pyeonjae" || tenGod === "jeongjae") score += strong ? 10 : -4;
-  else score += strong ? 6 : -6; // 관성
-  if (tenGod === "sanggwan" || tenGod === "pyeongwan" || tenGod === "geopjae") score -= 2; // 기복이 큰 십성
+  let score = 62 + tenGodFit(tenGod, strong);
   if (branchRelation === "combine") score += 8;
   else if (branchRelation === "trine") score += 5;
   else if (branchRelation === "clash") score -= 10;

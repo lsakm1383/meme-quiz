@@ -124,3 +124,23 @@ export type DailyCopy = {
   /** 오늘 총운 점수 구간 — min 이상, 높은 구간부터 5개 */
   tiers: { min: number; title: string; text: string }[];
 };
+
+/** 대운 해석 문구 */
+export type DaeunCopy = {
+  /** 대운의 천간·지지가 내게 어떤 십성인지에 따른 10년 테마 */
+  tenGods: Record<
+    TenGod,
+    {
+      /** 10년 테마 이름 (예: "배움과 귀인의 시기") */
+      title: string;
+      /** 이 기운이 흐르는 시기의 성격 2~3문장 */
+      summary: string;
+      /** 이 시기에 잡으면 좋은 기회 1~2문장 */
+      opportunity: string;
+      /** 이 시기에 조심할 점 1~2문장 */
+      caution: string;
+    }
+  >;
+  /** 대운 점수 구간 — min 이상, 높은 구간부터 5개 (인생 그래프 라벨) */
+  tiers: { min: number; title: string; text: string }[];
+};
