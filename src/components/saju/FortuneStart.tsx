@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import type { SajuTestConfig } from "@/data/saju";
 import { computeSaju, isSajuError } from "@/lib/saju/engine";
 import { computeFortunes } from "@/lib/saju/fortune";
+import { compatProfileOf } from "@/lib/saju/compat";
 import { STEMS } from "@/lib/saju/constants";
 import { saveSubmission, type SajuSubmission } from "@/lib/saju/storage";
 import { MAX_NICKNAME_LENGTH, MAX_TITLE_LENGTH } from "@/lib/groups";
@@ -86,7 +87,7 @@ export function FortuneStart({
     if (!nickname.trim()) return "그룹에서 쓸 닉네임을 입력해주세요.";
     const chart = computeSaju(submission);
     if (isSajuError(chart)) return chart.error;
-    // 생년월일·원국은 보내지 않고, 기기에서 계산한 점수와 일간 종류만 보낸다.
+    // 생년월일·원국은 보내지 않고, 기기에서 계산한 점수와 궁합용 최소 정보(일주·띠·오행 개수)만 보낸다.
     const scores = computeFortunes(chart, submission.gender);
     setBusy(true);
     try {
@@ -97,6 +98,7 @@ export function FortuneStart({
           nickname: nickname.trim(),
           code: STEMS[chart.day.stem].slug,
           scores,
+          compat: compatProfileOf(chart),
         }),
       });
       if (res.status === 400) {
@@ -218,7 +220,7 @@ export function FortuneStart({
                   className={inputClass}
                 />
                 <span className="text-xs text-zinc-400">
-                  그룹에는 닉네임과 운세 점수, 일간 종류만 저장돼요. 생년월일은 보내지 않아요.
+                  그룹에는 닉네임, 운세 점수, 궁합용 일주·띠·오행 개수만 저장돼요. 생년월일은 보내지 않아요.
                 </span>
               </div>
             }

@@ -9,6 +9,7 @@ import { STEMS } from "@/lib/saju/constants";
 import { loadSubmission } from "@/lib/saju/storage";
 import type { GroupMember } from "@/lib/groups";
 import { FortuneCards, FortuneSummary } from "@/components/saju/FortuneBoards";
+import { GroupCompatSection } from "@/components/saju/GroupCompatSection";
 import { PhotoIcon } from "@/components/PhotoIcon";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
@@ -112,6 +113,8 @@ export function FortuneResult({ test }: { test: SajuTestConfig }) {
       )}
 
       <FortuneSummary scores={scores} members={group?.members} highlightId={group?.me} />
+
+      {group && <GroupCompatSection members={group.members} highlightId={group.me} />}
 
       <FortuneCards scores={scores} members={group?.members} highlightId={group?.me} />
 

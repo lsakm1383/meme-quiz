@@ -10,6 +10,8 @@ export type GroupMember = {
   code: string;
   /** 사주 운세 그룹만 — 운세별 점수 (생년월일·원국은 저장하지 않는다) */
   scores?: Record<string, number>;
+  /** 사주 운세 그룹만 — 궁합 계산용 일간·일지·띠·오행 개수 (src/lib/saju/compat.ts) */
+  compat?: { ds: number; db: number; yb: number; el: number[] };
   joinedAt: number;
 };
 

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { SajuTestConfig } from "@/data/saju";
 import type { GroupMember } from "@/lib/groups";
 import { FortuneCards } from "@/components/saju/FortuneBoards";
+import { GroupCompatSection } from "@/components/saju/GroupCompatSection";
 import { ShareBar } from "@/components/ShareBar";
 
 type Data = { title: string; testId: string; members: GroupMember[] };
@@ -64,6 +65,8 @@ export function FortuneGroupBoard({ test, groupId }: { test: SajuTestConfig; gro
       >
         나도 참여하고 순위 보기
       </a>
+
+      <GroupCompatSection members={data.members} />
 
       <FortuneCards members={data.members} />
 

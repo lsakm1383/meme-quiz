@@ -13,6 +13,7 @@ import {
 import { getMbtiTest, getMbtiProfileByCode } from "@/data/mbti";
 import { getSajuTest, getDayMaster } from "@/data/saju";
 import { FORTUNE_KEYS, isValidScores, type FortuneScores } from "@/lib/saju/fortune";
+import { isValidCompatProfile, type CompatProfile } from "@/lib/saju/compat";
 
 export async function POST(
   request: Request,
@@ -46,18 +47,21 @@ export async function POST(
   // 성격 유형 그룹은 유형 코드를, 사주 운세 그룹은 일간 슬러그와 운세 점수를 받는다.
   // 사주 점수는 생년월일을 서버로 보내지 않으려고 기기에서 계산해 보내므로 범위만 검사한다.
   let scores: FortuneScores | undefined;
+  let compat: CompatProfile | undefined;
   const mbtiTest = getMbtiTest(parsed.meta.testId);
   if (mbtiTest) {
     if (!getMbtiProfileByCode(mbtiTest, code)) {
       return NextResponse.json({ error: "invalid request" }, { status: 400 });
     }
   } else if (getSajuTest(parsed.meta.testId)?.kind === "fortune") {
-    if (!getDayMaster(code) || !isValidScores(body?.scores)) {
+    if (!getDayMaster(code) || !isValidScores(body?.scores) || !isValidCompatProfile(body?.compat)) {
       return NextResponse.json({ error: "invalid request" }, { status: 400 });
     }
     const raw = body.scores as FortuneScores;
     // 알려진 운세 키만 골라 저장한다 (다른 필드가 섞여 들어오지 않게)
     scores = Object.fromEntries(FORTUNE_KEYS.map((key) => [key, raw[key]])) as FortuneScores;
+    const c = body.compat as CompatProfile;
+    compat = { ds: c.ds, db: c.db, yb: c.yb, el: [...c.el] };
   } else {
     return NextResponse.json({ error: "invalid request" }, { status: 400 });
   }
@@ -72,6 +76,7 @@ export async function POST(
     nickname: nickname.trim(),
     code,
     ...(scores ? { scores } : {}),
+    ...(compat ? { compat } : {}),
     joinedAt: Date.now(),
   };
   await redis.hset(key, { [memberField(memberId)]: member });
