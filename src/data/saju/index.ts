@@ -8,8 +8,8 @@ import type { FortuneKey } from "@/lib/saju/fortune";
 // 같은 계산 엔진(src/lib/saju)과 /s/<id> 경로를 쓰도록 목록으로 둔다.
 export type SajuTestConfig = {
   id: string;
-  /** chart: 원국 풀이(개인) · fortune: 운세 점수(개인 또는 그룹 순위) */
-  kind: "chart" | "fortune";
+  /** chart: 원국 풀이(개인) · fortune: 운세 점수(개인 또는 그룹 순위) · daily: 오늘의 운세 */
+  kind: "chart" | "fortune" | "daily";
   emoji: string;
   title: string;
   description: string;
@@ -38,6 +38,15 @@ export const sajuTests: SajuTestConfig[] = [
       "사주 원국으로 재물운·연애운·인기운·귀인운 등 10가지 운세 점수를 매겨요. 친구들과 그룹을 만들면 운세별 순위를 한눈에 비교할 수 있어요.",
     accentColor: "#b45309",
     image: "/saju/fortune-cover.webp",
+  },
+  {
+    id: "today",
+    kind: "daily",
+    emoji: "🌅",
+    title: "오늘의 사주 운세",
+    description:
+      "오늘의 일진을 내 사주에 대 보고 총운과 분야별 운, 오늘 특히 주의할 점, 나에게 운이 되어 줄 행운 아이템을 알려드려요. 매일 자정에 바뀌어요.",
+    accentColor: "#0e7490",
   },
 ];
 

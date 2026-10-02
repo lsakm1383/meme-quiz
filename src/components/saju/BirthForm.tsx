@@ -48,6 +48,7 @@ export function BirthForm({
   submitLabel,
   genderNote,
   topSlot,
+  bottomSlot,
   busy = false,
   onValid,
 }: {
@@ -57,6 +58,8 @@ export function BirthForm({
   genderNote: string;
   /** 입력 칸 맨 위에 끼워 넣을 내용 (예: 그룹 닉네임) */
   topSlot?: ReactNode;
+  /** 제출 버튼 바로 위에 끼워 넣을 내용 (예: 기억하기 체크) */
+  bottomSlot?: ReactNode;
   busy?: boolean;
   /** 검증을 통과한 입력. 실패 메시지를 돌려주면 폼 아래에 보여준다. */
   onValid: (submission: SajuSubmission) => string | null | void | Promise<string | null | void>;
@@ -219,6 +222,8 @@ export function BirthForm({
           {genderNote}
         </span>
       </div>
+
+      {bottomSlot}
 
       {error && <p className="text-sm font-semibold text-red-600">{error}</p>}
 

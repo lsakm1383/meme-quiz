@@ -15,6 +15,34 @@ export function saveSubmission(value: SajuSubmission): boolean {
   }
 }
 
+// "이 기기에 기억하기"를 켠 경우에만 localStorage 에 둔다 — 오늘의 운세를 매일 다시 입력하지 않도록.
+const REMEMBER_KEY = "meme-quiz:saju:remembered";
+
+export function rememberSubmission(value: SajuSubmission): void {
+  try {
+    localStorage.setItem(REMEMBER_KEY, JSON.stringify(value));
+  } catch {
+    // 저장소를 못 쓰면 기억하지 않고 넘어간다
+  }
+}
+
+export function loadRemembered(): SajuSubmission | null {
+  try {
+    const raw = localStorage.getItem(REMEMBER_KEY);
+    return raw ? (JSON.parse(raw) as SajuSubmission) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function forgetRemembered(): void {
+  try {
+    localStorage.removeItem(REMEMBER_KEY);
+  } catch {
+    // 무시
+  }
+}
+
 export function loadSubmission(): SajuSubmission | null {
   try {
     const raw = sessionStorage.getItem(KEY);

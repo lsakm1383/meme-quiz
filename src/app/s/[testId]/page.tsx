@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import { sajuTests, getSajuTest } from "@/data/saju";
 import { SajuForm } from "@/components/saju/SajuForm";
 import { FortuneStart } from "@/components/saju/FortuneStart";
-import { SajuGuide, FortuneGuide } from "@/components/TestGuides";
+import { DailyStart } from "@/components/saju/DailyStart";
+import { SajuGuide, FortuneGuide, DailyGuide } from "@/components/TestGuides";
 import { getSiteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -50,6 +51,8 @@ export default async function SajuTestPage({
           startWithCreate={create === "1"}
           guide={<FortuneGuide test={test} />}
         />
+      ) : test.kind === "daily" ? (
+        <DailyStart test={test} guide={<DailyGuide test={test} />} />
       ) : (
         <SajuForm test={test} guide={<SajuGuide test={test} />} />
       )}

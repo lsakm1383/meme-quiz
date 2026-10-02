@@ -147,6 +147,11 @@ function isValidSolarDate(y: number, m: number, d: number): boolean {
  * 그 음력 해의 해당 달에 윤달이 있는지 — 있을 때만 "윤달에 태어났는지" 물어본다.
  * (예: 2023년은 2월 다음에 윤2월이 있어 같은 "음력 2월 1일"이 두 날짜가 될 수 있다)
  */
+/** 양력 날짜의 일진(그날의 간지) — 오늘의 운세에서 쓴다 */
+export function dayPillarForDate(year: number, month: number, day: number): Pillar {
+  return dayPillarOf(Date.UTC(year, month - 1, day));
+}
+
 export function hasLeapMonth(year: number, month: number): boolean {
   const calendar = new KoreanLunarCalendar();
   if (!calendar.setLunarDate(year, month, 1, true)) return false;
