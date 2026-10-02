@@ -34,17 +34,22 @@ export default async function SajuTestPage({
   searchParams,
 }: {
   params: Promise<{ testId: string }>;
-  searchParams: Promise<{ group?: string }>;
+  searchParams: Promise<{ group?: string; create?: string }>;
 }) {
   const { testId } = await params;
-  const { group } = await searchParams;
+  const { group, create } = await searchParams;
   const test = getSajuTest(testId);
   if (!test) notFound();
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
       {test.kind === "fortune" ? (
-        <FortuneStart test={test} initialGroupId={group} guide={<FortuneGuide test={test} />} />
+        <FortuneStart
+          test={test}
+          initialGroupId={group}
+          startWithCreate={create === "1"}
+          guide={<FortuneGuide test={test} />}
+        />
       ) : (
         <SajuForm test={test} guide={<SajuGuide test={test} />} />
       )}

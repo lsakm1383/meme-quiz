@@ -23,14 +23,19 @@ const STORAGE_ERROR = "브라우저 설정 때문에 결과를 열 수 없어요
 export function FortuneStart({
   test,
   initialGroupId,
+  startWithCreate = false,
   guide,
 }: {
   test: SajuTestConfig;
   initialGroupId?: string;
+  /** ?create=1 로 들어오면 고르는 화면 없이 바로 그룹 이름 입력부터 */
+  startWithCreate?: boolean;
   guide?: ReactNode;
 }) {
   const router = useRouter();
-  const [phase, setPhase] = useState<Phase>(initialGroupId ? "join" : "choose");
+  const [phase, setPhase] = useState<Phase>(
+    initialGroupId ? "join" : startWithCreate ? "createTitle" : "choose"
+  );
   const [groupId, setGroupId] = useState<string | null>(initialGroupId ?? null);
   const [groupTitle, setGroupTitle] = useState("");
   const [groupError, setGroupError] = useState<string | null>(null);

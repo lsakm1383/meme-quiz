@@ -136,11 +136,11 @@ export function FortuneResult({ test }: { test: SajuTestConfig }) {
       ) : (
         <>
           <a
-            href={`/s/${test.id}`}
+            href={`/s/${test.id}?create=1`}
             className="w-full max-w-xs rounded-full px-8 py-4 text-lg font-bold text-white shadow-lg"
             style={{ backgroundColor: test.accentColor }}
           >
-            친구들이랑 순위 겨루기
+            친구들이랑 그룹 만들기
           </a>
           <ShareBar
             title={`🏆 ${test.title}`}
