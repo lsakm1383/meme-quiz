@@ -47,6 +47,7 @@ export const sajuTests: SajuTestConfig[] = [
     description:
       "오늘의 일진을 내 사주에 대 보고 총운과 분야별 운, 오늘 특히 주의할 점, 나에게 운이 되어 줄 행운 아이템을 알려드려요. 매일 자정에 바뀌어요.",
     accentColor: "#0e7490",
+    image: "/saju/today-cover.webp",
   },
 ];
 
