@@ -132,6 +132,13 @@ export function FortuneResult({ test }: { test: SajuTestConfig }) {
           >
             그룹 전체 순위 보기
           </a>
+          <a
+            href={`/s/${test.id}?create=1`}
+            className="w-full max-w-xs rounded-full border-2 px-8 py-3 text-base font-bold"
+            style={{ borderColor: test.accentColor, color: test.accentColor }}
+          >
+            새 그룹 만들기
+          </a>
         </>
       ) : (
         <>
