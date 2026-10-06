@@ -51,3 +51,31 @@ export function loadSubmission(): SajuSubmission | null {
     return null;
   }
 }
+
+// 궁합: 두 사람의 입력을 결과 화면으로 넘길 때만 이 탭의 sessionStorage 에 둔다.
+export type SajuPair = {
+  me: SajuSubmission;
+  meName: string;
+  partner: SajuSubmission;
+  partnerName: string;
+};
+
+const PAIR_KEY = "meme-quiz:saju:pair";
+
+export function savePair(value: SajuPair): boolean {
+  try {
+    sessionStorage.setItem(PAIR_KEY, JSON.stringify(value));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function loadPair(): SajuPair | null {
+  try {
+    const raw = sessionStorage.getItem(PAIR_KEY);
+    return raw ? (JSON.parse(raw) as SajuPair) : null;
+  } catch {
+    return null;
+  }
+}

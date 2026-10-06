@@ -54,8 +54,8 @@ export function BirthForm({
 }: {
   accentColor: string;
   submitLabel: string;
-  /** 성별 칸 아래 안내 문구 */
-  genderNote: string;
+  /** 성별 칸 아래 안내 문구. null 이면 성별을 묻지 않는다 (궁합처럼 성별을 쓰지 않을 때) */
+  genderNote: string | null;
   /** 입력 칸 맨 위에 끼워 넣을 내용 (예: 그룹 닉네임) */
   topSlot?: ReactNode;
   /** 제출 버튼 바로 위에 끼워 넣을 내용 (예: 기억하기 체크) */
@@ -207,21 +207,21 @@ export function BirthForm({
         </label>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <span className="text-sm font-bold">성별</span>
-        <Toggle
-          value={gender}
-          onChange={setGender}
-          options={[
-            { value: "female", label: "여성" },
-            { value: "male", label: "남성" },
-          ]}
-          accentColor={accentColor}
-        />
-        <span className="text-xs text-zinc-400">
-          {genderNote}
-        </span>
-      </div>
+      {genderNote !== null && (
+        <div className="flex flex-col gap-2">
+          <span className="text-sm font-bold">성별</span>
+          <Toggle
+            value={gender}
+            onChange={setGender}
+            options={[
+              { value: "female", label: "여성" },
+              { value: "male", label: "남성" },
+            ]}
+            accentColor={accentColor}
+          />
+          <span className="text-xs text-zinc-400">{genderNote}</span>
+        </div>
+      )}
 
       {bottomSlot}
 

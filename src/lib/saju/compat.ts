@@ -169,3 +169,54 @@ export function groupCompat(members: CompatMember[]): GroupCompat {
   const surprise = sorted.find((pair) => pair.stemClash && pair.score >= 58) ?? null;
   return { pairs, top, surprise };
 }
+
+/** 1:1 궁합 풀이용 — 네 가지 자리에서 두 사람이 어떤 관계인지 ("나" 기준 방향 포함) */
+export type StemRelation = "combine" | "iGenerate" | "theyGenerate" | "same" | "iControl" | "theyControl";
+export type BranchRelation = "combine" | "trine" | "clash" | "same" | "neutral";
+
+export type PairBreakdown = {
+  stem: StemRelation;
+  dayBranch: BranchRelation;
+  zodiac: BranchRelation;
+  /** 내게 없는데 상대가 넉넉히(2개 이상) 가진 오행 */
+  theyFill: number[];
+  /** 상대에게 없는데 내가 넉넉히 가진 오행 */
+  iFill: number[];
+};
+
+function branchRelation(a: number, b: number): BranchRelation {
+  if (a === b) return "same";
+  if (branchCombine(a, b)) return "combine";
+  if (branchClash(a, b)) return "clash";
+  if (branchTrine(a, b)) return "trine";
+  return "neutral";
+}
+
+export function pairBreakdown(me: CompatProfile, them: CompatProfile): PairBreakdown {
+  const em = elementIndex(me.ds);
+  const et = elementIndex(them.ds);
+  const stem: StemRelation = stemCombine(me.ds, them.ds)
+    ? "combine"
+    : generates(em, et)
+      ? "iGenerate"
+      : generates(et, em)
+        ? "theyGenerate"
+        : em === et
+          ? "same"
+          : controls(em, et)
+            ? "iControl"
+            : "theyControl";
+  const theyFill: number[] = [];
+  const iFill: number[] = [];
+  for (let i = 0; i < 5; i++) {
+    if (me.el[i] === 0 && them.el[i] >= 2) theyFill.push(i);
+    if (them.el[i] === 0 && me.el[i] >= 2) iFill.push(i);
+  }
+  return {
+    stem,
+    dayBranch: branchRelation(me.db, them.db),
+    zodiac: branchRelation(me.yb, them.yb),
+    theyFill,
+    iFill,
+  };
+}

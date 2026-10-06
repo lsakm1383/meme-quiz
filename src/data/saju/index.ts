@@ -9,7 +9,7 @@ import type { FortuneKey } from "@/lib/saju/fortune";
 export type SajuTestConfig = {
   id: string;
   /** chart: 원국 풀이(개인) · fortune: 운세 점수(개인 또는 그룹 순위) · daily: 오늘의 운세 */
-  kind: "chart" | "fortune" | "daily" | "daeun";
+  kind: "chart" | "fortune" | "daily" | "daeun" | "compat";
   emoji: string;
   title: string;
   description: string;
@@ -58,6 +58,15 @@ export const sajuTests: SajuTestConfig[] = [
       "10년마다 바뀌는 큰 운의 흐름, 대운을 계산해 인생 그래프로 보여드려요. 지금 지나고 있는 대운의 테마와 기회, 주의할 점도 함께 알려드려요.",
     accentColor: "#4d7c0f",
     image: "/saju/daeun-cover.webp",
+  },
+  {
+    id: "compat",
+    kind: "compat",
+    emoji: "💞",
+    title: "사주 궁합 보기",
+    description:
+      "두 사람의 생년월일로 성격·생활·띠·오행 네 가지 궁합을 풀어드려요. 연인은 물론 친구, 동료, 가족과도 볼 수 있어요.",
+    accentColor: "#be185d",
   },
 ];
 

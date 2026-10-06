@@ -144,3 +144,18 @@ export type DaeunCopy = {
   /** 대운 점수 구간 — min 이상, 높은 구간부터 5개 (인생 그래프 라벨) */
   tiers: { min: number; title: string; text: string }[];
 };
+
+/** 1:1 궁합 해석 문구. 본문에서 "나"와 "상대"는 이름이 있으면 이름으로 바꿔 보여준다 ({me}, {them}). */
+export type CompatCopy = {
+  /** 일간끼리 — 성격 궁합 */
+  stem: Record<
+    "combine" | "iGenerate" | "theyGenerate" | "same" | "iControl" | "theyControl",
+    { title: string; text: string; tip: string }
+  >;
+  /** 일지끼리 — 생활 궁합 */
+  dayBranch: Record<"combine" | "trine" | "clash" | "same" | "neutral", { title: string; text: string }>;
+  /** 띠(연지)끼리 */
+  zodiac: Record<"combine" | "trine" | "clash" | "same" | "neutral", { title: string; text: string }>;
+  /** 궁합 점수 구간별 한마디 — COMPAT_TIERS 와 같은 min (85/72/58/44/0) */
+  tiers: { min: number; text: string }[];
+};

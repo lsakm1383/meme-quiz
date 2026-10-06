@@ -4,7 +4,8 @@ import { sajuTests, getSajuTest } from "@/data/saju";
 import { SajuForm } from "@/components/saju/SajuForm";
 import { FortuneStart } from "@/components/saju/FortuneStart";
 import { DailyStart } from "@/components/saju/DailyStart";
-import { SajuGuide, FortuneGuide, DailyGuide, DaeunGuide } from "@/components/TestGuides";
+import { CompatStart } from "@/components/saju/CompatStart";
+import { SajuGuide, FortuneGuide, DailyGuide, DaeunGuide, CompatGuide } from "@/components/TestGuides";
 import { getSiteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -53,6 +54,8 @@ export default async function SajuTestPage({
         />
       ) : test.kind === "daily" ? (
         <DailyStart test={test} guide={<DailyGuide test={test} />} />
+      ) : test.kind === "compat" ? (
+        <CompatStart test={test} guide={<CompatGuide test={test} />} />
       ) : test.kind === "daeun" ? (
         <SajuForm
           test={test}
