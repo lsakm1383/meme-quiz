@@ -107,6 +107,7 @@ export const sajuTests: SajuTestConfig[] = [
     description:
       "간밤에 꾼 꿈, 무슨 뜻일까요? 돼지 꿈·이빨 빠지는 꿈처럼 자주 꾸는 꿈 120여 가지를 검색하고, 상황별 풀이와 길몽·태몽 여부까지 확인해 보세요.",
     accentColor: "#0f766e",
+    image: "/saju/dream-cover.webp",
   },
 ];
 
