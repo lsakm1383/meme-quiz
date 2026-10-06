@@ -27,12 +27,19 @@ export function DailyStart({
   submitLabel = "오늘의 운세 보기",
   quickLabel = "오늘의 운세 바로 보기",
   rememberNote = "내일부터는 입력 없이 바로 볼 수 있어요.",
+  genderNote = "연애운에서 배우자별(여성은 관성, 남성은 재성)을 정할 때 쓰여요.",
+  askTime = true,
+  allowRemember = true,
 }: {
   test: SajuTestConfig;
   guide?: ReactNode;
   submitLabel?: string;
   quickLabel?: string;
   rememberNote?: string;
+  genderNote?: string | null;
+  askTime?: boolean;
+  /** false 면 기억해 둔 정보로 바로 보기만 하고, 새로 기억하지는 않는다 (성별·시간을 묻지 않는 폼이라 기억할 정보가 모자랄 때) */
+  allowRemember?: boolean;
 }) {
   const router = useRouter();
   const [remembered, setRemembered] = useState<SajuSubmission | null>(null);
@@ -56,18 +63,12 @@ export function DailyStart({
 
   return (
     <div className="flex flex-col items-center gap-6 text-center">
-      {test.image ? (
-        <PhotoIcon src={test.image} size="xl" />
-      ) : (
-        <div className="text-7xl">{test.emoji}</div>
-      )}
+      {test.image ? <PhotoIcon src={test.image} size="xl" /> : <div className="text-7xl">{test.emoji}</div>}
       <p className="text-sm font-bold" style={{ color: test.accentColor }}>
         사주 시리즈
       </p>
       <h1 className="-mt-4 text-2xl font-bold leading-snug">{test.title}</h1>
-      <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
-        {test.description}
-      </p>
+      <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">{test.description}</p>
 
       {remembered && !showForm && (
         <div className="flex w-full flex-col items-center gap-3 rounded-3xl border border-zinc-200 p-5 dark:border-zinc-800">
@@ -104,26 +105,31 @@ export function DailyStart({
         <BirthForm
           accentColor={test.accentColor}
           submitLabel={submitLabel}
-          genderNote="연애운에서 배우자별(여성은 관성, 남성은 재성)을 정할 때 쓰여요."
+          genderNote={genderNote}
+          askTime={askTime}
           bottomSlot={
-            <label className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-              <input
-                type="checkbox"
-                checked={remember}
-                onChange={(event) => setRemember(event.target.checked)}
-                className="mt-0.5 h-4 w-4"
-              />
-              <span>
-                이 기기에 기억하기
-                <span className="block text-xs text-zinc-400">
-                  {rememberNote} 이 브라우저에만 저장되고 언제든 지울 수 있어요.
+            allowRemember && (
+              <label className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+                <input
+                  type="checkbox"
+                  checked={remember}
+                  onChange={(event) => setRemember(event.target.checked)}
+                  className="mt-0.5 h-4 w-4"
+                />
+                <span>
+                  이 기기에 기억하기
+                  <span className="block text-xs text-zinc-400">
+                    {rememberNote} 이 브라우저에만 저장되고 언제든 지울 수 있어요.
+                  </span>
                 </span>
-              </span>
-            </label>
+              </label>
+            )
           }
           onValid={(submission) => {
-            if (remember) rememberSubmission(submission);
-            else forgetRemembered();
+            if (allowRemember) {
+              if (remember) rememberSubmission(submission);
+              else forgetRemembered();
+            }
             return open(submission);
           }}
         />

@@ -5,7 +5,7 @@ import { SajuForm } from "@/components/saju/SajuForm";
 import { FortuneStart } from "@/components/saju/FortuneStart";
 import { DailyStart } from "@/components/saju/DailyStart";
 import { CompatStart } from "@/components/saju/CompatStart";
-import { SajuGuide, FortuneGuide, DailyGuide, DaeunGuide, CompatGuide, YearlyGuide, ZodiacGuide } from "@/components/TestGuides";
+import { SajuGuide, FortuneGuide, DailyGuide, DaeunGuide, CompatGuide, YearlyGuide, ZodiacGuide, TojeongGuide } from "@/components/TestGuides";
 import { ZodiacStart } from "@/components/saju/ZodiacStart";
 import { getSiteUrl } from "@/lib/site";
 
@@ -55,6 +55,16 @@ export default async function SajuTestPage({
         />
       ) : test.kind === "daily" ? (
         <DailyStart test={test} guide={<DailyGuide test={test} />} />
+      ) : test.kind === "tojeong" ? (
+        <DailyStart
+          test={test}
+          guide={<TojeongGuide test={test} />}
+          submitLabel="토정비결 보기"
+          quickLabel="토정비결 바로 보기"
+          genderNote={null}
+          askTime={false}
+          allowRemember={false}
+        />
       ) : test.kind === "zodiac" ? (
         <ZodiacStart test={test} guide={<ZodiacGuide test={test} />} />
       ) : test.kind === "yearly" ? (

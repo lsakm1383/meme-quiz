@@ -50,6 +50,7 @@ export function BirthForm({
   topSlot,
   bottomSlot,
   busy = false,
+  askTime = true,
   onValid,
 }: {
   accentColor: string;
@@ -61,6 +62,8 @@ export function BirthForm({
   /** 제출 버튼 바로 위에 끼워 넣을 내용 (예: 기억하기 체크) */
   bottomSlot?: ReactNode;
   busy?: boolean;
+  /** false 면 태어난 시간을 묻지 않는다 (토정비결처럼 시간을 쓰지 않을 때) */
+  askTime?: boolean;
   /** 검증을 통과한 입력. 실패 메시지를 돌려주면 폼 아래에 보여준다. */
   onValid: (submission: SajuSubmission) => string | null | void | Promise<string | null | void>;
 }) {
@@ -82,7 +85,7 @@ export function BirthForm({
   async function submit() {
     setError(null);
     let parsedTime: { hour: number; minute: number } | null = null;
-    if (!timeUnknown) {
+    if (askTime && !timeUnknown) {
       const match = /^(\d{1,2}):(\d{2})$/.exec(time);
       if (!match) {
         setError("태어난 시간을 입력하거나 '시간 모름'을 체크해주세요.");
@@ -186,26 +189,28 @@ export function BirthForm({
         </div>
       )}
 
-      <div className="flex flex-col gap-2">
-        <span className="text-sm font-bold">태어난 시간</span>
-        <input
-          type="time"
-          aria-label="태어난 시간"
-          value={time}
-          disabled={timeUnknown}
-          onChange={(event) => setTime(event.target.value)}
-          className={`${selectClass} disabled:opacity-40`}
-        />
-        <label className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+      {askTime && (
+        <div className="flex flex-col gap-2">
+          <span className="text-sm font-bold">태어난 시간</span>
           <input
-            type="checkbox"
-            checked={timeUnknown}
-            onChange={(event) => setTimeUnknown(event.target.checked)}
-            className="h-4 w-4"
+            type="time"
+            aria-label="태어난 시간"
+            value={time}
+            disabled={timeUnknown}
+            onChange={(event) => setTime(event.target.value)}
+            className={`${selectClass} disabled:opacity-40`}
           />
-          시간을 몰라요 (시주 없이 6글자로 풀이해요)
-        </label>
-      </div>
+          <label className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+            <input
+              type="checkbox"
+              checked={timeUnknown}
+              onChange={(event) => setTimeUnknown(event.target.checked)}
+              className="h-4 w-4"
+            />
+            시간을 몰라요 (시주 없이 6글자로 풀이해요)
+          </label>
+        </div>
+      )}
 
       {genderNote !== null && (
         <div className="flex flex-col gap-2">
@@ -236,9 +241,7 @@ export function BirthForm({
       >
         {submitLabel}
       </button>
-      <p className="text-center text-xs text-zinc-400">
-        입력한 정보는 이 기기 안에서만 계산하고 서버로 보내지 않아요.
-      </p>
+      <p className="text-center text-xs text-zinc-400">입력한 정보는 이 기기 안에서만 계산하고 서버로 보내지 않아요.</p>
     </div>
   );
 }

@@ -212,3 +212,17 @@ export type ZodiacCopy = {
   /** 그해 천간 오행과 내 띠 오행의 관계 — 한 문장 */
   yearElement: Record<"same" | "generated" | "generates" | "controls" | "controlled", string>;
 };
+
+/** 토정비결 한 괘의 풀이 (원문 번역이 아니라 괘의 흐름을 오늘의 말로 새로 쓴 풀이) */
+export type TojeongGua = {
+  /** 한 해를 한 줄로 (예: "언 땅에 봄바람이 부는 해") */
+  title: string;
+  /** 한 해의 기운 — great 크게 좋음 · good 좋음 · mixed 좋고 나쁨이 섞임 · caution 조심 */
+  tone: "great" | "good" | "mixed" | "caution";
+  /** 한 해 키워드 3개 */
+  keywords: string[];
+  /** 한 해 총론 3~4문장 */
+  summary: string;
+  /** 음력 정월부터 섣달까지 12개월 */
+  months: { mood: "good" | "normal" | "care"; text: string }[];
+};

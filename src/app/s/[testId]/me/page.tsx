@@ -7,6 +7,7 @@ import { DailyResult } from "@/components/saju/DailyResult";
 import { DaeunResult } from "@/components/saju/DaeunResult";
 import { CompatResult } from "@/components/saju/CompatResult";
 import { YearlyResult } from "@/components/saju/YearlyResult";
+import { TojeongResult } from "@/components/saju/TojeongResult";
 
 export function generateStaticParams() {
   return sajuTests.map((test) => ({ testId: test.id }));
@@ -42,6 +43,8 @@ export default async function SajuResultPage({ params }: { params: Promise<{ tes
         <DailyResult test={test} />
       ) : test.kind === "compat" ? (
         <CompatResult test={test} />
+      ) : test.kind === "tojeong" ? (
+        <TojeongResult test={test} />
       ) : test.kind === "yearly" ? (
         <YearlyResult test={test} />
       ) : test.kind === "daeun" ? (
