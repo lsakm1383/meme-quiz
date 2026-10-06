@@ -3,12 +3,15 @@
 import { useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { seriesNameOf, type SajuTestConfig } from "@/data/saju";
-import { savePalmAnswers, type PalmAnswers, type PalmDrawing, type PalmLine } from "@/lib/saju/palm";
+import { savePalmAnswers, type PalmAnswers, type PalmDrawing, type PalmLine, type PalmSide } from "@/lib/saju/palm";
 import { PhotoIcon } from "@/components/PhotoIcon";
 import { PalmSvg } from "@/components/saju/PalmSvg";
 
-/** drawing: 손바닥 그림에 그릴 선 모양 · image: 그림 대신 보여줄 일러스트 (손 고르기) */
-type Option = { value: string; label: string; drawing?: Partial<PalmDrawing>; image?: string; mirror?: boolean };
+/**
+ * drawing: 손바닥 그림에 그릴 선 모양 · image: 그림 대신 보여줄 일러스트 (손 고르기)
+ * imageHand: 일러스트가 원래 그린 손 (내 손을 내려다본 기준) — 보여줄 손과 다르면 좌우로 뒤집는다
+ */
+type Option = { value: string; label: string; drawing?: Partial<PalmDrawing>; image?: string; imageHand?: PalmSide };
 type Step = {
   key: keyof PalmAnswers;
   line?: PalmLine;
@@ -23,8 +26,8 @@ const STEPS: Step[] = [
     title: "어느 손을 보고 있나요?",
     hint: "보고 있는 손과 같은 방향으로 그림을 보여드려요.",
     options: [
-      { value: "left", label: "왼손", image: "/saju/palm-base.webp", mirror: true },
-      { value: "right", label: "오른손", image: "/saju/palm-base.webp" },
+      { value: "left", label: "왼손", image: "/saju/palm-base.webp", imageHand: "left" },
+      { value: "right", label: "오른손", image: "/saju/palm-base.webp", imageHand: "left" },
     ],
   },
   {
@@ -32,8 +35,8 @@ const STEPS: Step[] = [
     title: "그 손이 주로 쓰는 손인가요?",
     hint: "주로 쓰는 손은 살아오며 만든 모습, 반대 손은 타고난 모습을 본다고 해요.",
     options: [
-      { value: "dominant", label: "네, 주로 쓰는 손", image: "/saju/palm-writing.webp" },
-      { value: "other", label: "아니요, 반대 손", image: "/saju/palm-base.webp" },
+      { value: "dominant", label: "네, 주로 쓰는 손", image: "/saju/palm-writing.webp", imageHand: "right" },
+      { value: "other", label: "아니요, 반대 손", image: "/saju/palm-base.webp", imageHand: "left" },
     ],
   },
   {
@@ -121,7 +124,12 @@ export function PalmQuiz({ test, guide }: { test: SajuTestConfig; guide?: ReactN
     (step) => !(answers.heart === "simian" && (step.key === "head" || step.key === "headStart"))
   );
   const step = index === null ? null : steps[index];
-  const mirror = answers.side === "left";
+  // 손바닥 그림은 왼손이라 오른손을 볼 때 뒤집는다
+  const mirror = answers.side === "right";
+  const flipImage = (option: Option) => {
+    const target = step?.key === "side" ? (option.value as PalmSide) : answers.side;
+    return !!option.imageHand && !!target && option.imageHand !== target;
+  };
   // 앞에서 고른 모양은 다음 보기 그림에도 반영한다
   const chosen: Partial<PalmDrawing> = {
     ...(answers.heart && { heart: answers.heart }),
@@ -216,7 +224,7 @@ export function PalmQuiz({ test, guide }: { test: SajuTestConfig; guide?: ReactN
                   <img
                     src={option.image}
                     alt=""
-                    className={`h-full w-full object-contain ${option.mirror || (step.key === "hand" && mirror) ? "-scale-x-100" : ""}`}
+                    className={`h-full w-full object-contain ${flipImage(option) ? "-scale-x-100" : ""}`}
                   />
                 </span>
               )}

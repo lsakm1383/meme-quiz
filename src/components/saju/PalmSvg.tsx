@@ -1,13 +1,13 @@
 import { DEFAULT_DRAWING, type PalmDrawing, type PalmLine } from "@/lib/saju/palm";
 
-// 손바닥 일러스트(오른손, 엄지가 왼쪽) 위에 손금을 SVG로 겹쳐 그린다. 고르는 중인 선만 진하게 칠한다.
+// 손바닥 일러스트(내 손바닥을 내려다본 왼손, 엄지가 왼쪽) 위에 손금을 SVG로 겹쳐 그린다. 고르는 중인 선만 진하게 칠한다.
 // 좌표는 원본 1024×1024 그림 기준이고, 화면에는 손이 있는 부분(x 180~800, y 60~980)만 잘라 쓴 이미지를 같은 자리에 놓는다.
 // 기준점: 엄지와 검지 사이 (365, 577) · 검지·중지 사이 (465, 431) · 새끼손가락 쪽 손바닥 가장자리 x≈716 · 손목 위 y≈800
 
 const VIEW = { x: 180, y: 60, width: 620, height: 920 };
 /** 결혼선처럼 작은 선을 볼 때 새끼손가락 아래만 확대한 화면 */
 const ZOOM_VIEW = { x: 520, y: 330, width: 300, height: 330 };
-/** 왼손은 그림 전체를 x = 980 - x 로 뒤집는다 (보이는 범위 180~800 이 그대로 180~800 으로 겹친다) */
+/** 오른손은 그림 전체를 x = 980 - x 로 뒤집는다 (보이는 범위 180~800 이 그대로 180~800 으로 겹친다) */
 const MIRROR_AXIS = VIEW.x * 2 + VIEW.width;
 
 const HEART: Record<PalmDrawing["heart"], string[]> = {
@@ -69,7 +69,7 @@ export function PalmSvg({
   size?: number;
   /** 새끼손가락 아래만 확대해서 보여준다 (결혼선) */
   zoom?: boolean;
-  /** 왼손 — 좌우로 뒤집어 그린다 */
+  /** 오른손 — 좌우로 뒤집어 그린다 */
   mirror?: boolean;
 }) {
   const d = { ...DEFAULT_DRAWING, ...drawing };

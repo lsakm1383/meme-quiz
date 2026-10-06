@@ -99,7 +99,7 @@ export function PalmResult({ test }: { test: SajuTestConfig }) {
         className="flex w-full flex-col items-center gap-2 rounded-3xl px-6 py-8 shadow-sm"
         style={{ backgroundColor: `${color}14` }}
       >
-        <PalmSvg drawing={drawing} color={color} size={150} mirror={answers.side === "left"} />
+        <PalmSvg drawing={drawing} color={color} size={150} mirror={answers.side === "right"} />
         <p className="text-sm font-semibold" style={{ color }}>
           내 손금 유형
         </p>
@@ -123,7 +123,7 @@ export function PalmResult({ test }: { test: SajuTestConfig }) {
               color={color}
               size={64}
               zoom={section.line === "marriage"}
-              mirror={answers.side === "left"}
+              mirror={answers.side === "right"}
             />
           </div>
           <div className="flex flex-col gap-1">

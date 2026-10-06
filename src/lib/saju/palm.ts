@@ -11,7 +11,7 @@ export type FateShape = "clear" | "late" | "faint" | "none";
 export type MarriageShape = "one" | "two" | "faint";
 
 export type PalmAnswers = {
-  /** 보고 있는 손 — 왼손이면 그림을 좌우로 뒤집어 보여준다 (예전에 저장된 답에는 없을 수 있다) */
+  /** 보고 있는 손 — 손바닥 그림이 왼손이라 오른손이면 좌우로 뒤집어 보여준다 (예전에 저장된 답에는 없을 수 있다) */
   side?: PalmSide;
   hand: PalmHand;
   /** 막쥔손금이면 "simian" — 이때 두뇌선 질문은 건너뛴다 */
