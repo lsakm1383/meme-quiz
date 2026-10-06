@@ -67,6 +67,7 @@ export const sajuTests: SajuTestConfig[] = [
     description:
       "두 사람의 생년월일로 성격·생활·띠·오행 네 가지 궁합을 풀어드려요. 연인은 물론 친구, 동료, 가족과도 볼 수 있어요.",
     accentColor: "#be185d",
+    image: "/saju/compat-cover.webp",
   },
 ];
 
