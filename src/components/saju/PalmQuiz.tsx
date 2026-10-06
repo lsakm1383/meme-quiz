@@ -7,7 +7,8 @@ import { savePalmAnswers, type PalmAnswers, type PalmDrawing, type PalmLine } fr
 import { PhotoIcon } from "@/components/PhotoIcon";
 import { PalmSvg } from "@/components/saju/PalmSvg";
 
-type Option = { value: string; label: string; drawing?: Partial<PalmDrawing> };
+/** drawing: 손바닥 그림에 그릴 선 모양 · image: 그림 대신 보여줄 일러스트 (손 고르기) */
+type Option = { value: string; label: string; drawing?: Partial<PalmDrawing>; image?: string };
 type Step = {
   key: keyof PalmAnswers;
   line?: PalmLine;
@@ -22,8 +23,8 @@ const STEPS: Step[] = [
     title: "어느 손을 보고 있나요?",
     hint: "주로 쓰는 손은 살아오며 만든 모습, 반대 손은 타고난 모습을 본다고 해요.",
     options: [
-      { value: "dominant", label: "주로 쓰는 손" },
-      { value: "other", label: "반대 손" },
+      { value: "dominant", label: "주로 쓰는 손", image: "/saju/palm-writing.webp" },
+      { value: "other", label: "반대 손", image: "/saju/palm-base.webp" },
     ],
   },
   {
@@ -188,7 +189,7 @@ export function PalmQuiz({ test, guide }: { test: SajuTestConfig; guide?: ReactN
       </div>
       <h1 className="text-xl font-extrabold leading-snug">{step.title}</h1>
       <p className="-mt-2 text-sm leading-relaxed text-zinc-500">{step.hint}</p>
-      <div className={`grid w-full gap-2 ${step.line ? "grid-cols-2" : "grid-cols-1"}`}>
+      <div className={`grid w-full gap-2 ${step.line || step.options.some((option) => option.image) ? "grid-cols-2" : "grid-cols-1"}`}>
         {step.options.map((option) => {
           const selected = answers[step.key] === option.value;
           return (
@@ -199,6 +200,12 @@ export function PalmQuiz({ test, guide }: { test: SajuTestConfig; guide?: ReactN
               className="flex flex-col items-center gap-1 rounded-2xl border-2 px-2 py-3 text-sm font-bold transition-colors active:scale-[0.98]"
               style={{ borderColor: selected ? test.accentColor : "#e4e4e7" }}
             >
+              {option.image && (
+                <span className="flex h-36 w-full items-center justify-center overflow-hidden rounded-xl bg-[#faf7eb]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={option.image} alt="" className="h-full w-full object-contain" />
+                </span>
+              )}
               {step.line && (
                 <PalmSvg
                   drawing={{ ...chosen, ...option.drawing }}
