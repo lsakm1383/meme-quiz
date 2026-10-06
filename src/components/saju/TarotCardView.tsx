@@ -12,16 +12,11 @@ const SIZE = {
 export function TarotCardBack({ size = "md" }: { size?: keyof typeof SIZE }) {
   return (
     <span
-      className={`relative flex aspect-[2/3] items-center justify-center overflow-hidden border-2 border-amber-300/80 bg-indigo-950 shadow-md ${SIZE[size]}`}
-      style={{
-        backgroundImage:
-          "radial-gradient(circle at 20% 25%, rgba(253,230,138,.55) 0 1.5px, transparent 2px), radial-gradient(circle at 70% 60%, rgba(253,230,138,.45) 0 1px, transparent 1.5px), radial-gradient(circle at 45% 85%, rgba(253,230,138,.4) 0 1px, transparent 1.5px)",
-        backgroundSize: "26px 26px, 32px 32px, 22px 22px",
-      }}
+      className={`relative block aspect-[2/3] overflow-hidden border-2 border-amber-300/80 bg-indigo-950 shadow-md ${SIZE[size]}`}
       aria-hidden="true"
     >
-      <span className="absolute inset-1 rounded-[inherit] border border-amber-300/50" />
-      <span className={`text-amber-200 ${size === "sm" ? "text-base" : "text-3xl"}`}>✦</span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/saju/tarot/back.webp" alt="" className="absolute inset-0 h-full w-full object-cover" />
     </span>
   );
 }
