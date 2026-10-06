@@ -20,7 +20,20 @@ function describe(submission: SajuSubmission): string {
   return `${calendar} ${submission.year}년 ${submission.month}월 ${submission.day}일`;
 }
 
-export function DailyStart({ test, guide }: { test: SajuTestConfig; guide?: ReactNode }) {
+// 오늘의 운세·신년 운세 시작 화면. 이 기기에 기억해 둔 정보가 있으면 입력 없이 바로 볼 수 있다.
+export function DailyStart({
+  test,
+  guide,
+  submitLabel = "오늘의 운세 보기",
+  quickLabel = "오늘의 운세 바로 보기",
+  rememberNote = "내일부터는 입력 없이 바로 볼 수 있어요.",
+}: {
+  test: SajuTestConfig;
+  guide?: ReactNode;
+  submitLabel?: string;
+  quickLabel?: string;
+  rememberNote?: string;
+}) {
   const router = useRouter();
   const [remembered, setRemembered] = useState<SajuSubmission | null>(null);
   const [showForm, setShowForm] = useState(true);
@@ -65,7 +78,7 @@ export function DailyStart({ test, guide }: { test: SajuTestConfig; guide?: Reac
             className="w-full max-w-xs rounded-full px-8 py-4 text-lg font-bold text-white shadow-lg transition-transform active:scale-95"
             style={{ backgroundColor: test.accentColor }}
           >
-            오늘의 운세 바로 보기
+            {quickLabel}
           </button>
           <div className="flex items-center gap-4 text-sm font-semibold text-zinc-400">
             <button type="button" onClick={() => setShowForm(true)} className="underline underline-offset-4">
@@ -90,7 +103,7 @@ export function DailyStart({ test, guide }: { test: SajuTestConfig; guide?: Reac
       {showForm && (
         <BirthForm
           accentColor={test.accentColor}
-          submitLabel="오늘의 운세 보기"
+          submitLabel={submitLabel}
           genderNote="연애운에서 배우자별(여성은 관성, 남성은 재성)을 정할 때 쓰여요."
           bottomSlot={
             <label className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">
@@ -103,7 +116,7 @@ export function DailyStart({ test, guide }: { test: SajuTestConfig; guide?: Reac
               <span>
                 이 기기에 기억하기
                 <span className="block text-xs text-zinc-400">
-                  내일부터는 입력 없이 바로 볼 수 있어요. 이 브라우저에만 저장되고 언제든 지울 수 있어요.
+                  {rememberNote} 이 브라우저에만 저장되고 언제든 지울 수 있어요.
                 </span>
               </span>
             </label>

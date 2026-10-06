@@ -159,3 +159,27 @@ export type CompatCopy = {
   /** 궁합 점수 구간별 한마디 — COMPAT_TIERS 와 같은 min (85/72/58/44/0) */
   tiers: { min: number; text: string }[];
 };
+
+/** 신년 운세(세운) 해석 문구 */
+export type YearlyCopy = {
+  /** 그해 천간이 내게 어떤 십성인지에 따른 한 해 테마 */
+  tenGods: Record<
+    TenGod,
+    {
+      /** 한 해 테마 (예: "기회를 넓히는 해") */
+      title: string;
+      /** 한 해의 성격 2~3문장 */
+      summary: string;
+      /** 올해 잡으면 좋은 기회 1~2문장 */
+      opportunity: string;
+      /** 올해 조심할 점 1~2문장 */
+      caution: string;
+    }
+  >;
+  /** 그해 지지와 내 일지·띠의 관계 — 한 줄씩 */
+  branch: { combine: string; trine: string; clash: string; same: string; zodiacClash: string };
+  /** 삼재 — 들삼재·눌삼재·날삼재 (부드럽게) */
+  samjae: { in: string; stay: string; out: string };
+  /** 한 해 점수 구간 — min 85/72/58/44/0, 높은 구간부터 5개 */
+  tiers: { min: number; title: string; text: string }[];
+};

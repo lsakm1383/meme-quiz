@@ -8,8 +8,8 @@ import type { FortuneKey } from "@/lib/saju/fortune";
 // 같은 계산 엔진(src/lib/saju)과 /s/<id> 경로를 쓰도록 목록으로 둔다.
 export type SajuTestConfig = {
   id: string;
-  /** chart: 원국 풀이(개인) · fortune: 운세 점수(개인 또는 그룹 순위) · daily: 오늘의 운세 */
-  kind: "chart" | "fortune" | "daily" | "daeun" | "compat";
+  /** chart: 원국 풀이(개인) · fortune: 운세 점수(개인 또는 그룹 순위) · daily: 오늘의 운세 · yearly: 신년 운세 */
+  kind: "chart" | "fortune" | "daily" | "daeun" | "compat" | "yearly";
   emoji: string;
   title: string;
   description: string;
@@ -68,6 +68,15 @@ export const sajuTests: SajuTestConfig[] = [
       "두 사람의 생년월일로 성격·생활·띠·오행 네 가지 궁합을 풀어드려요. 연인은 물론 친구, 동료, 가족과도 볼 수 있어요.",
     accentColor: "#be185d",
     image: "/saju/compat-cover.webp",
+  },
+  {
+    id: "newyear",
+    kind: "yearly",
+    emoji: "🎍",
+    title: "신년 운세 보기",
+    description:
+      "그해의 간지를 내 사주에 대 보고 한 해의 테마와 분야별 운, 좋은 달과 조심할 달, 삼재 여부까지 알려드려요. 올해와 내년을 골라 볼 수 있어요.",
+    accentColor: "#b91c1c",
   },
 ];
 
