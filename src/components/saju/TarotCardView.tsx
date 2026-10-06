@@ -6,7 +6,7 @@ import { romanOf } from "@/lib/saju/tarot";
 const SIZE = {
   sm: "w-12 rounded-md",
   md: "w-24 rounded-xl",
-  lg: "w-32 rounded-2xl",
+  lg: "w-44 rounded-2xl",
 } as const;
 
 export function TarotCardBack({ size = "md" }: { size?: keyof typeof SIZE }) {

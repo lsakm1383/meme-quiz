@@ -2,8 +2,10 @@ import type { TarotCard, TarotTopic } from "@/data/saju/types";
 import cardsA from "@/data/saju/tarot-a";
 import cardsB from "@/data/saju/tarot-b";
 
-// 메이저 아르카나 22장 (0 바보 ~ 21 세계)
-export const tarotCards: TarotCard[] = [...cardsA, ...cardsB].sort((a, b) => a.number - b.number);
+// 메이저 아르카나 22장 (0 바보 ~ 21 세계). 앞면 일러스트는 public/saju/tarot/<slug>.webp
+export const tarotCards: TarotCard[] = [...cardsA, ...cardsB]
+  .sort((a, b) => a.number - b.number)
+  .map((card) => ({ ...card, image: card.image ?? `/saju/tarot/${card.slug}.webp` }));
 
 export const getTarotCard = (number: number) => tarotCards.find((card) => card.number === number)!;
 
