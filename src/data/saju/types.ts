@@ -183,3 +183,32 @@ export type YearlyCopy = {
   /** 한 해 점수 구간 — min 85/72/58/44/0, 높은 구간부터 5개 */
   tiers: { min: number; title: string; text: string }[];
 };
+
+/** 띠별 운세 해석 문구 */
+export type ZodiacCopy = {
+  /** 열두 띠 소개 — 키는 ZODIAC_SLUGS (rat, ox, …) */
+  animals: Record<
+    string,
+    {
+      emoji: string;
+      /** 띠 별명 (예: "재치 만점 아이디어 뱅크") */
+      title: string;
+      /** 전통적으로 말하는 띠의 성향 3문장 */
+      description: string;
+      strengths: string[];
+      cautions: string[];
+    }
+  >;
+  /** 오늘 일진의 지지와 내 띠의 관계 — 각 3가지 문장을 날마다 돌려 쓴다 */
+  dailyRelation: Record<"combine" | "trine" | "clash" | "same" | "neutral", string[]>;
+  /** 오늘 일진의 천간이 내 띠의 오행과 맺는 관계 — 각 2가지 문장 */
+  dailyElement: Record<"same" | "generated" | "generates" | "controls" | "controlled", string[]>;
+  /** 년생별 한 줄 운세 — 태어난 해 천간 기준 오늘 천간의 십성. 각 4가지 문장을 날마다 돌려 쓴다 */
+  dailyTenGods: Record<TenGod, string[]>;
+  /** 오늘 총운 구간 — min 85/72/58/44/0, 높은 구간부터 5개 */
+  tiers: { min: number; title: string }[];
+  /** 그해 띠(지지)와 내 띠의 관계 */
+  yearRelation: Record<"combine" | "trine" | "clash" | "same" | "neutral", { title: string; text: string }>;
+  /** 그해 천간 오행과 내 띠 오행의 관계 — 한 문장 */
+  yearElement: Record<"same" | "generated" | "generates" | "controls" | "controlled", string>;
+};

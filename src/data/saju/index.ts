@@ -9,7 +9,7 @@ import type { FortuneKey } from "@/lib/saju/fortune";
 export type SajuTestConfig = {
   id: string;
   /** chart: 원국 풀이(개인) · fortune: 운세 점수(개인 또는 그룹 순위) · daily: 오늘의 운세 · yearly: 신년 운세 */
-  kind: "chart" | "fortune" | "daily" | "daeun" | "compat" | "yearly";
+  kind: "chart" | "fortune" | "daily" | "daeun" | "compat" | "yearly" | "zodiac";
   emoji: string;
   title: string;
   description: string;
@@ -78,6 +78,15 @@ export const sajuTests: SajuTestConfig[] = [
       "그해의 간지를 내 사주에 대 보고 한 해의 테마와 분야별 운, 좋은 달과 조심할 달, 삼재 여부까지 알려드려요. 올해와 내년을 골라 볼 수 있어요.",
     accentColor: "#b91c1c",
     image: "/saju/newyear-cover.webp",
+  },
+  {
+    id: "zodiac",
+    kind: "zodiac",
+    emoji: "🐲",
+    title: "띠별 운세 보기",
+    description:
+      "생년월일 입력 없이 내 띠만 고르면 오늘의 띠별 운세와 년생별 한 줄 운세, 올해·내년 띠 운세, 잘 맞는 띠까지 알려드려요.",
+    accentColor: "#4338ca",
   },
 ];
 

@@ -1,22 +1,44 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { sajuTests, getSajuTest, dayMasters, getDayMaster, getElement } from "@/data/saju";
-import { STEMS } from "@/lib/saju/constants";
+import { STEMS, BRANCHES } from "@/lib/saju/constants";
+import zodiacCopy from "@/data/saju/zodiac";
+import { ZODIAC_SLUGS, zodiacBranchOf } from "@/lib/saju/zodiac";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { DayMasterIcon } from "@/components/saju/DayMasterIcon";
+import { ZodiacResult } from "@/components/saju/ZodiacResult";
 
 type Params = { testId: string; slug: string };
 
 export function generateStaticParams() {
-  return sajuTests
-    .filter((test) => test.kind === "chart")
-    .flatMap((test) => dayMasters.map((profile) => ({ testId: test.id, slug: profile.slug })));
+  return sajuTests.flatMap((test) =>
+    test.kind === "chart"
+      ? dayMasters.map((profile) => ({ testId: test.id, slug: profile.slug }))
+      : test.kind === "zodiac"
+        ? ZODIAC_SLUGS.map((slug) => ({ testId: test.id, slug }))
+        : []
+  );
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { testId, slug } = await params;
   const test = getSajuTest(testId);
+  if (test?.kind === "zodiac") {
+    const branch = zodiacBranchOf(slug);
+    if (branch === null) return {};
+    const animal = zodiacCopy.animals[slug];
+    const title = `${animal.emoji} ${BRANCHES[branch].animal}띠 오늘의 운세`;
+    const description = `${BRANCHES[branch].animal}띠 오늘의 운세와 년생별 한 줄 운세, 올해·내년 띠 운세 — ${animal.title}`;
+    return {
+      title,
+      description,
+      openGraph: { title, description, type: "website" },
+      twitter: { card: "summary_large_image", title, description },
+      // 다른 결과 페이지와 마찬가지로 공유용이라 검색 색인에서는 뺀다 (소개·설명은 /s/zodiac 시작 화면에 있다).
+      robots: { index: false, follow: true },
+    };
+  }
   const profile = getDayMaster(slug);
   if (!test || !profile) return {};
 
@@ -36,6 +58,15 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 export default async function SajuTypePage({ params }: { params: Promise<Params> }) {
   const { testId, slug } = await params;
   const test = getSajuTest(testId);
+  if (test?.kind === "zodiac") {
+    const branch = zodiacBranchOf(slug);
+    if (branch === null) notFound();
+    return (
+      <div className="flex w-full max-w-md flex-1 flex-col items-center px-6 py-16">
+        <ZodiacResult test={test} branch={branch} />
+      </div>
+    );
+  }
   const profile = getDayMaster(slug);
   if (!test || test.kind !== "chart" || !profile) notFound();
 

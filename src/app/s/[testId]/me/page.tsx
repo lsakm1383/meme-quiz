@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { sajuTests, getSajuTest } from "@/data/saju";
 import { SajuResult } from "@/components/saju/SajuResult";
@@ -31,6 +31,8 @@ export default async function SajuResultPage({ params }: { params: Promise<{ tes
   const { testId } = await params;
   const test = getSajuTest(testId);
   if (!test) notFound();
+  // 띠별 운세는 입력 없이 띠마다 /s/zodiac/t/<띠> 화면에서 본다.
+  if (test.kind === "zodiac") redirect(`/s/${test.id}`);
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center px-6 py-16">

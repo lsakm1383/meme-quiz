@@ -3,7 +3,9 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import sharp from "sharp";
 import { sajuTests, getSajuTest, dayMasters, getDayMaster, getElement } from "@/data/saju";
-import { STEMS } from "@/lib/saju/constants";
+import { STEMS, BRANCHES } from "@/lib/saju/constants";
+import zodiacCopy from "@/data/saju/zodiac";
+import { ZODIAC_SLUGS, zodiacBranchOf } from "@/lib/saju/zodiac";
 
 export const alt = "일간 유형";
 export const size = { width: 1200, height: 630 };
@@ -14,9 +16,70 @@ const notoBold = readFile(join(process.cwd(), "assets/fonts/NotoSansKR-Bold.ttf"
 const notoRegular = readFile(join(process.cwd(), "assets/fonts/NotoSansKR-Regular.ttf"));
 
 export function generateStaticParams() {
-  return sajuTests
-    .filter((test) => test.kind === "chart")
-    .flatMap((test) => dayMasters.map((profile) => ({ testId: test.id, slug: profile.slug })));
+  return sajuTests.flatMap((test) =>
+    test.kind === "chart"
+      ? dayMasters.map((profile) => ({ testId: test.id, slug: profile.slug }))
+      : test.kind === "zodiac"
+        ? ZODIAC_SLUGS.map((slug) => ({ testId: test.id, slug }))
+        : []
+  );
+}
+
+const fonts = (regular: Buffer, bold: Buffer) => [
+  { name: "Noto Sans KR", data: regular, weight: 400 as const, style: "normal" as const },
+  { name: "Noto Sans KR", data: bold, weight: 700 as const, style: "normal" as const },
+];
+
+/** 띠별 운세 공유 이미지 — 날마다 바뀌는 점수 대신 띠와 별명만 그린다 */
+async function zodiacImage(slug: string, accentColor: string) {
+  const branch = zodiacBranchOf(slug) ?? 0;
+  const animal = zodiacCopy.animals[ZODIAC_SLUGS[branch]];
+  const [bold, regular] = await Promise.all([notoBold, notoRegular]);
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#fafafa",
+        }}
+      >
+        <div style={{ display: "flex", fontSize: 32, color: "#71717a" }}>사주 시리즈 · 띠별 운세</div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: 960,
+            marginTop: 24,
+            padding: "40px 64px",
+            borderRadius: 48,
+            background: `${accentColor}1f`,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={emojiImageUrl(animal.emoji)} width={150} height={150} alt="" />
+            <div style={{ display: "flex", fontSize: 110, fontWeight: 700, color: "#18181b" }}>
+              {BRANCHES[branch].hanja}
+            </div>
+          </div>
+          <div style={{ display: "flex", fontSize: 64, fontWeight: 700, color: "#18181b", marginTop: 16 }}>
+            {`${BRANCHES[branch].animal}띠 오늘의 운세`}
+          </div>
+          <div style={{ display: "flex", fontSize: 32, color: "#27272a", marginTop: 12 }}>{animal.title}</div>
+        </div>
+        <div style={{ display: "flex", fontSize: 28, color: "#a1a1aa", marginTop: 20 }}>
+          오늘의 밈 테스트 · 우리 띠 오늘 운세 보러 가기 👉
+        </div>
+      </div>
+    ),
+    { ...size, fonts: fonts(regular, bold) }
+  );
 }
 
 // 사토리는 색깔 이모지를 못 그리므로 Twemoji SVG를 코드포인트로 가져와 <img>로 그린다.
@@ -31,6 +94,7 @@ function emojiImageUrl(emoji: string) {
 export default async function Image({ params }: { params: Promise<{ testId: string; slug: string }> }) {
   const { testId, slug } = await params;
   const test = getSajuTest(testId);
+  if (test?.kind === "zodiac") return zodiacImage(slug, test.accentColor);
   const profile = getDayMaster(slug);
   const stem = profile && STEMS.find((item) => item.slug === profile.slug);
   const element = stem && getElement(stem.element);
