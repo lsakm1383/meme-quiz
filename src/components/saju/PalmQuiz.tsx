@@ -8,7 +8,7 @@ import { PhotoIcon } from "@/components/PhotoIcon";
 import { PalmSvg } from "@/components/saju/PalmSvg";
 
 /** drawing: 손바닥 그림에 그릴 선 모양 · image: 그림 대신 보여줄 일러스트 (손 고르기) */
-type Option = { value: string; label: string; drawing?: Partial<PalmDrawing>; image?: string };
+type Option = { value: string; label: string; drawing?: Partial<PalmDrawing>; image?: string; mirror?: boolean };
 type Step = {
   key: keyof PalmAnswers;
   line?: PalmLine;
@@ -19,12 +19,21 @@ type Step = {
 
 const STEPS: Step[] = [
   {
-    key: "hand",
+    key: "side",
     title: "어느 손을 보고 있나요?",
+    hint: "보고 있는 손과 같은 방향으로 그림을 보여드려요.",
+    options: [
+      { value: "left", label: "왼손", image: "/saju/palm-base.webp", mirror: true },
+      { value: "right", label: "오른손", image: "/saju/palm-base.webp" },
+    ],
+  },
+  {
+    key: "hand",
+    title: "그 손이 주로 쓰는 손인가요?",
     hint: "주로 쓰는 손은 살아오며 만든 모습, 반대 손은 타고난 모습을 본다고 해요.",
     options: [
-      { value: "dominant", label: "주로 쓰는 손", image: "/saju/palm-writing.webp" },
-      { value: "other", label: "반대 손", image: "/saju/palm-base.webp" },
+      { value: "dominant", label: "네, 주로 쓰는 손", image: "/saju/palm-writing.webp" },
+      { value: "other", label: "아니요, 반대 손", image: "/saju/palm-base.webp" },
     ],
   },
   {
@@ -112,6 +121,7 @@ export function PalmQuiz({ test, guide }: { test: SajuTestConfig; guide?: ReactN
     (step) => !(answers.heart === "simian" && (step.key === "head" || step.key === "headStart"))
   );
   const step = index === null ? null : steps[index];
+  const mirror = answers.side === "left";
   // 앞에서 고른 모양은 다음 보기 그림에도 반영한다
   const chosen: Partial<PalmDrawing> = {
     ...(answers.heart && { heart: answers.heart }),
@@ -203,7 +213,11 @@ export function PalmQuiz({ test, guide }: { test: SajuTestConfig; guide?: ReactN
               {option.image && (
                 <span className="flex h-36 w-full items-center justify-center overflow-hidden rounded-xl bg-[#faf7eb]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={option.image} alt="" className="h-full w-full object-contain" />
+                  <img
+                    src={option.image}
+                    alt=""
+                    className={`h-full w-full object-contain ${option.mirror || (step.key === "hand" && mirror) ? "-scale-x-100" : ""}`}
+                  />
                 </span>
               )}
               {step.line && (
@@ -213,6 +227,7 @@ export function PalmQuiz({ test, guide }: { test: SajuTestConfig; guide?: ReactN
                   color={test.accentColor}
                   size={110}
                   zoom={step.line === "marriage"}
+                  mirror={mirror}
                 />
               )}
               <span className="leading-snug">{option.label}</span>

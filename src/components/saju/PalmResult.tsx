@@ -99,7 +99,7 @@ export function PalmResult({ test }: { test: SajuTestConfig }) {
         className="flex w-full flex-col items-center gap-2 rounded-3xl px-6 py-8 shadow-sm"
         style={{ backgroundColor: `${color}14` }}
       >
-        <PalmSvg drawing={drawing} color={color} size={150} />
+        <PalmSvg drawing={drawing} color={color} size={150} mirror={answers.side === "left"} />
         <p className="text-sm font-semibold" style={{ color }}>
           내 손금 유형
         </p>
@@ -117,7 +117,14 @@ export function PalmResult({ test }: { test: SajuTestConfig }) {
           className="flex w-full gap-3 rounded-3xl border border-zinc-200 p-4 text-left dark:border-zinc-800"
         >
           <div className="shrink-0">
-            <PalmSvg drawing={drawing} focus={section.line} color={color} size={64} zoom={section.line === "marriage"} />
+            <PalmSvg
+              drawing={drawing}
+              focus={section.line}
+              color={color}
+              size={64}
+              zoom={section.line === "marriage"}
+              mirror={answers.side === "left"}
+            />
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-xs font-bold text-zinc-400">

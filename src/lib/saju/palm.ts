@@ -1,6 +1,7 @@
 // 손금 보기. 사진 없이 이용자가 자기 손바닥을 보고 각 손금의 모양을 그림 보기에서 고른다.
 // 감정선 × 두뇌선으로 유형 이름을 만들고, 생명선·운명선·결혼선은 따로 풀이한다.
 
+export type PalmSide = "left" | "right";
 export type PalmHand = "dominant" | "other";
 export type HeartShape = "long" | "between" | "short" | "straight";
 export type HeadShape = "straight" | "curve" | "fork" | "short";
@@ -10,6 +11,8 @@ export type FateShape = "clear" | "late" | "faint" | "none";
 export type MarriageShape = "one" | "two" | "faint";
 
 export type PalmAnswers = {
+  /** 보고 있는 손 — 왼손이면 그림을 좌우로 뒤집어 보여준다 (예전에 저장된 답에는 없을 수 있다) */
+  side?: PalmSide;
   hand: PalmHand;
   /** 막쥔손금이면 "simian" — 이때 두뇌선 질문은 건너뛴다 */
   heart: HeartShape | "simian";
