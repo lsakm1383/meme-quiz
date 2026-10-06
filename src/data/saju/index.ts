@@ -132,6 +132,7 @@ export const sajuTests: SajuTestConfig[] = [
     description:
       "궁금한 주제를 떠올리고 메이저 아르카나 22장 중에서 직접 카드를 골라 보세요. 한 장으로 오늘의 메시지를, 세 장으로 과거·현재·미래의 흐름을 풀어드려요.",
     accentColor: "#7e22ce",
+    image: "/saju/tarot-cover.webp",
     series: "traditional",
   },
 ];
