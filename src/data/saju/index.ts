@@ -9,7 +9,7 @@ import type { FortuneKey } from "@/lib/saju/fortune";
 export type SajuTestConfig = {
   id: string;
   /** chart: 원국 풀이(개인) · fortune: 운세 점수(개인 또는 그룹 순위) · daily: 오늘의 운세 · yearly: 신년 운세 */
-  kind: "chart" | "fortune" | "daily" | "daeun" | "compat" | "yearly" | "zodiac" | "tojeong" | "dream";
+  kind: "chart" | "fortune" | "daily" | "daeun" | "compat" | "yearly" | "zodiac" | "tojeong" | "dream" | "palm";
   emoji: string;
   title: string;
   description: string;
@@ -112,6 +112,17 @@ export const sajuTests: SajuTestConfig[] = [
     accentColor: "#0f766e",
     series: "traditional",
     image: "/saju/dream-cover.webp",
+  },
+  {
+    id: "palm",
+    kind: "palm",
+    emoji: "🖐️",
+    title: "손금 보기",
+    description:
+      "사진 없이 내 손바닥을 보고 그림에서 가장 비슷한 모양을 고르면 감정선·두뇌선으로 손금 유형을 알려주고, 생명선·운명선·결혼선까지 풀어드려요.",
+    accentColor: "#c2410c",
+    image: "/saju/palm-cover.webp",
+    series: "traditional",
   },
 ];
 

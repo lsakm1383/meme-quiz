@@ -250,3 +250,25 @@ export type DreamEntry = {
   /** 꿈을 꾼 날 해보면 좋은 것 한 줄 */
   tip: string;
 };
+
+/** 손금 풀이 문구. 결과 유형 이름은 "{감정선 adj} {두뇌선 noun}" (예: "다정한 현실주의자")으로 만든다. */
+export type PalmCopy = {
+  /** 감정선 — 끝나는 곳과 모양 */
+  heart: Record<"long" | "between" | "short" | "straight", { adj: string; title: string; text: string }>;
+  /** 두뇌선 — 모양 */
+  head: Record<"straight" | "curve" | "fork" | "short", { noun: string; title: string; text: string }>;
+  /** 두뇌선 시작점 — 생명선과 붙어서 / 떨어져서 */
+  headStart: Record<"joined" | "separate", string>;
+  /** 감정선과 두뇌선이 한 줄로 이어진 막쥔손금 — 유형 이름을 대신한다 */
+  simian: { name: string; title: string; text: string };
+  /** 생명선 — 수명과 무관하게 활력·생활 리듬으로 풀이 */
+  life: Record<"wide" | "narrow" | "broken" | "double", { title: string; text: string }>;
+  /** 운명선 */
+  fate: Record<"clear" | "late" | "faint" | "none", { title: string; text: string }>;
+  /** 결혼선 */
+  marriage: Record<"one" | "two" | "faint", { title: string; text: string }>;
+  /** 본 손 — 주로 쓰는 손 / 반대 손 */
+  hand: Record<"dominant" | "other", string>;
+  /** 유형 이름 아래 한 줄 소개 — 두뇌선 4가지 × 감정선 4가지 조합 (키: "straight-long" 처럼 두뇌선-감정선) */
+  combos: Record<string, string>;
+};
