@@ -4,7 +4,7 @@ import elements from "@/data/saju/elements";
 import fortunes from "@/data/saju/fortunes";
 import type { FortuneKey } from "@/lib/saju/fortune";
 
-// 사주 시리즈 설정. 첫 테스트는 원국(8글자)·오행·일간 성향 풀이이고, 이후 테스트(재물운·결혼운 등)도
+// 사주 시리즈·전통 운세 설정. 첫 테스트는 원국(8글자)·오행·일간 성향 풀이이고, 이후 테스트(재물운·결혼운 등)도
 // 같은 계산 엔진(src/lib/saju)과 /s/<id> 경로를 쓰도록 목록으로 둔다.
 export type SajuTestConfig = {
   id: string;
@@ -16,6 +16,8 @@ export type SajuTestConfig = {
   accentColor: string;
   /** 홈 카드·시작 화면용 대표 일러스트 (public 기준 경로, 정사각형). 없으면 emoji. */
   image?: string;
+  /** 사주(생년월일시의 여덟 글자)로 보지 않는 토정비결·꿈해몽 등은 "전통 운세"로 따로 묶는다 */
+  series?: "saju" | "traditional";
 };
 
 export const sajuTests: SajuTestConfig[] = [
@@ -97,6 +99,7 @@ export const sajuTests: SajuTestConfig[] = [
     description:
       "음력 생년월일로 전통 작괘법에 따라 144괘 중 내 괘를 찾고, 한 해의 총론과 정월부터 섣달까지 달마다의 흐름을 풀어드려요. 올해와 내년을 골라 볼 수 있어요.",
     accentColor: "#92400e",
+    series: "traditional",
     image: "/saju/tojeong-cover.webp",
   },
   {
@@ -107,9 +110,18 @@ export const sajuTests: SajuTestConfig[] = [
     description:
       "간밤에 꾼 꿈, 무슨 뜻일까요? 돼지 꿈·이빨 빠지는 꿈처럼 자주 꾸는 꿈 120여 가지를 검색하고, 상황별 풀이와 길몽·태몽 여부까지 확인해 보세요.",
     accentColor: "#0f766e",
+    series: "traditional",
     image: "/saju/dream-cover.webp",
   },
 ];
+
+export const SERIES_NAME = { saju: "사주 시리즈", traditional: "전통 운세" } as const;
+
+/** 화면 위쪽에 붙이는 시리즈 이름 */
+export const seriesNameOf = (test: SajuTestConfig) => SERIES_NAME[test.series ?? "saju"];
+
+export const sajuSeriesTests = sajuTests.filter((test) => (test.series ?? "saju") === "saju");
+export const traditionalTests = sajuTests.filter((test) => test.series === "traditional");
 
 export function getSajuTest(id: string): SajuTestConfig | undefined {
   return sajuTests.find((test) => test.id === id);

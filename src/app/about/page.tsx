@@ -5,7 +5,7 @@ import { toppingTests } from "@/data/toppings";
 import { decisionTests } from "@/data/decisions";
 import { checklists } from "@/data/checklists";
 import { mbtiTests } from "@/data/mbti";
-import { sajuTests } from "@/data/saju";
+import { sajuSeriesTests, traditionalTests } from "@/data/saju";
 import { getSiteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -34,7 +34,13 @@ const categories = [
     title: "사주 시리즈",
     description:
       "생년월일과 태어난 시간으로 사주 여덟 글자를 세우고, 오행 분포와 타고난 성향을 풀어드리는 시리즈예요. 계산은 이용자의 기기 안에서만 이루어져요.",
-    links: sajuTests.map((test) => ({ href: `/s/${test.id}`, emoji: test.emoji, title: test.title })),
+    links: sajuSeriesTests.map((test) => ({ href: `/s/${test.id}`, emoji: test.emoji, title: test.title })),
+  },
+  {
+    title: "전통 운세",
+    description:
+      "사주 여덟 글자가 아닌 다른 전통 방식으로 보는 운세예요. 토정비결은 음력 생년월일로 전통 작괘법에 따라 괘를 찾고, 꿈해몽은 자주 꾸는 꿈의 상징을 사전처럼 찾아볼 수 있어요.",
+    links: traditionalTests.map((test) => ({ href: `/s/${test.id}`, emoji: test.emoji, title: test.title })),
   },
   {
     title: "월드컵",

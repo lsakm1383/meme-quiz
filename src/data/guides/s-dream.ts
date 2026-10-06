@@ -1,4 +1,4 @@
-// "꿈해몽" (사주 시리즈) 시작 화면 소개글.
+// "꿈해몽" (전통 운세) 시작 화면 소개글.
 import type { ContentGuide } from "@/data/guide-types";
 
 const guide: ContentGuide = {

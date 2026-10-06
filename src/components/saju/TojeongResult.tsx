@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { SajuTestConfig } from "@/data/saju";
+import { seriesNameOf, type SajuTestConfig } from "@/data/saju";
 import type { TojeongGua } from "@/data/saju/types";
 import { loadGua } from "@/data/saju/tojeong";
 import { STEMS, BRANCHES } from "@/lib/saju/constants";
@@ -100,7 +100,7 @@ export function TojeongResult({ test }: { test: SajuTestConfig }) {
   return (
     <div className="flex w-full flex-col items-center gap-6 text-center">
       <div className="flex flex-col items-center gap-1">
-        <p className="text-sm font-medium text-zinc-400">사주 시리즈 · {test.title}</p>
+        <p className="text-sm font-medium text-zinc-400">{seriesNameOf(test)} · {test.title}</p>
         <h1 className="text-2xl font-extrabold">{result.year}년 토정비결</h1>
         <p className="text-sm text-zinc-500">
           {ganji(result.yearPillar)}년 · 음력 {birth.year}년 {birth.leapMonth ? "윤" : ""}

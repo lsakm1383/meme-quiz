@@ -1,4 +1,4 @@
-import type { SajuTestConfig } from "@/data/saju";
+import { seriesNameOf, type SajuTestConfig } from "@/data/saju";
 import type { DreamEntry } from "@/data/saju/types";
 import { DREAM_CATEGORIES, dreams } from "@/data/saju/dreams";
 import { ShareBar } from "@/components/ShareBar";
@@ -21,7 +21,7 @@ export function DreamEntryView({ test, dream }: { test: SajuTestConfig; dream: D
     <div className="flex w-full flex-col items-center gap-6 text-center">
       <div className="flex flex-col items-center gap-2">
         <p className="text-sm font-medium text-zinc-400">
-          사주 시리즈 · {test.title} · {category.name}
+          {seriesNameOf(test)} · {test.title} · {category.name}
         </p>
         <div className="text-6xl">{dream.emoji}</div>
         <h1 className="text-2xl font-extrabold">{dream.title} 해몽</h1>

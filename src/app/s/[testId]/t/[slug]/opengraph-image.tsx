@@ -52,7 +52,7 @@ async function dreamImage(slug: string, accentColor: string) {
           background: "#fafafa",
         }}
       >
-        <div style={{ display: "flex", fontSize: 32, color: "#71717a" }}>사주 시리즈 · 꿈해몽 사전</div>
+        <div style={{ display: "flex", fontSize: 32, color: "#71717a" }}>전통 운세 · 꿈해몽 사전</div>
         <div
           style={{
             display: "flex",

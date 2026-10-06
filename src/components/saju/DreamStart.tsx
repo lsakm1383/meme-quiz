@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { SajuTestConfig } from "@/data/saju";
+import { seriesNameOf, type SajuTestConfig } from "@/data/saju";
 import { DREAM_CATEGORIES, dreams, getDream } from "@/data/saju/dreams";
 import type { DreamIndexItem } from "@/lib/saju/dream-search";
 import { PhotoIcon } from "@/components/PhotoIcon";
@@ -24,7 +24,7 @@ export function DreamStart({ test, guide }: { test: SajuTestConfig; guide?: Reac
     <div className="flex flex-col items-center gap-6 text-center">
       {test.image ? <PhotoIcon src={test.image} size="xl" /> : <div className="text-7xl">{test.emoji}</div>}
       <p className="text-sm font-bold" style={{ color: test.accentColor }}>
-        사주 시리즈
+        {seriesNameOf(test)}
       </p>
       <h1 className="-mt-4 text-2xl font-bold leading-snug">{test.title}</h1>
       <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">{test.description}</p>
