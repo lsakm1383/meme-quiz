@@ -272,3 +272,26 @@ export type PalmCopy = {
   /** 유형 이름 아래 한 줄 소개 — 두뇌선 4가지 × 감정선 4가지 조합 (키: "straight-long" 처럼 두뇌선-감정선) */
   combos: Record<string, string>;
 };
+
+export type TarotTopic = "general" | "love" | "work" | "money";
+
+/** 타로 메이저 아르카나 한 장 */
+export type TarotCard = {
+  /** 0~21 */
+  number: number;
+  /** 주소·이미지 파일 이름에 쓰는 영문 id (예: "the-fool") */
+  slug: string;
+  nameKo: string;
+  nameEn: string;
+  /** 일러스트가 없을 때 카드 앞면에 그리는 상징 */
+  emoji: string;
+  /** 카드 앞면 일러스트 (public 기준 경로, 세로 2:3). 없으면 emoji 카드로 그린다 */
+  image?: string;
+  /** 그림에 담긴 상징 설명 1~2문장 */
+  symbol: string;
+  keywords: { upright: string[]; reversed: string[] };
+  /** 주제별 풀이 — 각 2문장 */
+  meanings: Record<"upright" | "reversed", Record<TarotTopic, string>>;
+  /** 카드가 건네는 한 줄 조언 */
+  advice: { upright: string; reversed: string };
+};

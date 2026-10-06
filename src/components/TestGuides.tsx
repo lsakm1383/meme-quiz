@@ -195,6 +195,13 @@ export function PalmGuide({ test }: { test: SajuTestConfig }) {
   return <ContentGuide guide={guide} accentColor={test.accentColor} />;
 }
 
+// 타로도 고정 결과 목록 없이 보는 방법·FAQ만 보여준다.
+export function TarotGuide({ test }: { test: SajuTestConfig }) {
+  const guide = getGuide(`s/${test.id}`);
+  if (!guide) return null;
+  return <ContentGuide guide={guide} accentColor={test.accentColor} />;
+}
+
 // 체크리스트는 결과가 없으므로 결과 목록 없이 준비 가이드만 보여준다.
 export function ChecklistGuide({ checklist }: { checklist: ChecklistConfig }) {
   const guide = getGuide(`l/${checklist.id}`);

@@ -9,7 +9,7 @@ import type { FortuneKey } from "@/lib/saju/fortune";
 export type SajuTestConfig = {
   id: string;
   /** chart: 원국 풀이(개인) · fortune: 운세 점수(개인 또는 그룹 순위) · daily: 오늘의 운세 · yearly: 신년 운세 */
-  kind: "chart" | "fortune" | "daily" | "daeun" | "compat" | "yearly" | "zodiac" | "tojeong" | "dream" | "palm";
+  kind: "chart" | "fortune" | "daily" | "daeun" | "compat" | "yearly" | "zodiac" | "tojeong" | "dream" | "palm" | "tarot";
   emoji: string;
   title: string;
   description: string;
@@ -122,6 +122,16 @@ export const sajuTests: SajuTestConfig[] = [
       "사진 없이 내 손바닥을 보고 그림에서 가장 비슷한 모양을 고르면 감정선·두뇌선으로 손금 유형을 알려주고, 생명선·운명선·결혼선까지 풀어드려요.",
     accentColor: "#c2410c",
     image: "/saju/palm-cover.webp",
+    series: "traditional",
+  },
+  {
+    id: "tarot",
+    kind: "tarot",
+    emoji: "🃏",
+    title: "타로 카드 뽑기",
+    description:
+      "궁금한 주제를 떠올리고 메이저 아르카나 22장 중에서 직접 카드를 골라 보세요. 한 장으로 오늘의 메시지를, 세 장으로 과거·현재·미래의 흐름을 풀어드려요.",
+    accentColor: "#7e22ce",
     series: "traditional",
   },
 ];

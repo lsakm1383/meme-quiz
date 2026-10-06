@@ -5,7 +5,8 @@ import { SajuForm } from "@/components/saju/SajuForm";
 import { FortuneStart } from "@/components/saju/FortuneStart";
 import { DailyStart } from "@/components/saju/DailyStart";
 import { CompatStart } from "@/components/saju/CompatStart";
-import { SajuGuide, FortuneGuide, DailyGuide, DaeunGuide, CompatGuide, YearlyGuide, ZodiacGuide, TojeongGuide, DreamGuide, PalmGuide } from "@/components/TestGuides";
+import { SajuGuide, FortuneGuide, DailyGuide, DaeunGuide, CompatGuide, YearlyGuide, ZodiacGuide, TojeongGuide, DreamGuide, PalmGuide, TarotGuide } from "@/components/TestGuides";
+import { TarotStart } from "@/components/saju/TarotStart";
 import { PalmQuiz } from "@/components/saju/PalmQuiz";
 import { DreamStart } from "@/components/saju/DreamStart";
 import { ZodiacStart } from "@/components/saju/ZodiacStart";
@@ -57,6 +58,8 @@ export default async function SajuTestPage({
         />
       ) : test.kind === "daily" ? (
         <DailyStart test={test} guide={<DailyGuide test={test} />} />
+      ) : test.kind === "tarot" ? (
+        <TarotStart test={test} guide={<TarotGuide test={test} />} />
       ) : test.kind === "palm" ? (
         <PalmQuiz test={test} guide={<PalmGuide test={test} />} />
       ) : test.kind === "dream" ? (
