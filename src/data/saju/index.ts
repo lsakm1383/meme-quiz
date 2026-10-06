@@ -87,6 +87,7 @@ export const sajuTests: SajuTestConfig[] = [
     description:
       "생년월일 입력 없이 내 띠만 고르면 오늘의 띠별 운세와 년생별 한 줄 운세, 올해·내년 띠 운세, 잘 맞는 띠까지 알려드려요.",
     accentColor: "#4338ca",
+    image: "/saju/zodiac-cover.webp",
   },
 ];
 
