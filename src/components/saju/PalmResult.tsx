@@ -117,7 +117,7 @@ export function PalmResult({ test }: { test: SajuTestConfig }) {
           className="flex w-full gap-3 rounded-3xl border border-zinc-200 p-4 text-left dark:border-zinc-800"
         >
           <div className="shrink-0">
-            <PalmSvg drawing={drawing} focus={section.line} color={color} size={64} />
+            <PalmSvg drawing={drawing} focus={section.line} color={color} size={64} zoom={section.line === "marriage"} />
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-xs font-bold text-zinc-400">

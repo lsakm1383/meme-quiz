@@ -200,7 +200,13 @@ export function PalmQuiz({ test, guide }: { test: SajuTestConfig; guide?: ReactN
               style={{ borderColor: selected ? test.accentColor : "#e4e4e7" }}
             >
               {step.line && (
-                <PalmSvg drawing={{ ...chosen, ...option.drawing }} focus={step.line} color={test.accentColor} size={110} />
+                <PalmSvg
+                  drawing={{ ...chosen, ...option.drawing }}
+                  focus={step.line}
+                  color={test.accentColor}
+                  size={110}
+                  zoom={step.line === "marriage"}
+                />
               )}
               <span className="leading-snug">{option.label}</span>
             </button>
