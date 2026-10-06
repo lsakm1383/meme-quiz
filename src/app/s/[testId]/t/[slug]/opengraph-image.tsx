@@ -6,6 +6,7 @@ import { sajuTests, getSajuTest, dayMasters, getDayMaster, getElement } from "@/
 import { STEMS, BRANCHES } from "@/lib/saju/constants";
 import zodiacCopy from "@/data/saju/zodiac";
 import { ZODIAC_SLUGS, zodiacBranchOf } from "@/lib/saju/zodiac";
+import { dreams, getDream } from "@/data/saju/dreams";
 
 export const alt = "일간 유형";
 export const size = { width: 1200, height: 630 };
@@ -21,7 +22,9 @@ export function generateStaticParams() {
       ? dayMasters.map((profile) => ({ testId: test.id, slug: profile.slug }))
       : test.kind === "zodiac"
         ? ZODIAC_SLUGS.map((slug) => ({ testId: test.id, slug }))
-        : []
+        : test.kind === "dream"
+          ? dreams.map((dream) => ({ testId: test.id, slug: dream.slug }))
+          : []
   );
 }
 
@@ -29,6 +32,58 @@ const fonts = (regular: Buffer, bold: Buffer) => [
   { name: "Noto Sans KR", data: regular, weight: 400 as const, style: "normal" as const },
   { name: "Noto Sans KR", data: bold, weight: 700 as const, style: "normal" as const },
 ];
+
+const DREAM_LABEL = { lucky: "길몽", neutral: "상황 따라 달라요", caution: "조심 신호" } as const;
+
+/** 꿈해몽 공유 이미지 — 꿈 이름과 길몽 여부 */
+async function dreamImage(slug: string, accentColor: string) {
+  const dream = getDream(slug);
+  const [bold, regular] = await Promise.all([notoBold, notoRegular]);
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#fafafa",
+        }}
+      >
+        <div style={{ display: "flex", fontSize: 32, color: "#71717a" }}>사주 시리즈 · 꿈해몽 사전</div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: 960,
+            marginTop: 24,
+            padding: "40px 64px",
+            borderRadius: 48,
+            background: `${accentColor}1f`,
+          }}
+        >
+          {dream && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={emojiImageUrl(dream.emoji)} width={150} height={150} alt="" />
+          )}
+          <div style={{ display: "flex", fontSize: 68, fontWeight: 700, color: "#18181b", marginTop: 16 }}>
+            {dream ? `${dream.title} 해몽` : "꿈해몽"}
+          </div>
+          <div style={{ display: "flex", fontSize: 34, color: "#27272a", marginTop: 12 }}>
+            {dream ? `${DREAM_LABEL[dream.tone]}${dream.taemong ? " · 태몽으로도 많이 꿔요" : ""}` : ""}
+          </div>
+        </div>
+        <div style={{ display: "flex", fontSize: 28, color: "#a1a1aa", marginTop: 20 }}>
+          오늘의 밈 테스트 · 어젯밤 꿈 찾아보기 👉
+        </div>
+      </div>
+    ),
+    { ...size, fonts: fonts(regular, bold) }
+  );
+}
 
 /** 띠별 운세 공유 이미지 — 날마다 바뀌는 점수 대신 띠와 별명만 그린다 */
 async function zodiacImage(slug: string, accentColor: string) {
@@ -95,6 +150,7 @@ export default async function Image({ params }: { params: Promise<{ testId: stri
   const { testId, slug } = await params;
   const test = getSajuTest(testId);
   if (test?.kind === "zodiac") return zodiacImage(slug, test.accentColor);
+  if (test?.kind === "dream") return dreamImage(slug, test.accentColor);
   const profile = getDayMaster(slug);
   const stem = profile && STEMS.find((item) => item.slug === profile.slug);
   const element = stem && getElement(stem.element);

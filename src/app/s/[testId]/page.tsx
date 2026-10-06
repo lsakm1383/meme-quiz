@@ -5,7 +5,8 @@ import { SajuForm } from "@/components/saju/SajuForm";
 import { FortuneStart } from "@/components/saju/FortuneStart";
 import { DailyStart } from "@/components/saju/DailyStart";
 import { CompatStart } from "@/components/saju/CompatStart";
-import { SajuGuide, FortuneGuide, DailyGuide, DaeunGuide, CompatGuide, YearlyGuide, ZodiacGuide, TojeongGuide } from "@/components/TestGuides";
+import { SajuGuide, FortuneGuide, DailyGuide, DaeunGuide, CompatGuide, YearlyGuide, ZodiacGuide, TojeongGuide, DreamGuide } from "@/components/TestGuides";
+import { DreamStart } from "@/components/saju/DreamStart";
 import { ZodiacStart } from "@/components/saju/ZodiacStart";
 import { getSiteUrl } from "@/lib/site";
 
@@ -55,6 +56,8 @@ export default async function SajuTestPage({
         />
       ) : test.kind === "daily" ? (
         <DailyStart test={test} guide={<DailyGuide test={test} />} />
+      ) : test.kind === "dream" ? (
+        <DreamStart test={test} guide={<DreamGuide test={test} />} />
       ) : test.kind === "tojeong" ? (
         <DailyStart
           test={test}

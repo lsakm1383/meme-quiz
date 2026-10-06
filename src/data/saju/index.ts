@@ -9,7 +9,7 @@ import type { FortuneKey } from "@/lib/saju/fortune";
 export type SajuTestConfig = {
   id: string;
   /** chart: 원국 풀이(개인) · fortune: 운세 점수(개인 또는 그룹 순위) · daily: 오늘의 운세 · yearly: 신년 운세 */
-  kind: "chart" | "fortune" | "daily" | "daeun" | "compat" | "yearly" | "zodiac" | "tojeong";
+  kind: "chart" | "fortune" | "daily" | "daeun" | "compat" | "yearly" | "zodiac" | "tojeong" | "dream";
   emoji: string;
   title: string;
   description: string;
@@ -98,6 +98,15 @@ export const sajuTests: SajuTestConfig[] = [
       "음력 생년월일로 전통 작괘법에 따라 144괘 중 내 괘를 찾고, 한 해의 총론과 정월부터 섣달까지 달마다의 흐름을 풀어드려요. 올해와 내년을 골라 볼 수 있어요.",
     accentColor: "#92400e",
     image: "/saju/tojeong-cover.webp",
+  },
+  {
+    id: "dream",
+    kind: "dream",
+    emoji: "🌙",
+    title: "꿈해몽 사전",
+    description:
+      "간밤에 꾼 꿈, 무슨 뜻일까요? 돼지 꿈·이빨 빠지는 꿈처럼 자주 꾸는 꿈 120여 가지를 검색하고, 상황별 풀이와 길몽·태몽 여부까지 확인해 보세요.",
+    accentColor: "#0f766e",
   },
 ];
 

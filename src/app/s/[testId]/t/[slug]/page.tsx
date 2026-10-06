@@ -8,6 +8,8 @@ import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { DayMasterIcon } from "@/components/saju/DayMasterIcon";
 import { ZodiacResult } from "@/components/saju/ZodiacResult";
+import { DreamEntryView, DREAM_TONE } from "@/components/saju/DreamEntryView";
+import { dreams, getDream } from "@/data/saju/dreams";
 
 type Params = { testId: string; slug: string };
 
@@ -17,13 +19,29 @@ export function generateStaticParams() {
       ? dayMasters.map((profile) => ({ testId: test.id, slug: profile.slug }))
       : test.kind === "zodiac"
         ? ZODIAC_SLUGS.map((slug) => ({ testId: test.id, slug }))
-        : []
+        : test.kind === "dream"
+          ? dreams.map((dream) => ({ testId: test.id, slug: dream.slug }))
+          : []
   );
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { testId, slug } = await params;
   const test = getSajuTest(testId);
+  if (test?.kind === "dream") {
+    const dream = getDream(slug);
+    if (!dream) return {};
+    const title = `${dream.emoji} ${dream.title} 해몽 — ${DREAM_TONE[dream.tone].label}`;
+    const description = dream.summary;
+    return {
+      title,
+      description,
+      openGraph: { title, description, type: "website" },
+      twitter: { card: "summary_large_image", title, description },
+      // 다른 결과 페이지와 마찬가지로 검색 색인에서는 뺀다 (설명·찾는 법은 /s/dream 시작 화면에 있다).
+      robots: { index: false, follow: true },
+    };
+  }
   if (test?.kind === "zodiac") {
     const branch = zodiacBranchOf(slug);
     if (branch === null) return {};
@@ -58,6 +76,15 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 export default async function SajuTypePage({ params }: { params: Promise<Params> }) {
   const { testId, slug } = await params;
   const test = getSajuTest(testId);
+  if (test?.kind === "dream") {
+    const dream = getDream(slug);
+    if (!dream) notFound();
+    return (
+      <div className="flex w-full max-w-md flex-1 flex-col items-center px-6 py-16">
+        <DreamEntryView test={test} dream={dream} />
+      </div>
+    );
+  }
   if (test?.kind === "zodiac") {
     const branch = zodiacBranchOf(slug);
     if (branch === null) notFound();

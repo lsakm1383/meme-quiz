@@ -27,6 +27,7 @@ import sDaeun from "@/data/guides/s-daeun";
 import sNewyear from "@/data/guides/s-newyear";
 import sZodiac from "@/data/guides/s-zodiac";
 import sTojeong from "@/data/guides/s-tojeong";
+import sDream from "@/data/guides/s-dream";
 import sCompat from "@/data/guides/s-compat";
 
 // 시작 페이지 경로(맨 앞 "/" 제외) → 소개글. 새 테스트를 추가하면 여기에도 등록한다.
@@ -59,6 +60,7 @@ const guides: Record<string, ContentGuide> = {
   "s/newyear": sNewyear,
   "s/zodiac": sZodiac,
   "s/tojeong": sTojeong,
+  "s/dream": sDream,
   "s/compat": sCompat,
 };
 

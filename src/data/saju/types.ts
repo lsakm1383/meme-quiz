@@ -226,3 +226,27 @@ export type TojeongGua = {
   /** 음력 정월부터 섣달까지 12개월 */
   months: { mood: "good" | "normal" | "care"; text: string }[];
 };
+
+export type DreamCategory = "animal" | "body" | "people" | "nature" | "object" | "action" | "place" | "food";
+
+/** 꿈해몽 사전 한 항목 */
+export type DreamEntry = {
+  /** 주소에 쓰는 영문 id (예: "pig") */
+  slug: string;
+  /** "돼지 꿈" 처럼 꿈 이름 */
+  title: string;
+  category: DreamCategory;
+  emoji: string;
+  /** 검색어로 걸릴 말들 (예: ["돼지", "멧돼지", "새끼 돼지"]) */
+  keywords: string[];
+  /** 전반적인 풀이 — lucky 길몽 · neutral 상황 따라 달라짐 · caution 조심하라는 꿈 */
+  tone: "lucky" | "neutral" | "caution";
+  /** 이 꿈의 전반적인 의미 2~3문장 (전통 해몽 + 마음 상태로 보는 풀이) */
+  summary: string;
+  /** 상황별 풀이 3~4개 */
+  cases: { situation: string; meaning: string; tone: "lucky" | "neutral" | "caution" }[];
+  /** 태몽으로 많이 이야기되는 꿈인지 */
+  taemong?: boolean;
+  /** 꿈을 꾼 날 해보면 좋은 것 한 줄 */
+  tip: string;
+};
