@@ -235,6 +235,7 @@ export function BirthForm({
       <button
         type="button"
         onClick={submit}
+          data-track="start"
         disabled={busy}
         className="w-full rounded-full px-8 py-4 text-lg font-bold text-white shadow-lg transition-transform active:scale-95 disabled:opacity-60"
         style={{ backgroundColor: accentColor }}

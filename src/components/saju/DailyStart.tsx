@@ -76,6 +76,7 @@ export function DailyStart({
           <button
             type="button"
             onClick={() => open(remembered)}
+          data-track="start"
             className="w-full max-w-xs rounded-full px-8 py-4 text-lg font-bold text-white shadow-lg transition-transform active:scale-95"
             style={{ backgroundColor: test.accentColor }}
           >

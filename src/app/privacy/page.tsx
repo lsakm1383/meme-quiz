@@ -9,7 +9,7 @@ export default function PrivacyPage() {
   return (
     <div className="w-full max-w-2xl flex-1 px-6 py-16">
       <h1 className="text-2xl font-extrabold">개인정보처리방침</h1>
-      <p className="mt-2 text-sm text-zinc-400">최종 수정일: 2026년 9월 29일</p>
+      <p className="mt-2 text-sm text-zinc-400">최종 수정일: 2026년 10월 7일</p>
 
       <div className="mt-8 flex flex-col gap-8 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
         <section>
@@ -34,6 +34,12 @@ export default function PrivacyPage() {
               종류)를 서버로 보내 결과별 합계 횟수만 저장합니다. 마라탕 조합
               만들기는 고른 재료 목록을 재료별 선택 횟수로 더해 저장합니다. 누가
               어떤 결과를 받았는지 알 수 있는 정보는 함께 저장하지 않습니다.
+            </li>
+            <li>
+              <strong>이용 통계:</strong> 서비스를 개선하기 위해 테스트 시작 화면 방문, 시작 버튼, 결과
+              화면 조회, 공유 버튼, &lsquo;풀이 더 보기&rsquo; 펼침, 다른 테스트로 이동한 횟수를 테스트별·날짜별
+              합계로만 저장합니다. 쿠키나 기기 식별자를 쓰지 않고, 누가 무엇을 했는지 알 수 있는 정보는
+              저장하지 않으며, 합계는 약 400일이 지나면 자동으로 삭제됩니다.
             </li>
             <li>
               <strong>사주 시리즈:</strong> 입력한 생년월일, 태어난 시간, 양력·음력
@@ -84,7 +90,7 @@ export default function PrivacyPage() {
           <p className="mt-2">
             결과 통계와 그룹 정보는 Vercel과 연동된 Upstash, Inc.의 데이터베이스
             서비스에 저장됩니다. 결과 통계는 개인을 알아볼 수 없는 합계 값으로
-            서비스 운영 기간 동안 보관합니다. 그룹 정보는 서비스 운영 기간 동안
+            서비스 운영 기간 동안 보관하고, 이용 통계는 날짜별 합계로 약 400일 동안 보관합니다. 그룹 정보는 서비스 운영 기간 동안
             보관하며, 그룹 삭제를 원하시면 아래 문의 이메일로 그룹 링크와 함께
             요청해 주시면 확인 후 삭제합니다.
           </p>

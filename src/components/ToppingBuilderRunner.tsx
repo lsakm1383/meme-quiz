@@ -81,6 +81,7 @@ export function ToppingBuilderRunner({
         </p>
         <button
           onClick={() => setStarted(true)}
+          data-track="start"
           className="mt-2 w-full max-w-xs rounded-full px-8 py-4 text-lg font-bold text-white shadow-lg transition-transform active:scale-95"
           style={{ backgroundColor: test.accentColor }}
         >

@@ -109,6 +109,7 @@ export function MbtiRunner({
         </p>
         <button
           onClick={() => setPhase("quiz")}
+          data-track="start"
           className="mt-2 w-full max-w-xs rounded-full px-8 py-4 text-lg font-bold text-white shadow-lg transition-transform active:scale-95"
           style={{ backgroundColor: test.accentColor }}
         >
@@ -177,6 +178,7 @@ export function MbtiRunner({
         />
         <button
           onClick={() => setPhase("quiz")}
+          data-track="start"
           disabled={!nickname.trim()}
           className="w-full max-w-xs rounded-full px-8 py-4 text-lg font-bold text-white shadow-lg transition-transform active:scale-95 disabled:opacity-50"
           style={{ backgroundColor: test.accentColor }}

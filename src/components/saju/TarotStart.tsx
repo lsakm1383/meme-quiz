@@ -163,6 +163,7 @@ export function TarotStart({ test, guide }: { test: SajuTestConfig; guide?: Reac
                 type="button"
                 disabled={!topic}
                 onClick={() => choose(item.key)}
+          data-track="start"
                 className="flex flex-col items-center gap-0.5 rounded-xl border border-zinc-200 px-3 py-3 transition-colors disabled:opacity-40 dark:border-zinc-700"
               >
                 <span className="text-base font-bold">{item.title}</span>

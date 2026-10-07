@@ -12,7 +12,7 @@ export function MoreDetails({
   className?: string;
 }) {
   return (
-    <details className={`group w-full rounded-2xl border border-zinc-200 text-left dark:border-zinc-800 ${className}`}>
+    <details data-track="fold" className={`group w-full rounded-2xl border border-zinc-200 text-left dark:border-zinc-800 ${className}`}>
       <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-bold [&::-webkit-details-marker]:hidden">
         <span>{label}</span>
         <span aria-hidden="true" className="text-zinc-400 transition-transform group-open:rotate-180">

@@ -41,6 +41,7 @@ export function ShareBar({
     <div className="flex w-full flex-col gap-3">
       <button
         onClick={handleShare}
+        data-track="share"
         className="w-full rounded-full px-8 py-4 text-lg font-bold text-white shadow-lg transition-transform active:scale-95"
         style={{ backgroundColor: accentColor }}
       >
