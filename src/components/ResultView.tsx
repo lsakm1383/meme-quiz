@@ -4,6 +4,62 @@ import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
 import { QuizIcon } from "@/components/QuizIcon";
 
+// 결과 상세(강점·조심할 점·잘 맞는/엇갈리기 쉬운 유형·오늘 해 볼 것). detail 이 있는 결과만 보여준다.
+function ResultDetailSections({ quiz, result }: { quiz: QuizConfig; result: ResultType }) {
+  const detail = result.detail!;
+  const matches = [
+    { label: "💞 잘 맞는 유형", ...detail.bestMatch },
+    { label: "🌗 엇갈리기 쉬운 유형", ...detail.hardMatch },
+  ].map((match) => ({ ...match, other: quiz.results.find((item) => item.id === match.id) }));
+
+  return (
+    <div className="flex w-full flex-col gap-3 text-left">
+      <div className="grid grid-cols-2 gap-2">
+        {[
+          { heading: "✨ 강점", items: detail.strengths },
+          { heading: "🌧️ 조심할 점", items: detail.cautions },
+        ].map((group) => (
+          <section key={group.heading} className="rounded-2xl bg-zinc-50 p-4 dark:bg-zinc-900">
+            <h2 className="text-sm font-bold">{group.heading}</h2>
+            <ul className="mt-2 flex flex-col gap-1.5 text-sm leading-snug text-zinc-600 dark:text-zinc-400">
+              {group.items.map((item) => (
+                <li key={item}>• {item}</li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+
+      {matches.map(
+        (match) =>
+          match.other && (
+            <a
+              key={match.label}
+              href={`/${quiz.id}/r/${match.other.id}`}
+              className="flex items-center gap-3 rounded-2xl border border-zinc-200 p-3 dark:border-zinc-800"
+            >
+              <QuizIcon image={match.other.image} emoji={match.other.emoji} size="lg" />
+              <span className="flex flex-col gap-0.5">
+                <span className="text-xs font-bold text-zinc-400">{match.label}</span>
+                <span className="text-sm font-extrabold">{match.other.title}</span>
+                <span className="text-sm leading-snug text-zinc-600 dark:text-zinc-400">{match.reason}</span>
+              </span>
+            </a>
+          )
+      )}
+
+      <section className="rounded-2xl px-4 py-3" style={{ backgroundColor: result.color }}>
+        <h2 className="text-sm font-bold text-zinc-900">🌱 오늘 해 보면 좋은 것</h2>
+        <ul className="mt-1.5 flex flex-col gap-1 text-sm text-zinc-800">
+          {detail.tips.map((tip) => (
+            <li key={tip}>• {tip}</li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  );
+}
+
 export function ResultView({
   quiz,
   result,
@@ -28,9 +84,15 @@ export function ResultView({
         </p>
       </div>
 
-      <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+      {/* 상세가 있으면 문단이 길어져서 왼쪽 정렬로 읽기 편하게 둔다 */}
+      <p
+        className={`max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400 ${result.detail ? "text-left" : ""}`}
+      >
         {result.description}
+        {result.detail && ` ${result.detail.more}`}
       </p>
+
+      {result.detail && <ResultDetailSections quiz={quiz} result={result} />}
 
       <ResultStats
         kind="quiz"

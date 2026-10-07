@@ -41,6 +41,24 @@ export type ResultType = {
   description: string
   /** 결과 카드/OG 이미지 배경색 */
   color: string
+  /** 결과를 더 자세히 풀어 주는 내용. 없으면 description만 보여준다. */
+  detail?: ResultDetail
+}
+
+/** 결과 상세 — 결과 페이지 본문과 시작 화면의 결과 목록에 함께 쓴다 */
+export type ResultDetail = {
+  /** description에 이어지는 문단 (2~3문장) */
+  more: string
+  /** 이 유형의 강점 3가지 (짧은 명사구) */
+  strengths: string[]
+  /** 조심하면 좋은 점 3가지 (한 문장씩) */
+  cautions: string[]
+  /** 잘 맞는 유형 (results 의 id) 과 이유 한두 문장 */
+  bestMatch: { id: string; reason: string }
+  /** 엇갈리기 쉬운 유형 (results 의 id) 과 이유 — 나쁘게 쓰지 않고 서로 배울 점으로 맺는다 */
+  hardMatch: { id: string; reason: string }
+  /** 오늘 해 보면 좋은 것 2가지 */
+  tips: string[]
 }
 
 export type QuizConfig = {

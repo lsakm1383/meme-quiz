@@ -54,7 +54,8 @@ export function QuizGuide({ quiz }: { quiz: QuizConfig }) {
         ),
         title: result.title,
         subtitle: result.subtitle,
-        description: result.description,
+        // 결과 상세가 있으면 이어지는 문단까지 보여준다 (강점·궁합 등은 결과 페이지에서)
+        description: result.detail ? `${result.description} ${result.detail.more}` : result.description,
         href: `/${quiz.id}/r/${result.id}`,
       }))}
     />
