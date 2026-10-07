@@ -14,6 +14,20 @@ export type DecisionResult = {
   color: string;
   /** 전용 일러스트 (public 기준 경로, 기본은 정사각형 — 다른 비율이면 테스트의 imageShape). 없으면 emoji로 대체한다. */
   image?: string;
+  /** 결과를 더 자세히 풀어 주는 내용. 없으면 description만 보여준다. */
+  detail?: DecisionResultDetail;
+};
+
+/** 추천 결과 상세 — 결과 페이지 본문과 시작 화면의 결과 목록에 함께 쓴다 */
+export type DecisionResultDetail = {
+  /** description에 이어지는 문단 (2~3문장) */
+  more: string;
+  /** 이런 분께 잘 어울려요 — 3가지 (짧은 구) */
+  goodFor: string[];
+  /** 고를 때·입어볼 때 팁 — 2~3가지 (한 문장씩) */
+  tips: string[];
+  /** 함께 비교해 보면 좋은 결과 (results 의 id) 와 이유 한두 문장 */
+  compare: { id: string; reason: string };
 };
 
 /** 정사각형이 아닌 일러스트의 비율 */

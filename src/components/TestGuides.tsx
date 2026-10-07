@@ -105,7 +105,8 @@ export function DecisionGuide({ test }: { test: DecisionTestConfig }) {
         ),
         title: result.title,
         subtitle: result.subtitle,
-        description: result.description,
+        // 결과 상세가 있으면 이어지는 문단까지 보여준다 (추천 대상·팁은 결과 페이지에서)
+        description: result.detail ? `${result.description} ${result.detail.more}` : result.description,
         href: `/d/${test.id}/r/${result.id}`,
       }))}
     />
