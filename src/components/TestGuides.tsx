@@ -31,7 +31,8 @@ export function MbtiGuide({ test }: { test: MbtiTestConfig }) {
         icon: <MbtiResultIcon profile={profile} size="xl" />,
         title: profile.title,
         subtitle: profile.subtitle,
-        description: profile.description,
+        // 결과 상세가 있으면 이어지는 문단까지 보여준다
+        description: profile.detail ? `${profile.description} ${profile.detail.more}` : profile.description,
         href: `/m/${test.id}/r/${profile.slug}`,
       }))}
     />

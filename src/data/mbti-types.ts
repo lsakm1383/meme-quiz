@@ -34,6 +34,18 @@ export type MbtiTypeProfile = {
   strengths: string[];
   growthAreas: string[];
   color: string;
+  /** 결과를 더 자세히 풀어 주는 내용. 없으면 description만 보여준다. */
+  detail?: MbtiTypeDetail;
+};
+
+/** 성향 유형 결과 상세 — 결과 페이지 본문과 시작 화면 결과 목록에 함께 쓴다 */
+export type MbtiTypeDetail = {
+  /** description에 이어지는 문단 (2~3문장) */
+  more: string;
+  /** 이런 순간에 빛나요 — 일상 장면 3가지 (한 문장씩) */
+  scenes: string[];
+  /** 오늘 해 보면 좋은 것 2가지 */
+  tips: string[];
 };
 
 export type MbtiTestConfig = {

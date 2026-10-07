@@ -73,8 +73,12 @@ export function MbtiResultView({
         </div>
       </div>
 
-      <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+      {/* 상세가 있으면 문단이 길어져서 왼쪽 정렬로 읽기 편하게 둔다 */}
+      <p
+        className={`max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400 ${profile.detail ? "text-left" : ""}`}
+      >
         {profile.description}
+        {profile.detail && ` ${profile.detail.more}`}
       </p>
 
       <div className="flex w-full flex-col gap-3 text-left">
@@ -98,6 +102,28 @@ export function MbtiResultView({
             ))}
           </ul>
         </div>
+        {profile.detail && (
+          <>
+            <div>
+              <h2 className="mb-2 text-sm font-bold text-zinc-400">이런 순간에 빛나요</h2>
+              <ul className="flex flex-col gap-1">
+                {profile.detail.scenes.map((item) => (
+                  <li key={item} className="text-sm text-zinc-700 dark:text-zinc-300">
+                    • {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-2xl px-4 py-3" style={{ backgroundColor: profile.color }}>
+              <h2 className="text-sm font-bold text-zinc-900">🌱 오늘 해 보면 좋은 것</h2>
+              <ul className="mt-1.5 flex flex-col gap-1 text-sm text-zinc-800">
+                {profile.detail.tips.map((item) => (
+                  <li key={item}>• {item}</li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
       </div>
 
       <div className="flex w-full flex-col gap-3">
