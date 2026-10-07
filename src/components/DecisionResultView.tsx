@@ -3,27 +3,24 @@ import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
 import { DecisionResultIcon } from "@/components/DecisionResultIcon";
+import { MoreDetails } from "@/components/MoreDetails";
 
-// 추천 결과 상세(이런 분께 추천·고를 때 팁·함께 비교해 볼 결과). detail 이 있는 결과만 보여준다.
+// 추천 결과 상세. 첫 화면에는 이런 분께 추천과 함께 비교해 볼 결과만 두고,
+// 긴 풀이 문단과 고를 때 팁은 "더 자세히 보기"로 접어 둔다. detail 이 있는 결과만 보여준다.
 function DecisionDetailSections({ test, result }: { test: DecisionTestConfig; result: DecisionResult }) {
   const detail = result.detail!;
   const other = test.results.find((item) => item.id === detail.compare.id);
 
   return (
     <div className="flex w-full flex-col gap-3 text-left">
-      {[
-        { heading: "💡 이런 분께 잘 어울려요", items: detail.goodFor },
-        { heading: "📝 고를 때 팁", items: detail.tips },
-      ].map((group) => (
-        <section key={group.heading} className="rounded-2xl bg-zinc-50 p-4 dark:bg-zinc-900">
-          <h2 className="text-sm font-bold">{group.heading}</h2>
-          <ul className="mt-2 flex flex-col gap-1.5 text-sm leading-snug text-zinc-600 dark:text-zinc-400">
-            {group.items.map((item) => (
-              <li key={item}>• {item}</li>
-            ))}
-          </ul>
-        </section>
-      ))}
+      <section className="rounded-2xl bg-zinc-50 p-4 dark:bg-zinc-900">
+        <h2 className="text-sm font-bold">💡 이런 분께 잘 어울려요</h2>
+        <ul className="mt-2 flex flex-col gap-1.5 text-sm leading-snug text-zinc-600 dark:text-zinc-400">
+          {detail.goodFor.map((item) => (
+            <li key={item}>• {item}</li>
+          ))}
+        </ul>
+      </section>
 
       {other && (
         <a
@@ -40,6 +37,18 @@ function DecisionDetailSections({ test, result }: { test: DecisionTestConfig; re
           </span>
         </a>
       )}
+
+      <MoreDetails label="📖 풀이와 고를 때 팁 더 보기">
+        <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{detail.more}</p>
+        <section className="rounded-2xl bg-zinc-50 p-4 dark:bg-zinc-900">
+          <h2 className="text-sm font-bold">📝 고를 때 팁</h2>
+          <ul className="mt-2 flex flex-col gap-1.5 text-sm leading-snug text-zinc-600 dark:text-zinc-400">
+            {detail.tips.map((item) => (
+              <li key={item}>• {item}</li>
+            ))}
+          </ul>
+        </section>
+      </MoreDetails>
     </div>
   );
 }
@@ -64,13 +73,14 @@ export function DecisionResultView({
         <p className="text-base font-medium text-zinc-800">{result.subtitle}</p>
       </div>
 
-      {/* 상세가 있으면 문단이 길어져서 왼쪽 정렬로 읽기 편하게 둔다 */}
-      <p
-        className={`max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400 ${result.detail ? "text-left" : ""}`}
-      >
-        {result.description}
-        {result.detail && ` ${result.detail.more}`}
-      </p>
+      <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">{result.description}</p>
+
+      {/* 결과를 본 직후 가장 많이 하는 일이 공유라서, 긴 풀이보다 먼저 둔다 */}
+      <ShareBar
+        title={`${result.emoji} 나는 "${result.title}"`}
+        text={`${test.title} 해봤더니 "${result.title}" 나왔어!\n${result.subtitle}\n너는 뭐 나올까? 👉`}
+        accentColor={test.accentColor}
+      />
 
       {result.detail && <DecisionDetailSections test={test} result={result} />}
 
@@ -85,12 +95,6 @@ export function DecisionResultView({
           label: r.title,
           icon: <DecisionResultIcon result={r} shape={test.imageShape} size="xs" />,
         }))}
-      />
-
-      <ShareBar
-        title={`${result.emoji} 나는 "${result.title}"`}
-        text={`${test.title} 해봤더니 "${result.title}" 나왔어!\n${result.subtitle}\n너는 뭐 나올까? 👉`}
-        accentColor={test.accentColor}
       />
 
       {/* 광고 있는 화면 → 광고 없는 화면 이동은 완전한 새로고침으로 강제 (자동 광고 잔존 방지) */}

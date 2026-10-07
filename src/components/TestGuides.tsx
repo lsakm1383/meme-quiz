@@ -31,8 +31,9 @@ export function MbtiGuide({ test }: { test: MbtiTestConfig }) {
         icon: <MbtiResultIcon profile={profile} size="xl" />,
         title: profile.title,
         subtitle: profile.subtitle,
-        // 결과 상세가 있으면 이어지는 문단까지 보여준다
-        description: profile.detail ? `${profile.description} ${profile.detail.more}` : profile.description,
+        description: profile.description,
+        // 결과 상세 문단은 카드 아래 "더보기"로 접어 둔다
+        more: profile.detail?.more,
         href: `/m/${test.id}/r/${profile.slug}`,
       }))}
     />
@@ -55,8 +56,9 @@ export function QuizGuide({ quiz }: { quiz: QuizConfig }) {
         ),
         title: result.title,
         subtitle: result.subtitle,
-        // 결과 상세가 있으면 이어지는 문단까지 보여준다 (강점·궁합 등은 결과 페이지에서)
-        description: result.detail ? `${result.description} ${result.detail.more}` : result.description,
+        description: result.description,
+        // 결과 상세 문단은 카드 아래 "더보기"로 접어 둔다 (강점·궁합 등은 결과 페이지에서)
+        more: result.detail?.more,
         href: `/${quiz.id}/r/${result.id}`,
       }))}
     />
@@ -106,8 +108,9 @@ export function DecisionGuide({ test }: { test: DecisionTestConfig }) {
         ),
         title: result.title,
         subtitle: result.subtitle,
-        // 결과 상세가 있으면 이어지는 문단까지 보여준다 (추천 대상·팁은 결과 페이지에서)
-        description: result.detail ? `${result.description} ${result.detail.more}` : result.description,
+        description: result.description,
+        // 결과 상세 문단은 카드 아래 "더보기"로 접어 둔다 (추천 대상·팁은 결과 페이지에서)
+        more: result.detail?.more,
         href: `/d/${test.id}/r/${result.id}`,
       }))}
     />

@@ -3,8 +3,10 @@ import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
 import { QuizIcon } from "@/components/QuizIcon";
+import { MoreDetails } from "@/components/MoreDetails";
 
-// 결과 상세(강점·조심할 점·잘 맞는/엇갈리기 쉬운 유형·오늘 해 볼 것). detail 이 있는 결과만 보여준다.
+// 결과 상세. 첫 화면에는 훑어보기 쉬운 강점·조심할 점과 잘 맞는/엇갈리기 쉬운 유형만 두고,
+// 긴 풀이 문단과 오늘 해 볼 것은 "더 자세히 보기"로 접어 둔다. detail 이 있는 결과만 보여준다.
 function ResultDetailSections({ quiz, result }: { quiz: QuizConfig; result: ResultType }) {
   const detail = result.detail!;
   const matches = [
@@ -48,14 +50,17 @@ function ResultDetailSections({ quiz, result }: { quiz: QuizConfig; result: Resu
           )
       )}
 
-      <section className="rounded-2xl px-4 py-3" style={{ backgroundColor: result.color }}>
-        <h2 className="text-sm font-bold text-zinc-900">🌱 오늘 해 보면 좋은 것</h2>
-        <ul className="mt-1.5 flex flex-col gap-1 text-sm text-zinc-800">
-          {detail.tips.map((tip) => (
-            <li key={tip}>• {tip}</li>
-          ))}
-        </ul>
-      </section>
+      <MoreDetails label="📖 풀이 더 보기">
+        <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{detail.more}</p>
+        <section className="rounded-2xl px-4 py-3" style={{ backgroundColor: result.color }}>
+          <h2 className="text-sm font-bold text-zinc-900">🌱 오늘 해 보면 좋은 것</h2>
+          <ul className="mt-1.5 flex flex-col gap-1 text-sm text-zinc-800">
+            {detail.tips.map((tip) => (
+              <li key={tip}>• {tip}</li>
+            ))}
+          </ul>
+        </section>
+      </MoreDetails>
     </div>
   );
 }
@@ -84,13 +89,16 @@ export function ResultView({
         </p>
       </div>
 
-      {/* 상세가 있으면 문단이 길어져서 왼쪽 정렬로 읽기 편하게 둔다 */}
-      <p
-        className={`max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400 ${result.detail ? "text-left" : ""}`}
-      >
+      <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
         {result.description}
-        {result.detail && ` ${result.detail.more}`}
       </p>
+
+      {/* 결과를 본 직후 가장 많이 하는 일이 공유라서, 긴 풀이보다 먼저 둔다 */}
+      <ShareBar
+        title={`${result.emoji} 나는 "${result.title}"`}
+        text={`${quiz.title} 해봤더니 "${result.title}" 나왔어!\n${result.subtitle}\n너는 뭐 나올까? 👉`}
+        accentColor={quiz.accentColor}
+      />
 
       {result.detail && <ResultDetailSections quiz={quiz} result={result} />}
 
@@ -105,12 +113,6 @@ export function ResultView({
           label: r.title,
           icon: r.image ? <QuizIcon image={r.image} emoji={r.emoji} size="xs" /> : undefined,
         }))}
-      />
-
-      <ShareBar
-        title={`${result.emoji} 나는 "${result.title}"`}
-        text={`${quiz.title} 해봤더니 "${result.title}" 나왔어!\n${result.subtitle}\n너는 뭐 나올까? 👉`}
-        accentColor={quiz.accentColor}
       />
 
       {/* 이 화면엔 광고가 있으므로, 다음 화면(광고 없음)으로 이동할 때 next/link의

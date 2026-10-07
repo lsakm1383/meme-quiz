@@ -5,6 +5,7 @@ import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
 import { MbtiResultIcon } from "@/components/MbtiResultIcon";
+import { MoreDetails } from "@/components/MoreDetails";
 
 function RelationSection({
   label,
@@ -73,13 +74,14 @@ export function MbtiResultView({
         </div>
       </div>
 
-      {/* 상세가 있으면 문단이 길어져서 왼쪽 정렬로 읽기 편하게 둔다 */}
-      <p
-        className={`max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400 ${profile.detail ? "text-left" : ""}`}
-      >
-        {profile.description}
-        {profile.detail && ` ${profile.detail.more}`}
-      </p>
+      <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">{profile.description}</p>
+
+      {/* 결과를 본 직후 가장 많이 하는 일이 공유라서, 긴 풀이보다 먼저 둔다 */}
+      <ShareBar
+        title={`${profile.emoji} 나는 "${profile.title}"`}
+        text={`${test.title} 해봤더니 "${profile.title}" 나왔어!\n${profile.subtitle}\n너는 뭐 나올까? 👉`}
+        accentColor={test.accentColor}
+      />
 
       <div className="flex w-full flex-col gap-3 text-left">
         <div>
@@ -102,8 +104,10 @@ export function MbtiResultView({
             ))}
           </ul>
         </div>
+        {/* 긴 풀이 문단과 장면·오늘 해 볼 것은 접어 두고 눌러서 펼쳐 본다 */}
         {profile.detail && (
-          <>
+          <MoreDetails label="📖 풀이 더 보기">
+            <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{profile.detail.more}</p>
             <div>
               <h2 className="mb-2 text-sm font-bold text-zinc-400">이런 순간에 빛나요</h2>
               <ul className="flex flex-col gap-1">
@@ -122,7 +126,7 @@ export function MbtiResultView({
                 ))}
               </ul>
             </div>
-          </>
+          </MoreDetails>
         )}
       </div>
 
@@ -150,12 +154,6 @@ export function MbtiResultView({
           label: p.title,
           icon: <MbtiResultIcon profile={p} size="xs" />,
         }))}
-      />
-
-      <ShareBar
-        title={`${profile.emoji} 나는 "${profile.title}"`}
-        text={`${test.title} 해봤더니 "${profile.title}" 나왔어!\n${profile.subtitle}\n너는 뭐 나올까? 👉`}
-        accentColor={test.accentColor}
       />
 
       {/* 광고 있는 화면 → 광고 없는 화면 이동은 완전한 새로고침으로 강제 (자동 광고 잔존 방지) */}
