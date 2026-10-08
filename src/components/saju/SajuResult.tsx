@@ -116,7 +116,7 @@ export function SajuResult({ test, related }: { test: SajuTestConfig; related?: 
           나의 일간 · {profile.name}({stem.hanja}
           {dayElement.hanja})
         </p>
-        <DayMasterIcon profile={profile} />
+        <DayMasterIcon profile={profile} alt={`${profile.name} 일간 일러스트`} />
         <h1 className="text-2xl font-extrabold text-zinc-900">{profile.title}</h1>
         <p className="text-base font-medium text-zinc-800">{profile.subtitle}</p>
       </div>

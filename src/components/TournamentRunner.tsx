@@ -79,7 +79,7 @@ export function TournamentRunner({
     return (
       <div className="flex flex-col items-center gap-6 text-center">
         {tournament.image ? (
-          <PhotoIcon src={tournament.image} size="xl" />
+          <PhotoIcon src={tournament.image} size="xl" alt={`${tournament.title} 대표 그림`} />
         ) : (
           <div className="text-7xl">{tournament.emoji}</div>
         )}

@@ -46,7 +46,7 @@ export function QuizRunner({
   if (!started) {
     return (
       <div className="flex flex-col items-center gap-6 text-center">
-        <QuizIcon image={quiz.image} emoji={quiz.emoji} size="xl" />
+        <QuizIcon image={quiz.image} emoji={quiz.emoji} size="xl" alt={`${quiz.title} 대표 그림`} />
         <h1 className="text-2xl font-bold leading-snug">{quiz.title}</h1>
         <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           {quiz.description}

@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import type { ContentGuide as Guide } from "@/data/guide-types";
+import { getRegisteredTest } from "@/lib/test-registry";
+import { JsonLd, breadcrumbData, faqData, testTrail } from "@/lib/structured-data";
 
 export type GuideItem = {
   key: string;
@@ -46,9 +48,30 @@ export function ContentGuide({
       ? "flex flex-col items-center gap-3 p-4"
       : "flex items-start gap-3 p-3";
   const [firstParagraph, ...restParagraphs] = guide.intro;
+  const test = guide.path ? getRegisteredTest(guide.path) : undefined;
+  const trail = test ? testTrail(test) : [];
 
   return (
     <div className="mt-8 flex w-full flex-col gap-10 border-t border-zinc-200 pt-10 text-left dark:border-zinc-800">
+      {/* 검색엔진용 구조화 정보 — 아래 화면의 경로와 자주 묻는 질문을 그대로 옮긴다 */}
+      <JsonLd data={[...(trail.length > 0 ? [breadcrumbData(trail)] : []), ...(guide.faq.length > 0 ? [faqData(guide.faq)] : [])]} />
+      {trail.length > 0 && (
+        <nav aria-label="현재 위치" className="-mb-6 text-xs font-semibold text-zinc-400">
+          {trail.map((step, index) => (
+            <span key={step.path}>
+              {index > 0 && <span aria-hidden="true"> › </span>}
+              {index < trail.length - 1 ? (
+                // 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지)
+                <a href={step.path} className="underline underline-offset-4">
+                  {step.name}
+                </a>
+              ) : (
+                <span aria-current="page">{step.name}</span>
+              )}
+            </span>
+          ))}
+        </nav>
+      )}
       <section className="flex flex-col gap-3">
         <h2 className="text-lg font-bold">{guide.introHeading ?? "이런 테스트예요"}</h2>
         <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{firstParagraph}</p>

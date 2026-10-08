@@ -14,11 +14,13 @@ export function DecisionResultIcon({
   result,
   shape,
   size = "lg",
+  alt,
 }: {
   result: DecisionResult;
   /** 테스트의 imageShape — 없으면 정사각형 */
   shape?: DecisionImageShape;
   size?: IconSize;
+  alt?: string;
 }) {
   if (result.image) {
     return (
@@ -27,6 +29,7 @@ export function DecisionResultIcon({
         size={size}
         aspect={shape?.aspect}
         sizeBy={shape?.wide ? "width" : "height"}
+        alt={alt}
       />
     );
   }

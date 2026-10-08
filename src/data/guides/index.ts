@@ -69,5 +69,6 @@ const guides: Record<string, ContentGuide> = {
 };
 
 export function getGuide(path: string): ContentGuide | undefined {
-  return guides[path];
+  const guide = guides[path];
+  return guide && { ...guide, path };
 }

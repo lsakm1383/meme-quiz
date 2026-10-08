@@ -116,7 +116,7 @@ export default async function SajuTypePage({ params }: { params: Promise<Params>
             {profile.name}({stem.hanja}
             {element.hanja}) · {stem.yang ? "양" : "음"}의 {element.name}
           </p>
-          <DayMasterIcon profile={profile} />
+          <DayMasterIcon profile={profile} alt={`${profile.name} 일간 일러스트`} />
           <h1 className="text-2xl font-extrabold text-zinc-900">{profile.title}</h1>
           <p className="text-base font-medium text-zinc-800">{profile.subtitle}</p>
         </div>

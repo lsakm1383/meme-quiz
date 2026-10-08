@@ -10,6 +10,7 @@ import { sajuSeriesTests, traditionalTests } from "@/data/saju";
 import { getRegisteredTest, registeredTests, type RegisteredTest } from "@/lib/test-registry";
 import { categories, getCategory } from "@/data/categories";
 import { AdSlot } from "@/components/AdSlot";
+import { JsonLd, websiteData } from "@/lib/structured-data";
 import { MbtiResultIcon } from "@/components/MbtiResultIcon";
 import { PhotoIcon } from "@/components/PhotoIcon";
 import { QuizIcon } from "@/components/QuizIcon";
@@ -70,6 +71,7 @@ export default function Home() {
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center gap-10 px-6 py-14">
+      <JsonLd data={websiteData(DESCRIPTION)} />
       <header className="flex w-full flex-col gap-3 text-center">
         <h1 className="text-2xl font-extrabold">오늘의 밈 테스트</h1>
         <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">

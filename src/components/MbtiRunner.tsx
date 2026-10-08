@@ -102,7 +102,7 @@ export function MbtiRunner({
   if (phase === "intro") {
     return (
       <div className="flex flex-col items-center gap-6 text-center">
-        <MbtiResultIcon profile={test.profiles[0]} size="xl" />
+        <MbtiResultIcon profile={test.profiles[0]} size="xl" alt={`${test.title} 대표 그림`} />
         <h1 className="text-2xl font-bold leading-snug">{test.title}</h1>
         <p className="max-w-sm text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
           {test.description}

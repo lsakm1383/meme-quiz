@@ -22,7 +22,7 @@ export function DreamStart({ test, guide }: { test: SajuTestConfig; guide?: Reac
 
   return (
     <div className="flex flex-col items-center gap-6 text-center">
-      {test.image ? <PhotoIcon src={test.image} size="xl" /> : <div className="text-7xl">{test.emoji}</div>}
+      {test.image ? <PhotoIcon src={test.image} size="xl" alt={`${test.title} 대표 그림`} /> : <div className="text-7xl">{test.emoji}</div>}
       <p className="text-sm font-bold" style={{ color: test.accentColor }}>
         {seriesNameOf(test)}
       </p>

@@ -16,10 +16,12 @@ export function QuizIcon({
   image,
   emoji,
   size = "lg",
+  alt,
 }: {
   image?: QuizImage;
   emoji: string;
   size?: IconSize;
+  alt?: string;
 }) {
   if (!image) return <span className={`shrink-0 ${TEXT[size]}`}>{emoji}</span>;
   return (
@@ -28,6 +30,7 @@ export function QuizIcon({
       size={size}
       aspect={image.aspect}
       sizeBy={image.wide ? "width" : "height"}
+      alt={alt}
     />
   );
 }

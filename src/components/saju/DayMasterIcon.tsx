@@ -7,10 +7,12 @@ const TEXT = { xl: "text-6xl", lg: "text-4xl" } as const;
 export function DayMasterIcon({
   profile,
   size = "xl",
+  alt,
 }: {
   profile: DayMasterProfile;
   size?: "xl" | "lg";
+  alt?: string;
 }) {
   if (!profile.image) return <span className={`shrink-0 ${TEXT[size]}`}>{profile.emoji}</span>;
-  return <PhotoIcon src={profile.image} size={size} aspect="aspect-[348/216]" sizeBy="width" />;
+  return <PhotoIcon src={profile.image} size={size} aspect="aspect-[348/216]" sizeBy="width" alt={alt} />;
 }

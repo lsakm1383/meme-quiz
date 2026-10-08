@@ -15,9 +15,11 @@ const TEXT: Record<IconSize, string> = {
 export function MbtiResultIcon({
   profile,
   size = "lg",
+  alt,
 }: {
   profile: MbtiTypeProfile;
   size?: IconSize;
+  alt?: string;
 }) {
   const photo = getMbtiPhoto(profile.slug);
   if (!photo) {
@@ -29,6 +31,7 @@ export function MbtiResultIcon({
       size={size}
       aspect={photo.aspectClass}
       sizeBy={photo.sizeByWidth ? "width" : "height"}
+      alt={alt}
     />
   );
 }

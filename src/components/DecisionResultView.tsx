@@ -69,7 +69,7 @@ export function DecisionResultView({
         className="flex w-full flex-col items-center gap-3 rounded-3xl px-6 py-10 shadow-sm"
         style={{ backgroundColor: result.color }}
       >
-        <DecisionResultIcon result={result} shape={test.imageShape} size="xl" />
+        <DecisionResultIcon result={result} shape={test.imageShape} size="xl" alt={`${result.title} 일러스트`} />
         <h1 className="text-2xl font-extrabold text-zinc-900">{result.title}</h1>
         <p className="text-base font-medium text-zinc-800">{result.subtitle}</p>
       </div>

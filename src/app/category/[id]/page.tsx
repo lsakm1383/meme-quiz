@@ -4,6 +4,7 @@ import { categories, getCategory } from "@/data/categories";
 import { getRegisteredTest, type RegisteredTest } from "@/lib/test-registry";
 import { getSiteUrl } from "@/lib/site";
 import { AdSlot } from "@/components/AdSlot";
+import { JsonLd, categoryData } from "@/lib/structured-data";
 
 type Params = { id: string };
 
@@ -42,12 +43,13 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col gap-8 px-6 py-14">
+      <JsonLd data={categoryData(category)} />
       <nav aria-label="현재 위치" className="text-xs font-semibold text-zinc-400">
         {/* 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지) */}
         <a href="/" className="underline underline-offset-4">
           홈
         </a>{" "}
-        › 분야별 모아보기
+        › {category.title}
       </nav>
 
       <header className="flex flex-col gap-2">

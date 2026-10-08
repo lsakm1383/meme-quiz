@@ -30,18 +30,21 @@ export function PhotoIcon({
   size = "lg",
   aspect,
   sizeBy = "height",
+  alt = "",
 }: {
   src: string;
   size?: IconSize;
   aspect?: string;
   sizeBy?: "height" | "width";
+  /** 화면의 주된 그림이면 설명을 넣는다. 옆에 이름이 바로 붙는 목록 썸네일은 비워 둔다 */
+  alt?: string;
 }) {
   const base = sizeBy === "width" ? WIDTH[size] : HEIGHT[size];
   const shapeClass = aspect ? `${base} ${aspect}` : SQUARE[size];
   return (
     <span className={`inline-block shrink-0 overflow-hidden rounded-2xl ${shapeClass}`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt="" className="h-full w-full object-cover" />
+      <img src={src} alt={alt} className="h-full w-full object-cover" />
     </span>
   );
 }

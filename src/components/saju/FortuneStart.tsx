@@ -126,7 +126,7 @@ export function FortuneStart({
   const header = (
     <>
       {test.image ? (
-        <PhotoIcon src={test.image} size="xl" />
+        <PhotoIcon src={test.image} size="xl" alt={`${test.title} 대표 그림`} />
       ) : (
         <div className="text-7xl">{test.emoji}</div>
       )}

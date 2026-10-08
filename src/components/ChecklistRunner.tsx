@@ -69,7 +69,7 @@ export function ChecklistRunner({
 
       <div className="flex flex-col items-center gap-3 text-center">
         {checklist.image ? (
-          <PhotoIcon src={checklist.image} size="xl" />
+          <PhotoIcon src={checklist.image} size="xl" alt={`${checklist.title} 대표 그림`} />
         ) : (
           <div className="text-6xl">{checklist.emoji}</div>
         )}

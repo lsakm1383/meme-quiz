@@ -49,6 +49,7 @@ export function DecisionRunner({
             size="xl"
             aspect={test.imageShape?.aspect}
             sizeBy={test.imageShape?.wide ? "width" : "height"}
+            alt={`${test.title} 대표 그림`}
           />
         ) : (
           <div className="text-7xl">{test.emoji}</div>

@@ -53,7 +53,11 @@ export function ToppingResultView({
         {rarity || test.image ? (
           <span className="inline-block h-44 aspect-[5/6] overflow-hidden rounded-2xl">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={rarity?.image ?? test.image} alt="" className="h-full w-full object-cover" />
+            <img
+              src={rarity?.image ?? test.image}
+              alt={`${headline.title} 마라탕 그림`}
+              className="h-full w-full object-cover"
+            />
           </span>
         ) : (
           <div className="text-6xl">{cardEmoji}</div>

@@ -71,7 +71,7 @@ export function ToppingBuilderRunner({
     return (
       <div className="flex flex-col items-center gap-6 text-center">
         {test.image ? (
-          <PhotoIcon src={test.image} size="xl" aspect="aspect-[5/6]" />
+          <PhotoIcon src={test.image} size="xl" aspect="aspect-[5/6]" alt={`${test.title} 대표 그림`} />
         ) : (
           <div className="text-7xl">{test.emoji}</div>
         )}

@@ -81,7 +81,7 @@ export function ResultView({
         className="flex w-full flex-col items-center gap-3 rounded-3xl px-6 py-10 shadow-sm"
         style={{ backgroundColor: result.color }}
       >
-        <QuizIcon image={result.image} emoji={result.emoji} size="xl" />
+        <QuizIcon image={result.image} emoji={result.emoji} size="xl" alt={`${result.title} 결과 일러스트`} />
         <h1 className="text-2xl font-extrabold text-zinc-900">
           {result.title}
         </h1>

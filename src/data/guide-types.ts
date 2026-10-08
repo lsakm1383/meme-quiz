@@ -14,4 +14,6 @@ export type ContentGuide = {
   /** 전체 결과 목록 섹션 제목, 예: "16가지 직장인 유형". 결과 목록이 없는 콘텐츠(체크리스트)는 생략 */
   resultsHeading?: string;
   faq: { question: string; answer: string }[];
+  /** 테스트 키(주소 앞부분). getGuide 가 채운다 */
+  path?: string;
 };
