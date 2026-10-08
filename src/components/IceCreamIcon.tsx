@@ -78,6 +78,17 @@ function Sandwich({ color, secondary }: IceCreamStyle) {
   );
 }
 
+function Bite({ color }: IceCreamStyle) {
+  // 낱개 포장된 한입 아이스크림 세 조각
+  return (
+    <svg viewBox="0 0 32 32" className="h-full w-full">
+      <rect x="4" y="15" width="11" height="11" rx="2.5" fill={color} stroke="#d6c7a1" strokeWidth="0.6" />
+      <rect x="17" y="15" width="11" height="11" rx="2.5" fill={color} stroke="#d6c7a1" strokeWidth="0.6" />
+      <rect x="10.5" y="5" width="11" height="11" rx="2.5" fill={color} stroke="#d6c7a1" strokeWidth="0.6" />
+    </svg>
+  );
+}
+
 function Tub({ color, secondary }: IceCreamStyle) {
   return (
     <svg viewBox="0 0 32 32" className="h-full w-full">
@@ -97,7 +108,7 @@ function Tub({ color, secondary }: IceCreamStyle) {
   );
 }
 
-const SHAPES = { bar: Bar, cone: Cone, tube: Tube, cup: Cup, sandwich: Sandwich, tub: Tub };
+const SHAPES = { bar: Bar, cone: Cone, tube: Tube, cup: Cup, sandwich: Sandwich, bite: Bite, tub: Tub };
 
 const BOX = { lg: "h-16 w-16", sm: "h-9 w-9", xs: "h-5 w-5" };
 const TEXT = { lg: "text-5xl", sm: "text-3xl", xs: "text-lg" };
