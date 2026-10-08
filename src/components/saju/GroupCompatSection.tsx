@@ -45,6 +45,36 @@ function PairCard({ pair, badge, note }: { pair: CompatPair; badge: string; note
 const SIZE = 360;
 const CENTER = SIZE / 2;
 
+/**
+ * 관계도에 그릴 선.
+ * 인원이 적으면 모든 선을 그린다. 많으면
+ *  1) 사람마다 가장 잘 맞는 상대와의 선을 하나씩 꼭 그려서 선 없이 혼자 떨어진 사람이 없게 하고,
+ *  2) 내 선(58점 이상)을 더한 뒤,
+ *  3) 잘 맞는 선(72점 이상)을 점수 높은 순으로 인원의 1.5배까지만 더해 선이 엉키지 않게 한다.
+ */
+export function relationEdges(members: CompatMember[], pairs: CompatPair[], highlightId?: string): CompatPair[] {
+  if (members.length <= 6) return pairs;
+  const touches = (pair: CompatPair, id: string) => pair.a.id === id || pair.b.id === id;
+  const chosen = new Set<CompatPair>();
+  for (const member of members) {
+    let best: CompatPair | undefined;
+    for (const pair of pairs) {
+      if (touches(pair, member.id) && (!best || pair.score > best.score)) best = pair;
+    }
+    if (best) chosen.add(best);
+  }
+  if (highlightId !== undefined) {
+    for (const pair of pairs) if (touches(pair, highlightId) && pair.score >= 58) chosen.add(pair);
+  }
+  const limit = Math.max(chosen.size, Math.round(members.length * 1.5));
+  for (const pair of [...pairs].sort((x, y) => y.score - x.score)) {
+    if (chosen.size >= limit || pair.score < 72) break;
+    chosen.add(pair);
+  }
+  // 약한 선을 먼저 그려야 진한 선이 위에 올라온다.
+  return pairs.filter((pair) => chosen.has(pair)).sort((x, y) => x.score - y.score);
+}
+
 function RelationMap({
   members,
   pairs,
@@ -60,14 +90,7 @@ function RelationMap({
     return { x: CENTER + radius * Math.cos(angle), y: CENTER + radius * Math.sin(angle) };
   };
   const index = new Map(members.map((member, i) => [member.id, i]));
-  // 인원이 적으면 모든 선을, 많으면 잘 맞는 선(72점 이상)과 내 선만 그린다.
-  const showAll = members.length <= 6;
-  const edges = pairs.filter(
-    (pair) =>
-      showAll ||
-      pair.score >= 72 ||
-      (highlightId !== undefined && (pair.a.id === highlightId || pair.b.id === highlightId) && pair.score >= 58)
-  );
+  const edges = relationEdges(members, pairs, highlightId);
 
   return (
     <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="w-full" role="img" aria-label="그룹 궁합 관계도">
@@ -220,7 +243,7 @@ export function GroupCompatSection({
         <p className="text-xs leading-relaxed text-zinc-400">
           동그라미 안 글자는 각자의 일간이에요.{" "}
           {ready.length > 6
-            ? "인원이 많아서 72점 이상인 잘 맞는 선만 그렸어요."
+            ? "인원이 많아서 사람마다 가장 잘 맞는 상대와의 선과, 특히 잘 맞는 선 일부만 그렸어요."
             : "선 색이 진할수록 잘 맞는 사이예요."}
         </p>
       </div>
