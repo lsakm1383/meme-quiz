@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import type { GroupMember } from "@/lib/groups";
 import { STEMS, ELEMENT_ORDER } from "@/lib/saju/constants";
 import {
@@ -75,6 +78,18 @@ export function relationEdges(members: CompatMember[], pairs: CompatPair[], high
   return pairs.filter((pair) => chosen.has(pair)).sort((x, y) => x.score - y.score);
 }
 
+/** 전체 보기에서 약한 선일수록 가늘고 흐리게 그려 강한 선이 묻히지 않게 한다 */
+function lineStyle(score: number, mode: "base" | "all" | "focus") {
+  if (mode === "all") {
+    if (score >= 85) return { width: 4, opacity: 0.95 };
+    if (score >= 72) return { width: 2.6, opacity: 0.85 };
+    if (score >= 58) return { width: 1.6, opacity: 0.55 };
+    if (score >= 44) return { width: 1.1, opacity: 0.4 };
+    return { width: 0.9, opacity: 0.3 };
+  }
+  return { width: score >= 85 ? 5 : score >= 72 ? 3.5 : 2, opacity: 0.9 };
+}
+
 function RelationMap({
   members,
   pairs,
@@ -84,73 +99,203 @@ function RelationMap({
   pairs: CompatPair[];
   highlightId?: string;
 }) {
+  // 누른 사람 — 그 사람과 나머지 모두를 잇는 선을 점수와 함께 보여준다
+  const [focusId, setFocusId] = useState<string | null>(null);
+  // 모든 선 보기 — 인원이 많을 때만 의미가 있다 (6명 이하는 원래 모든 선을 그린다)
+  const [showAll, setShowAll] = useState(false);
+  const crowded = members.length > 6;
+
   const radius = members.length <= 2 ? 90 : 130;
   const position = (index: number) => {
     const angle = (-90 + (360 / members.length) * index) * (Math.PI / 180);
     return { x: CENTER + radius * Math.cos(angle), y: CENTER + radius * Math.sin(angle) };
   };
   const index = new Map(members.map((member, i) => [member.id, i]));
-  const edges = relationEdges(members, pairs, highlightId);
+  const focus = focusId ? members.find((member) => member.id === focusId) : undefined;
+  const mode = focus ? "focus" : crowded && showAll ? "all" : "base";
+  const edges = focus
+    ? pairs.filter((pair) => pair.a.id === focus.id || pair.b.id === focus.id).sort((x, y) => x.score - y.score)
+    : mode === "all"
+      ? [...pairs].sort((x, y) => x.score - y.score)
+      : relationEdges(members, pairs, highlightId);
+  const nodeRadius = members.length > 12 ? 15 : 20;
+
+  const toggleFocus = (id: string) => setFocusId((current) => (current === id ? null : id));
 
   return (
-    <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="w-full" role="img" aria-label="그룹 궁합 관계도">
-      {edges.map((pair) => {
-        const p1 = position(index.get(pair.a.id)!);
-        const p2 = position(index.get(pair.b.id)!);
-        const tier = compatTier(pair.score);
-        const mine = highlightId !== undefined && (pair.a.id === highlightId || pair.b.id === highlightId);
-        return (
-          <line
-            key={`${pair.a.id}-${pair.b.id}`}
-            x1={p1.x}
-            y1={p1.y}
-            x2={p2.x}
-            y2={p2.y}
-            stroke={tier.color}
-            strokeWidth={pair.score >= 85 ? 5 : pair.score >= 72 ? 3.5 : 2}
-            strokeOpacity={highlightId && !mine ? 0.35 : 0.9}
-            strokeLinecap="round"
-          />
-        );
-      })}
-      {members.map((member, i) => {
-        const { x, y } = position(i);
-        const mine = member.id === highlightId;
-        const label = member.nickname.length > 5 ? `${member.nickname.slice(0, 5)}…` : member.nickname;
-        return (
-          <g key={member.id}>
-            <circle
-              cx={x}
-              cy={y}
-              r={members.length > 12 ? 15 : 20}
-              fill={mine ? "#b45309" : "#ffffff"}
-              stroke={mine ? "#b45309" : "#a1a1aa"}
-              strokeWidth={2}
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-between gap-2">
+        <h3 className="text-sm font-bold text-zinc-500">관계도</h3>
+        {crowded && !focus && (
+          <button
+            type="button"
+            onClick={() => setShowAll((current) => !current)}
+            className="rounded-full border border-zinc-200 px-3 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:text-zinc-300"
+          >
+            {showAll ? "잘 맞는 선만 보기" : `모든 선 보기 (${pairs.length}개)`}
+          </button>
+        )}
+        {focus && (
+          <button
+            type="button"
+            onClick={() => setFocusId(null)}
+            className="rounded-full border border-zinc-200 px-3 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:text-zinc-300"
+          >
+            전체 관계도로
+          </button>
+        )}
+      </div>
+
+      <svg
+        viewBox={`0 0 ${SIZE} ${SIZE}`}
+        className="w-full select-none"
+        role="img"
+        aria-label={focus ? `${focus.nickname}님과 다른 사람들의 궁합 관계도` : "그룹 궁합 관계도"}
+        onClick={(event) => {
+          // 빈 곳을 누르면 원래 관계도로 돌아간다
+          if (event.target === event.currentTarget) setFocusId(null);
+        }}
+      >
+        {edges.map((pair) => {
+          const p1 = position(index.get(pair.a.id)!);
+          const p2 = position(index.get(pair.b.id)!);
+          const tier = compatTier(pair.score);
+          const mine = highlightId !== undefined && (pair.a.id === highlightId || pair.b.id === highlightId);
+          const style = lineStyle(pair.score, mode);
+          const dim = mode === "base" && highlightId && !mine;
+          return (
+            <line
+              key={`${pair.a.id}-${pair.b.id}`}
+              x1={p1.x}
+              y1={p1.y}
+              x2={p2.x}
+              y2={p2.y}
+              stroke={tier.color}
+              strokeWidth={style.width}
+              strokeOpacity={dim ? 0.35 : style.opacity}
+              strokeLinecap="round"
+              pointerEvents="none"
             />
-            <text
-              x={x}
-              y={y + 4}
-              textAnchor="middle"
-              fontSize={members.length > 12 ? 10 : 12}
-              fontWeight={700}
-              fill={mine ? "#ffffff" : "#3f3f46"}
+          );
+        })}
+        {focus &&
+          edges.map((pair) => {
+            // 점수 표시는 누른 사람 쪽이 아니라 상대 동그라미 바로 앞에 둬서 서로 겹치지 않게 한다
+            const other = pair.a.id === focus.id ? pair.b : pair.a;
+            const from = position(index.get(focus.id)!);
+            const to = position(index.get(other.id)!);
+            const length = Math.hypot(from.x - to.x, from.y - to.y);
+            const gap = nodeRadius + 16;
+            // 바로 옆자리라 점수가 누른 사람 동그라미와 겹치면 그림에서는 빼고 아래 목록으로만 보여준다
+            if (length < gap + nodeRadius + 14) return null;
+            const x = to.x + ((from.x - to.x) / length) * gap;
+            const y = to.y + ((from.y - to.y) / length) * gap;
+            const tier = compatTier(pair.score);
+            return (
+              <g key={`score-${other.id}`} pointerEvents="none">
+                <rect x={x - 13} y={y - 9} width={26} height={18} rx={9} fill="#ffffff" stroke={tier.color} strokeWidth={1.5} />
+                <text x={x} y={y + 4} textAnchor="middle" fontSize={11} fontWeight={700} fill={tier.color}>
+                  {pair.score}
+                </text>
+              </g>
+            );
+          })}
+        {members.map((member, i) => {
+          const { x, y } = position(i);
+          const mine = member.id === highlightId;
+          const focused = member.id === focusId;
+          const label = member.nickname.length > 5 ? `${member.nickname.slice(0, 5)}…` : member.nickname;
+          return (
+            <g
+              key={member.id}
+              role="button"
+              tabIndex={0}
+              aria-pressed={focused}
+              aria-label={`${member.nickname}님의 궁합 선 ${focused ? "숨기기" : "모두 보기"}`}
+              className="cursor-pointer outline-none"
+              onClick={() => toggleFocus(member.id)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  toggleFocus(member.id);
+                }
+              }}
             >
-              {STEMS[member.compat.ds].hangul}
-            </text>
-            <text
-              x={x}
-              y={y + (y > CENTER ? 34 : -26)}
-              textAnchor="middle"
-              fontSize={12}
-              fontWeight={600}
-              fill="#52525b"
-            >
-              {label}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
+              {/* 손가락으로 누르기 쉽게 보이지 않는 넓은 영역을 깐다 */}
+              <circle cx={x} cy={y} r={nodeRadius + 10} fill="transparent" />
+              <circle
+                cx={x}
+                cy={y}
+                r={nodeRadius}
+                fill={mine ? "#b45309" : "#ffffff"}
+                stroke={focused ? "#18181b" : mine ? "#b45309" : "#a1a1aa"}
+                strokeWidth={focused ? 3.5 : 2}
+              />
+              <text
+                x={x}
+                y={y + 4}
+                textAnchor="middle"
+                fontSize={members.length > 12 ? 10 : 12}
+                fontWeight={700}
+                fill={mine ? "#ffffff" : "#3f3f46"}
+              >
+                {STEMS[member.compat.ds].hangul}
+              </text>
+              <text
+                x={x}
+                y={y + (y > CENTER ? 34 : -26)}
+                textAnchor="middle"
+                fontSize={12}
+                fontWeight={focused ? 800 : 600}
+                fill={focused ? "#18181b" : "#52525b"}
+              >
+                {label}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+
+      {focus && (
+        <ol className="flex flex-wrap gap-1.5" aria-label={`${focus.nickname}님과 잘 맞는 순서`}>
+          {[...edges]
+            .sort((x, y) => y.score - x.score)
+            .map((pair) => {
+              const other = pair.a.id === focus.id ? pair.b : pair.a;
+              const tier = compatTier(pair.score);
+              return (
+                <li
+                  key={other.id}
+                  className="flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-semibold"
+                  style={{ borderColor: tier.color }}
+                >
+                  <span className="text-zinc-700 dark:text-zinc-200">{other.nickname}</span>
+                  <span style={{ color: tier.color }}>{pair.score}</span>
+                </li>
+              );
+            })}
+        </ol>
+      )}
+
+      <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-zinc-500">
+        {COMPAT_TIERS.map((tier) => (
+          <span key={tier.title} className="flex items-center gap-1">
+            <span className="inline-block h-1 w-4 rounded" style={{ backgroundColor: tier.color }} />
+            {tier.title} ({tier.min}점~)
+          </span>
+        ))}
+      </div>
+      <p className="text-xs leading-relaxed text-zinc-400">
+        {focus
+          ? `${focus.nickname}님과 나머지 ${members.length - 1}명의 궁합을 모두 보여주고 있어요. 숫자는 궁합 점수이고, 위 목록은 잘 맞는 순서예요.`
+          : mode === "all"
+            ? "모든 선을 그렸어요. 잘 맞는 사이일수록 선이 굵고 진해요."
+            : crowded
+              ? "인원이 많아서 사람마다 가장 잘 맞는 상대와의 선과, 특히 잘 맞는 선 일부만 그렸어요."
+              : "선 색이 진할수록 잘 맞는 사이예요."}{" "}
+        {!focus && "동그라미를 누르면 그 사람과 모두의 궁합을 점수와 함께 볼 수 있어요. 동그라미 안 글자는 각자의 일간이에요."}
+      </p>
+    </div>
   );
 }
 
@@ -229,24 +374,7 @@ export function GroupCompatSection({
         )}
       </div>
 
-      <div className="flex flex-col gap-2">
-        <h3 className="text-sm font-bold text-zinc-500">관계도</h3>
-        <RelationMap members={ready} pairs={pairs} highlightId={highlightId} />
-        <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-zinc-500">
-          {COMPAT_TIERS.map((tier) => (
-            <span key={tier.title} className="flex items-center gap-1">
-              <span className="inline-block h-1 w-4 rounded" style={{ backgroundColor: tier.color }} />
-              {tier.title} ({tier.min}점~)
-            </span>
-          ))}
-        </div>
-        <p className="text-xs leading-relaxed text-zinc-400">
-          동그라미 안 글자는 각자의 일간이에요.{" "}
-          {ready.length > 6
-            ? "인원이 많아서 사람마다 가장 잘 맞는 상대와의 선과, 특히 잘 맞는 선 일부만 그렸어요."
-            : "선 색이 진할수록 잘 맞는 사이예요."}
-        </p>
-      </div>
+      <RelationMap members={ready} pairs={pairs} highlightId={highlightId} />
 
       <p className="text-xs leading-relaxed text-zinc-400">
         궁합은 일간의 천간합·상생, 일지와 띠의 육합·삼합·충, 서로 부족한 오행을 채워주는지로 점수를 매겨요.
