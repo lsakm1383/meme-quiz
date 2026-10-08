@@ -92,3 +92,29 @@ export function websiteData(description: string): JsonLdData {
     inLanguage: "ko-KR",
   };
 }
+
+/** 화면에 보이는 경로 + 같은 내용의 구조화 정보 (풀이 항목 페이지용: 홈 › 분야 › 테스트 › 항목) */
+export function ItemTrail({ testKey, item }: { testKey: string; item: { name: string; path: string } }) {
+  const test = getRegisteredTest(testKey);
+  const trail = [...(test ? testTrail(test) : [{ name: "홈", path: "/" }]), item];
+  return (
+    <>
+      <JsonLd data={breadcrumbData(trail)} />
+      <nav aria-label="현재 위치" className="w-full text-left text-xs font-semibold text-zinc-400">
+        {trail.map((step, index) => (
+          <span key={step.path}>
+            {index > 0 && <span aria-hidden="true"> › </span>}
+            {index < trail.length - 1 ? (
+              // 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지)
+              <a href={step.path} className="underline underline-offset-4">
+                {step.name}
+              </a>
+            ) : (
+              <span aria-current="page">{step.name}</span>
+            )}
+          </span>
+        ))}
+      </nav>
+    </>
+  );
+}

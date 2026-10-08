@@ -7,6 +7,8 @@ import { STEMS, BRANCHES } from "@/lib/saju/constants";
 import zodiacCopy from "@/data/saju/zodiac";
 import { ZODIAC_SLUGS, zodiacBranchOf } from "@/lib/saju/zodiac";
 import { dreams, getDream } from "@/data/saju/dreams";
+import { tarotCards } from "@/data/saju/tarot";
+import { startOgImage } from "@/lib/start-og";
 
 export const alt = "일간 유형";
 export const size = { width: 1200, height: 630 };
@@ -24,7 +26,9 @@ export function generateStaticParams() {
         ? ZODIAC_SLUGS.map((slug) => ({ testId: test.id, slug }))
         : test.kind === "dream"
           ? dreams.map((dream) => ({ testId: test.id, slug: dream.slug }))
-          : []
+          : test.kind === "tarot"
+            ? tarotCards.map((card) => ({ testId: test.id, slug: card.slug }))
+            : []
   );
 }
 
@@ -151,6 +155,18 @@ export default async function Image({ params }: { params: Promise<{ testId: stri
   const test = getSajuTest(testId);
   if (test?.kind === "zodiac") return zodiacImage(slug, test.accentColor);
   if (test?.kind === "dream") return dreamImage(slug, test.accentColor);
+  if (test?.kind === "tarot") {
+    // 타로 카드 의미 — 카드 앞면 그림과 이름
+    const card = tarotCards.find((item) => item.slug === slug);
+    return startOgImage({
+      label: "타로 카드 의미 · 정방향·역방향",
+      title: card ? `${card.number}. ${card.nameKo}` : "타로 카드",
+      accentColor: test.accentColor,
+      images: card?.image ? [card.image] : [],
+      emoji: card?.emoji,
+      button: "카드 뜻 보기",
+    });
+  }
   const profile = getDayMaster(slug);
   const stem = profile && STEMS.find((item) => item.slug === profile.slug);
   const element = stem && getElement(stem.element);

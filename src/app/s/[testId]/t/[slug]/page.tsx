@@ -11,6 +11,10 @@ import { ZodiacResult } from "@/components/saju/ZodiacResult";
 import { DreamEntryView, DREAM_TONE } from "@/components/saju/DreamEntryView";
 import { dreams, getDream } from "@/data/saju/dreams";
 import { RelatedTests } from "@/components/RelatedTests";
+import { TarotMeaningView } from "@/components/saju/TarotMeaningView";
+import { tarotCards } from "@/data/saju/tarot";
+import { ItemTrail } from "@/lib/structured-data";
+import { getSiteUrl } from "@/lib/site";
 
 type Params = { testId: string; slug: string };
 
@@ -22,13 +26,30 @@ export function generateStaticParams() {
         ? ZODIAC_SLUGS.map((slug) => ({ testId: test.id, slug }))
         : test.kind === "dream"
           ? dreams.map((dream) => ({ testId: test.id, slug: dream.slug }))
-          : []
+          : test.kind === "tarot"
+            ? tarotCards.map((card) => ({ testId: test.id, slug: card.slug }))
+            : []
   );
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { testId, slug } = await params;
   const test = getSajuTest(testId);
+  // 풀이 항목 페이지는 개인 결과가 아니라 누구에게나 같은 내용이라 검색에 노출한다 (사이트맵에도 싣는다).
+  const canonical = { canonical: `${getSiteUrl()}/s/${testId}/t/${slug}` };
+  if (test?.kind === "tarot") {
+    const card = tarotCards.find((item) => item.slug === slug);
+    if (!card) return {};
+    const title = `타로 ${card.nameKo}(${card.nameEn}) 카드 의미 — 정방향·역방향 풀이`;
+    const description = `${card.nameKo} 카드는 정방향이면 ${card.keywords.upright.join("·")}, 역방향이면 ${card.keywords.reversed.join("·")}. 전체운·연애·일·금전 풀이와 그림에 담긴 상징을 정리했어요.`;
+    return {
+      title,
+      description,
+      openGraph: { title, description, type: "article" },
+      twitter: { card: "summary_large_image", title, description },
+      alternates: canonical,
+    };
+  }
   if (test?.kind === "dream") {
     const dream = getDream(slug);
     if (!dream) return {};
@@ -39,8 +60,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       description,
       openGraph: { title, description, type: "website" },
       twitter: { card: "summary_large_image", title, description },
-      // 다른 결과 페이지와 마찬가지로 검색 색인에서는 뺀다 (설명·찾는 법은 /s/dream 시작 화면에 있다).
-      robots: { index: false, follow: true },
+      alternates: canonical,
     };
   }
   if (test?.kind === "zodiac") {
@@ -54,22 +74,20 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       description,
       openGraph: { title, description, type: "website" },
       twitter: { card: "summary_large_image", title, description },
-      // 다른 결과 페이지와 마찬가지로 공유용이라 검색 색인에서는 뺀다 (소개·설명은 /s/zodiac 시작 화면에 있다).
-      robots: { index: false, follow: true },
+      alternates: canonical,
     };
   }
   const profile = getDayMaster(slug);
   if (!test || !profile) return {};
 
-  const title = `내 일간은 ${profile.name} "${profile.title}" ${profile.emoji}`;
-  const description = `${profile.subtitle} — ${test.title}에서 나온 일간 유형이에요.`;
+  const title = `${profile.name} 일간 성격과 특징 — "${profile.title}" ${profile.emoji}`;
+  const description = `${profile.subtitle} — 사주 일간이 ${profile.name}인 사람의 강점, 조심하면 좋은 점, 오행 기운을 정리했어요.`;
   return {
     title,
     description,
     openGraph: { title, description, type: "website" },
     twitter: { card: "summary_large_image", title, description },
-    // 다른 결과 페이지와 마찬가지로 공유용이라 검색 색인에서는 뺀다.
-    robots: { index: false, follow: true },
+    alternates: canonical,
   };
 }
 
@@ -77,11 +95,23 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 export default async function SajuTypePage({ params }: { params: Promise<Params> }) {
   const { testId, slug } = await params;
   const test = getSajuTest(testId);
+  const itemPath = `/s/${testId}/t/${slug}`;
+  if (test?.kind === "tarot") {
+    const card = tarotCards.find((item) => item.slug === slug);
+    if (!card) notFound();
+    return (
+      <div className="flex w-full max-w-md flex-1 flex-col items-center gap-6 px-6 py-16">
+        <ItemTrail testKey={`s/${test.id}`} item={{ name: `${card.nameKo} 카드`, path: itemPath }} />
+        <TarotMeaningView test={test} card={card} />
+      </div>
+    );
+  }
   if (test?.kind === "dream") {
     const dream = getDream(slug);
     if (!dream) notFound();
     return (
-      <div className="flex w-full max-w-md flex-1 flex-col items-center px-6 py-16">
+      <div className="flex w-full max-w-md flex-1 flex-col items-center gap-6 px-6 py-16">
+        <ItemTrail testKey={`s/${test.id}`} item={{ name: `${dream.title} 해몽`, path: itemPath }} />
         <DreamEntryView test={test} dream={dream} />
       </div>
     );
@@ -90,7 +120,8 @@ export default async function SajuTypePage({ params }: { params: Promise<Params>
     const branch = zodiacBranchOf(slug);
     if (branch === null) notFound();
     return (
-      <div className="flex w-full max-w-md flex-1 flex-col items-center px-6 py-16">
+      <div className="flex w-full max-w-md flex-1 flex-col items-center gap-6 px-6 py-16">
+        <ItemTrail testKey={`s/${test.id}`} item={{ name: `${BRANCHES[branch].animal}띠`, path: itemPath }} />
         <ZodiacResult test={test} branch={branch} related={<RelatedTests current={`s/${test.id}`} />} />
       </div>
     );
@@ -104,6 +135,7 @@ export default async function SajuTypePage({ params }: { params: Promise<Params>
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
       <div className="flex w-full flex-col items-center gap-6 text-center">
+        <ItemTrail testKey={`s/${test.id}`} item={{ name: `${profile.name} 일간`, path: itemPath }} />
         <p className="text-sm font-medium text-zinc-400">
           사주 시리즈 · 일간 유형
         </p>

@@ -168,6 +168,14 @@ export function TarotResult({ test, related }: { test: SajuTestConfig; related?:
                   <b>카드의 조언 · </b>
                   <span className="text-zinc-600 dark:text-zinc-400">{item.card.advice[orientation]}</span>
                 </p>
+                {/* 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지) */}
+                <a
+                  href={`/s/${test.id}/t/${item.card.slug}`}
+                  className="text-sm font-semibold underline underline-offset-4"
+                  style={{ color }}
+                >
+                  {item.card.nameKo} 카드의 정방향·역방향 의미 모두 보기 →
+                </a>
               </section>
             );
           })}

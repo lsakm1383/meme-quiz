@@ -8,6 +8,10 @@ import { checklists } from "@/data/checklists";
 import { mbtiTests } from "@/data/mbti";
 import { sajuTests } from "@/data/saju";
 import { categories } from "@/data/categories";
+import { dayMasters } from "@/data/saju";
+import { dreams } from "@/data/saju/dreams";
+import { tarotCards } from "@/data/saju/tarot";
+import { ZODIAC_SLUGS } from "@/lib/saju/zodiac";
 
 // 결과 페이지(/r/)는 공유용이라 색인하지 않으므로, 홈·시작 페이지·체크리스트만 싣는다.
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -48,6 +52,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   for (const test of sajuTests) {
     urls.push({ url: `${base}/s/${test.id}` });
+  }
+
+  // 누구에게나 같은 풀이 항목 페이지 (꿈해몽·띠·일간·타로 카드) — 개인 결과가 아니라 검색에 싣는다
+  const items: [string, readonly string[]][] = [
+    ["dream", dreams.map((dream) => dream.slug)],
+    ["zodiac", ZODIAC_SLUGS],
+    ["saju", dayMasters.map((profile) => profile.slug)],
+    ["tarot", tarotCards.map((card) => card.slug)],
+  ];
+  for (const [testId, slugs] of items) {
+    for (const slug of slugs) urls.push({ url: `${base}/s/${testId}/t/${slug}` });
   }
 
   return urls;

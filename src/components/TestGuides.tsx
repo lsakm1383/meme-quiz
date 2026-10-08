@@ -14,6 +14,8 @@ import { DecisionResultIcon } from "@/components/DecisionResultIcon";
 import { PhotoIcon } from "@/components/PhotoIcon";
 import { DayMasterIcon } from "@/components/saju/DayMasterIcon";
 import { QuizIcon } from "@/components/QuizIcon";
+import { tarotCards } from "@/data/saju/tarot";
+import { TarotCardFace } from "@/components/saju/TarotCardView";
 
 // 콘텐츠 유형별로 결과 목록을 ContentGuide 항목으로 바꿔 넘기는 얇은 래퍼들.
 // 소개글이 등록되지 않은 테스트는 null — 시작 화면에 소개 섹션 없이 버튼만 보인다.
@@ -201,11 +203,28 @@ export function PalmGuide({ test }: { test: SajuTestConfig }) {
   return <ContentGuide guide={guide} accentColor={test.accentColor} />;
 }
 
-// 타로도 고정 결과 목록 없이 보는 방법·FAQ만 보여준다.
+// 타로는 22장 카드마다 의미 페이지로 이어지는 목록을 함께 보여준다.
 export function TarotGuide({ test }: { test: SajuTestConfig }) {
   const guide = getGuide(`s/${test.id}`);
   if (!guide) return null;
-  return <ContentGuide guide={guide} accentColor={test.accentColor} />;
+  return (
+    <ContentGuide
+      guide={guide}
+      accentColor={test.accentColor}
+      items={tarotCards.map((card) => ({
+        key: card.slug,
+        icon: (
+          <span className="shrink-0">
+            <TarotCardFace card={card} size="sm" />
+          </span>
+        ),
+        title: `${card.number}. ${card.nameKo}`,
+        subtitle: card.nameEn,
+        description: `정방향 ${card.keywords.upright.join("·")} / 역방향 ${card.keywords.reversed.join("·")}`,
+        href: `/s/${test.id}/t/${card.slug}`,
+      }))}
+    />
+  );
 }
 
 // 체크리스트는 결과가 없으므로 결과 목록 없이 준비 가이드만 보여준다.
