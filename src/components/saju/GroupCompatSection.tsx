@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { GroupMember } from "@/lib/groups";
+import { pickRelationEdges, labelSpot, CROWDED_MEMBERS } from "@/lib/relation-edges";
 import { STEMS, ELEMENT_ORDER } from "@/lib/saju/constants";
 import {
   groupCompat,
@@ -48,34 +49,9 @@ function PairCard({ pair, badge, note }: { pair: CompatPair; badge: string; note
 const SIZE = 360;
 const CENTER = SIZE / 2;
 
-/**
- * 관계도에 그릴 선.
- * 인원이 적으면 모든 선을 그린다. 많으면
- *  1) 사람마다 가장 잘 맞는 상대와의 선을 하나씩 꼭 그려서 선 없이 혼자 떨어진 사람이 없게 하고,
- *  2) 내 선(58점 이상)을 더한 뒤,
- *  3) 잘 맞는 선(72점 이상)을 점수 높은 순으로 인원의 1.5배까지만 더해 선이 엉키지 않게 한다.
- */
+/** 관계도에 그릴 선 — 인원이 많으면 잘 맞는 선(72점 이상)과 내 선(58점 이상) 위주로 고른다 */
 export function relationEdges(members: CompatMember[], pairs: CompatPair[], highlightId?: string): CompatPair[] {
-  if (members.length <= 6) return pairs;
-  const touches = (pair: CompatPair, id: string) => pair.a.id === id || pair.b.id === id;
-  const chosen = new Set<CompatPair>();
-  for (const member of members) {
-    let best: CompatPair | undefined;
-    for (const pair of pairs) {
-      if (touches(pair, member.id) && (!best || pair.score > best.score)) best = pair;
-    }
-    if (best) chosen.add(best);
-  }
-  if (highlightId !== undefined) {
-    for (const pair of pairs) if (touches(pair, highlightId) && pair.score >= 58) chosen.add(pair);
-  }
-  const limit = Math.max(chosen.size, Math.round(members.length * 1.5));
-  for (const pair of [...pairs].sort((x, y) => y.score - x.score)) {
-    if (chosen.size >= limit || pair.score < 72) break;
-    chosen.add(pair);
-  }
-  // 약한 선을 먼저 그려야 진한 선이 위에 올라온다.
-  return pairs.filter((pair) => chosen.has(pair)).sort((x, y) => x.score - y.score);
+  return pickRelationEdges(members.map((member) => member.id), pairs, { strong: 72, mine: 58, highlightId });
 }
 
 /** 전체 보기에서 약한 선일수록 가늘고 흐리게 그려 강한 선이 묻히지 않게 한다 */
@@ -103,7 +79,7 @@ function RelationMap({
   const [focusId, setFocusId] = useState<string | null>(null);
   // 모든 선 보기 — 인원이 많을 때만 의미가 있다 (6명 이하는 원래 모든 선을 그린다)
   const [showAll, setShowAll] = useState(false);
-  const crowded = members.length > 6;
+  const crowded = members.length > CROWDED_MEMBERS;
 
   const radius = members.length <= 2 ? 90 : 130;
   const position = (index: number) => {
@@ -184,12 +160,10 @@ function RelationMap({
             const other = pair.a.id === focus.id ? pair.b : pair.a;
             const from = position(index.get(focus.id)!);
             const to = position(index.get(other.id)!);
-            const length = Math.hypot(from.x - to.x, from.y - to.y);
-            const gap = nodeRadius + 16;
             // 바로 옆자리라 점수가 누른 사람 동그라미와 겹치면 그림에서는 빼고 아래 목록으로만 보여준다
-            if (length < gap + nodeRadius + 14) return null;
-            const x = to.x + ((from.x - to.x) / length) * gap;
-            const y = to.y + ((from.y - to.y) / length) * gap;
+            const spot = labelSpot(from, to, nodeRadius, 13);
+            if (!spot) return null;
+            const { x, y } = spot;
             const tier = compatTier(pair.score);
             return (
               <g key={`score-${other.id}`} pointerEvents="none">

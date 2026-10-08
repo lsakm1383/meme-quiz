@@ -62,7 +62,7 @@ function GroupPageContent({ groupId }: { groupId: string }) {
       <p className="text-sm text-zinc-500">우리 사이, 유형으로 잇다</p>
 
       {data.members.length > 0 && test ? (
-        <div className="aspect-square w-full max-w-sm">
+        <div className="w-full max-w-sm">
           <GroupRelationGraph
             test={test}
             members={data.members}
