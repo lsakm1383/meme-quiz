@@ -6,6 +6,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
 import { MbtiResultIcon } from "@/components/MbtiResultIcon";
 import { MoreDetails } from "@/components/MoreDetails";
+import { RelatedTests } from "@/components/RelatedTests";
 
 function RelationSection({
   label,
@@ -155,6 +156,8 @@ export function MbtiResultView({
           icon: <MbtiResultIcon profile={p} size="xs" />,
         }))}
       />
+
+      <RelatedTests current={`m/${test.id}`} />
 
       {/* 광고 있는 화면 → 광고 없는 화면 이동은 완전한 새로고침으로 강제 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

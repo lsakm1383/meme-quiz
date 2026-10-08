@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { seriesNameOf, type SajuTestConfig } from "@/data/saju";
 import { getTarotCard, TAROT_TOPICS } from "@/data/saju/tarot";
 import { loadTarotDraw, romanOf, SPREAD_POSITIONS, type TarotDraw } from "@/lib/saju/tarot";
@@ -24,7 +24,7 @@ const hasFinal = (word: string) => {
   return code >= 0 && code <= 11171 && code % 28 !== 0;
 };
 
-export function TarotResult({ test }: { test: SajuTestConfig }) {
+export function TarotResult({ test, related }: { test: SajuTestConfig; related?: ReactNode }) {
   const [state, setState] = useState<State>({ status: "loading" });
   /** 뒤집은 카드 순번 */
   const [flipped, setFlipped] = useState<number[]>([]);
@@ -184,6 +184,8 @@ export function TarotResult({ test }: { test: SajuTestConfig }) {
       <p className="text-xs leading-relaxed text-zinc-400">
         카드는 볼 때마다 새로 섞여요. 타로는 지금의 마음을 비춰 보는 재미용 풀이로, 앞날을 정하지 않아요.
       </p>
+
+      {related}
 
       {/* 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

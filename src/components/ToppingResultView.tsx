@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import type { ToppingTestConfig } from "@/data/topping-types";
 import { groupComboByCategory, describeCombo } from "@/data/toppings";
 import { computeRarity } from "@/lib/topping-rarity";
@@ -14,10 +15,13 @@ export function ToppingResultView({
   test,
   comboKey,
   toppingIds,
+  related,
 }: {
   test: ToppingTestConfig;
   comboKey: string;
   toppingIds: string[];
+  /** 결과 아래 "이 테스트도 해보세요" (서버에서 렌더링해 넘긴다) */
+  related?: ReactNode;
 }) {
   const stats = useIngredientStats(test.id, comboKey);
   const grouped = groupComboByCategory(test, toppingIds).filter(
@@ -90,6 +94,8 @@ export function ToppingResultView({
         text={`${test.title} 해봤더니 "${headline.title}"!\n${headline.subtitle}\n너는 무슨 조합 나올까? 👉`}
         accentColor={test.accentColor}
       />
+
+      {related}
 
       {/* 광고 있는 화면 → 광고 없는 화면 이동은 완전한 새로고침으로 강제 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

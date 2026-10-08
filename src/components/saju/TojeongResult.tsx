@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { seriesNameOf, type SajuTestConfig } from "@/data/saju";
 import type { TojeongGua } from "@/data/saju/types";
 import { loadGua } from "@/data/saju/tojeong";
@@ -34,7 +34,7 @@ type State =
   | { status: "missing" }
   | { status: "ready"; birth: LunarBirth; thisYear: number; initialYear: number };
 
-export function TojeongResult({ test }: { test: SajuTestConfig }) {
+export function TojeongResult({ test, related }: { test: SajuTestConfig; related?: ReactNode }) {
   const [state, setState] = useState<State>({ status: "loading" });
   const [year, setYear] = useState<number | null>(null);
   const [gua, setGua] = useState<{ code: string; data: TojeongGua | null } | null>(null);
@@ -229,6 +229,8 @@ export function TojeongResult({ test }: { test: SajuTestConfig }) {
       <p className="text-xs leading-relaxed text-zinc-400">
         괘는 전통 작괘법으로 찾고, 풀이는 원문 번역이 아니라 괘의 흐름을 오늘의 말로 새로 쓴 재미용 풀이예요.
       </p>
+
+      {related}
 
       {/* 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

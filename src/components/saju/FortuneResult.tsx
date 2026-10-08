@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { SajuTestConfig } from "@/data/saju";
 import { dayMasters } from "@/data/saju";
 import { computeSaju, isSajuError } from "@/lib/saju/engine";
@@ -21,7 +21,7 @@ type State =
   | { status: "missing" }
   | { status: "ready"; scores: FortuneScores; dayMaster: string; group: Group | null; groupError: boolean };
 
-export function FortuneResult({ test }: { test: SajuTestConfig }) {
+export function FortuneResult({ test, related }: { test: SajuTestConfig; related?: ReactNode }) {
   const [state, setState] = useState<State>({ status: "loading" });
 
   useEffect(() => {
@@ -163,6 +163,8 @@ export function FortuneResult({ test }: { test: SajuTestConfig }) {
           "전체 상위 %는 1930년부터 지금까지 태어날 수 있는 모든 날짜·시간·성별(약 85만 가지) 중 내 점수 이상이 차지하는 비율이에요. "}
         운세 점수는 사주 원국을 정해진 규칙으로 계산한 재미용 지표예요. 실제 운명이나 미래를 단정하지 않아요.
       </p>
+
+      {related}
 
       {/* 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

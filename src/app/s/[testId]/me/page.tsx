@@ -10,6 +10,7 @@ import { YearlyResult } from "@/components/saju/YearlyResult";
 import { TojeongResult } from "@/components/saju/TojeongResult";
 import { PalmResult } from "@/components/saju/PalmResult";
 import { TarotResult } from "@/components/saju/TarotResult";
+import { RelatedTests } from "@/components/RelatedTests";
 
 export function generateStaticParams() {
   return sajuTests.map((test) => ({ testId: test.id }));
@@ -36,27 +37,28 @@ export default async function SajuResultPage({ params }: { params: Promise<{ tes
   if (!test) notFound();
   // 띠별 운세·꿈해몽은 입력 없이 항목마다 /s/<id>/t/<항목> 화면에서 본다.
   if (test.kind === "zodiac" || test.kind === "dream") redirect(`/s/${test.id}`);
+  const related = <RelatedTests current={`s/${test.id}`} />;
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center px-6 py-16">
       {test.kind === "fortune" ? (
-        <FortuneResult test={test} />
+        <FortuneResult test={test} related={related} />
       ) : test.kind === "daily" ? (
-        <DailyResult test={test} />
+        <DailyResult test={test} related={related} />
       ) : test.kind === "compat" ? (
-        <CompatResult test={test} />
+        <CompatResult test={test} related={related} />
       ) : test.kind === "tarot" ? (
-        <TarotResult test={test} />
+        <TarotResult test={test} related={related} />
       ) : test.kind === "palm" ? (
-        <PalmResult test={test} />
+        <PalmResult test={test} related={related} />
       ) : test.kind === "tojeong" ? (
-        <TojeongResult test={test} />
+        <TojeongResult test={test} related={related} />
       ) : test.kind === "yearly" ? (
-        <YearlyResult test={test} />
+        <YearlyResult test={test} related={related} />
       ) : test.kind === "daeun" ? (
-        <DaeunResult test={test} />
+        <DaeunResult test={test} related={related} />
       ) : (
-        <SajuResult test={test} />
+        <SajuResult test={test} related={related} />
       )}
     </div>
   );

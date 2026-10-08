@@ -10,10 +10,13 @@ import { PhotoIcon } from "@/components/PhotoIcon";
 export function ChecklistRunner({
   checklist,
   guide,
+  related,
 }: {
   checklist: ChecklistConfig;
   /** 체크리스트 아래에 붙일 준비 가이드 (서버에서 렌더링해 넘긴다) */
   guide?: ReactNode;
+  /** 맨 아래 "이 테스트도 해보세요" (서버에서 렌더링해 넘긴다) */
+  related?: ReactNode;
 }) {
   const storageKey = `meme-quiz:checklist:${checklist.id}`;
   const [checked, setChecked] = useState<Record<string, boolean>>({});
@@ -147,6 +150,8 @@ export function ChecklistRunner({
       />
 
       {guide}
+
+      {related}
 
       <div className="w-full pt-2">
         <AdSlot slot="checklist-bottom" />

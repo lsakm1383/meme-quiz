@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { SajuTestConfig } from "@/data/saju";
 import { dayMasters, getElement, elementLevel, LEVEL_LABEL } from "@/data/saju";
 import { computeSaju, isSajuError, type SajuChart } from "@/lib/saju/engine";
@@ -27,7 +27,7 @@ function describeInput(submission: SajuSubmission): string {
   return `${calendar} ${submission.year}년 ${submission.month}월 ${submission.day}일 · ${time} · ${gender}`;
 }
 
-export function SajuResult({ test }: { test: SajuTestConfig }) {
+export function SajuResult({ test, related }: { test: SajuTestConfig; related?: ReactNode }) {
   const [state, setState] = useState<State>({ status: "loading" });
 
   useEffect(() => {
@@ -197,6 +197,8 @@ export function SajuResult({ test }: { test: SajuTestConfig }) {
       <p className="text-xs leading-relaxed text-zinc-400">
         사주 풀이는 재미와 자기 이해를 위한 참고용이에요. 정해진 운명을 단정하지 않아요.
       </p>
+
+      {related}
 
       {/* 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

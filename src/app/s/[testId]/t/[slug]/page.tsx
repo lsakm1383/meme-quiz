@@ -10,6 +10,7 @@ import { DayMasterIcon } from "@/components/saju/DayMasterIcon";
 import { ZodiacResult } from "@/components/saju/ZodiacResult";
 import { DreamEntryView, DREAM_TONE } from "@/components/saju/DreamEntryView";
 import { dreams, getDream } from "@/data/saju/dreams";
+import { RelatedTests } from "@/components/RelatedTests";
 
 type Params = { testId: string; slug: string };
 
@@ -90,7 +91,7 @@ export default async function SajuTypePage({ params }: { params: Promise<Params>
     if (branch === null) notFound();
     return (
       <div className="flex w-full max-w-md flex-1 flex-col items-center px-6 py-16">
-        <ZodiacResult test={test} branch={branch} />
+        <ZodiacResult test={test} branch={branch} related={<RelatedTests current={`s/${test.id}`} />} />
       </div>
     );
   }
@@ -166,6 +167,8 @@ export default async function SajuTypePage({ params }: { params: Promise<Params>
           text={`${profile.name}은 "${profile.title}" 유형이래!\n${profile.subtitle}\n너의 일간은 뭘까? 👉`}
           accentColor={test.accentColor}
         />
+
+        <RelatedTests current={`s/${test.id}`} />
 
         <a href="/" className="text-sm font-semibold text-zinc-500 underline underline-offset-4">
           다른 테스트 살펴보기

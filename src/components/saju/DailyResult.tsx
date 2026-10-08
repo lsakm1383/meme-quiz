@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { SajuTestConfig } from "@/data/saju";
 import { dayMasters, getElement } from "@/data/saju";
 import daily from "@/data/saju/daily";
@@ -37,7 +37,7 @@ type State =
   | { status: "missing" }
   | { status: "ready"; fortune: DailyFortune; dayMaster: string };
 
-export function DailyResult({ test }: { test: SajuTestConfig }) {
+export function DailyResult({ test, related }: { test: SajuTestConfig; related?: ReactNode }) {
   const [state, setState] = useState<State>({ status: "loading" });
 
   useEffect(() => {
@@ -230,6 +230,8 @@ export function DailyResult({ test }: { test: SajuTestConfig }) {
       <p className="text-xs leading-relaxed text-zinc-400">
         오늘의 운세는 한국 날짜 기준으로 자정에 바뀌어요. 일진과 원국을 정해진 규칙으로 대 본 재미용 풀이예요.
       </p>
+
+      {related}
 
       {/* 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

@@ -4,6 +4,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
 import { QuizIcon } from "@/components/QuizIcon";
 import { MoreDetails } from "@/components/MoreDetails";
+import { RelatedTests } from "@/components/RelatedTests";
 
 // 결과 상세. 첫 화면에는 훑어보기 쉬운 강점·조심할 점과 잘 맞는/엇갈리기 쉬운 유형만 두고,
 // 긴 풀이 문단과 오늘 해 볼 것은 "더 자세히 보기"로 접어 둔다. detail 이 있는 결과만 보여준다.
@@ -114,6 +115,8 @@ export function ResultView({
           icon: r.image ? <QuizIcon image={r.image} emoji={r.emoji} size="xs" /> : undefined,
         }))}
       />
+
+      <RelatedTests current={quiz.id} />
 
       {/* 이 화면엔 광고가 있으므로, 다음 화면(광고 없음)으로 이동할 때 next/link의
           클라이언트 사이드 라우팅 대신 완전한 새로고침을 강제한다. SPA 전환으로 넘어가면

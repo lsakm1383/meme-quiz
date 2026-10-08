@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { seriesNameOf, type SajuTestConfig } from "@/data/saju";
 import palm from "@/data/saju/palm";
 import { loadPalmAnswers, type PalmAnswers, type PalmLine } from "@/lib/saju/palm";
@@ -17,7 +17,7 @@ const irae = (word: string) => {
   return code >= 0 && code <= 11171 && code % 28 !== 0 ? "이래" : "래";
 };
 
-export function PalmResult({ test }: { test: SajuTestConfig }) {
+export function PalmResult({ test, related }: { test: SajuTestConfig; related?: ReactNode }) {
   const [state, setState] = useState<State>({ status: "loading" });
 
   useEffect(() => {
@@ -149,6 +149,8 @@ export function PalmResult({ test }: { test: SajuTestConfig }) {
       <p className="text-xs leading-relaxed text-zinc-400">
         손금 풀이는 전통적으로 전해 오는 해석을 바탕으로 새로 쓴 재미용 풀이예요. 건강이나 수명과는 관계없어요.
       </p>
+
+      {related}
 
       {/* 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

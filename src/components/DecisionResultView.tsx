@@ -4,6 +4,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
 import { DecisionResultIcon } from "@/components/DecisionResultIcon";
 import { MoreDetails } from "@/components/MoreDetails";
+import { RelatedTests } from "@/components/RelatedTests";
 
 // 추천 결과 상세. 첫 화면에는 이런 분께 추천과 함께 비교해 볼 결과만 두고,
 // 긴 풀이 문단과 고를 때 팁은 "더 자세히 보기"로 접어 둔다. detail 이 있는 결과만 보여준다.
@@ -96,6 +97,8 @@ export function DecisionResultView({
           icon: <DecisionResultIcon result={r} shape={test.imageShape} size="xs" />,
         }))}
       />
+
+      <RelatedTests current={`d/${test.id}`} />
 
       {/* 광고 있는 화면 → 광고 없는 화면 이동은 완전한 새로고침으로 강제 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

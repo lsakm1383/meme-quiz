@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { SajuTestConfig } from "@/data/saju";
 import { dayMasters, getElement } from "@/data/saju";
 import yearly from "@/data/saju/yearly";
@@ -54,7 +54,7 @@ type State =
   | { status: "missing" }
   | { status: "ready"; chart: SajuChart; gender: "female" | "male"; thisYear: number; initialYear: number };
 
-export function YearlyResult({ test }: { test: SajuTestConfig }) {
+export function YearlyResult({ test, related }: { test: SajuTestConfig; related?: ReactNode }) {
   const [state, setState] = useState<State>({ status: "loading" });
   const [year, setYear] = useState<number | null>(null);
 
@@ -365,6 +365,8 @@ export function YearlyResult({ test }: { test: SajuTestConfig }) {
       <p className="text-xs leading-relaxed text-zinc-400">
         신년 운세는 그해의 간지와 원국을 정해진 규칙으로 대 본 재미용 풀이예요. 사주에서 한 해는 입춘에 바뀌어요.
       </p>
+
+      {related}
 
       {/* 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

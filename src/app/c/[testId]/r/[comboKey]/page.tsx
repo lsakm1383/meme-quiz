@@ -7,6 +7,7 @@ import {
   describeCombo,
 } from "@/data/toppings";
 import { ToppingResultView } from "@/components/ToppingResultView";
+import { RelatedTests } from "@/components/RelatedTests";
 
 type Params = { testId: string; comboKey: string };
 
@@ -48,7 +49,12 @@ export default async function ToppingComboResultPage({
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
-      <ToppingResultView test={test} comboKey={comboKey} toppingIds={toppingIds} />
+      <ToppingResultView
+        test={test}
+        comboKey={comboKey}
+        toppingIds={toppingIds}
+        related={<RelatedTests current={`c/${test.id}`} />}
+      />
     </div>
   );
 }

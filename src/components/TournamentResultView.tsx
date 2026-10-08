@@ -3,6 +3,7 @@ import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ResultStats } from "@/components/ResultStats";
 import { TournamentIcon } from "@/components/TournamentIcon";
+import { RelatedTests } from "@/components/RelatedTests";
 
 export function TournamentResultView({
   tournament,
@@ -51,6 +52,8 @@ export function TournamentResultView({
         text={`${tournament.title} 했더니 최종 우승은 "${winner.name}"!\n${winner.tagline}\n너는 뭐가 우승할까? 👉`}
         accentColor={tournament.accentColor}
       />
+
+      <RelatedTests current={`w/${tournament.id}`} />
 
       {/* 광고 있는 화면 → 광고 없는 화면 이동은 완전한 새로고침으로 강제 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

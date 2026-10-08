@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { SajuTestConfig } from "@/data/saju";
 import zodiacCopy from "@/data/saju/zodiac";
 import yearly from "@/data/saju/yearly";
@@ -67,7 +67,15 @@ function YearCard({ fortune, animal, color }: { fortune: ZodiacYear; animal: str
   );
 }
 
-export function ZodiacResult({ test, branch }: { test: SajuTestConfig; branch: number }) {
+export function ZodiacResult({
+  test,
+  branch,
+  related,
+}: {
+  test: SajuTestConfig;
+  branch: number;
+  related?: ReactNode;
+}) {
   const [today, setToday] = useState<{ daily: ZodiacDaily; years: ZodiacYear[] } | null>(null);
   const slug = ZODIAC_SLUGS[branch];
   const profile = zodiacCopy.animals[slug];
@@ -241,6 +249,8 @@ export function ZodiacResult({ test, branch }: { test: SajuTestConfig; branch: n
         </a>
         에서 볼 수 있어요.
       </p>
+
+      {related}
 
       {/* 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

@@ -3,6 +3,7 @@ import type { DreamEntry } from "@/data/saju/types";
 import { DREAM_CATEGORIES, dreams } from "@/data/saju/dreams";
 import { ShareBar } from "@/components/ShareBar";
 import { AdSlot } from "@/components/AdSlot";
+import { RelatedTests } from "@/components/RelatedTests";
 
 export const DREAM_TONE = {
   lucky: { label: "길몽", icon: "🌟", color: "#b45309" },
@@ -96,6 +97,8 @@ export function DreamEntryView({ test, dream }: { test: SajuTestConfig; dream: D
       <p className="text-xs leading-relaxed text-zinc-400">
         꿈해몽은 전통 해몽과 마음 상태로 읽는 풀이를 바탕으로 새로 쓴 재미용 풀이예요. 앞날을 단정하지 않아요.
       </p>
+
+      <RelatedTests current={`s/${test.id}`} />
 
       {/* 광고 있는 화면 → 다른 화면 이동은 완전한 새로고침으로 (자동 광고 잔존 방지) */}
       <div className="flex items-center gap-4">

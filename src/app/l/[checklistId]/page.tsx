@@ -4,6 +4,7 @@ import { checklists, getChecklist } from "@/data/checklists";
 import { ChecklistRunner } from "@/components/ChecklistRunner";
 import { ChecklistGuide } from "@/components/TestGuides";
 import { getSiteUrl } from "@/lib/site";
+import { RelatedTests } from "@/components/RelatedTests";
 
 export function generateStaticParams() {
   return checklists.map((checklist) => ({ checklistId: checklist.id }));
@@ -46,6 +47,7 @@ export default async function ChecklistPage({
       <ChecklistRunner
         checklist={checklist}
         guide={<ChecklistGuide checklist={checklist} />}
+        related={<RelatedTests current={`l/${checklist.id}`} />}
       />
     </div>
   );
