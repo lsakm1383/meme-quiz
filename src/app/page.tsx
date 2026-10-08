@@ -8,6 +8,7 @@ import { checklists } from "@/data/checklists";
 import { mbtiTests } from "@/data/mbti";
 import { sajuSeriesTests, traditionalTests } from "@/data/saju";
 import { getRegisteredTest, registeredTests, type RegisteredTest } from "@/lib/test-registry";
+import { categories, getCategory } from "@/data/categories";
 import { AdSlot } from "@/components/AdSlot";
 import { MbtiResultIcon } from "@/components/MbtiResultIcon";
 import { PhotoIcon } from "@/components/PhotoIcon";
@@ -27,27 +28,26 @@ const STARTER_KEYS = ["m/flavor-type", "s/saju", "s/tarot", "w/ramen-worldcup"];
 const CARD =
   "flex items-center gap-4 rounded-2xl border border-zinc-200 px-5 py-4 transition-colors active:bg-zinc-100 dark:border-zinc-800 dark:active:bg-zinc-900";
 
-function Section({
-  id,
-  title,
-  intro,
-  count,
-  children,
-}: {
-  id: string;
-  title: string;
-  intro: string;
-  count: number;
-  children: ReactNode;
-}) {
+/** 분야 묶음 — 제목·설명은 분야 데이터(categories)에서 가져오고, 제목 옆 링크로 분야 모아보기에 이어진다 */
+function Section({ id, count, children }: { id: string; count: number; children: ReactNode }) {
+  const category = getCategory(id);
+  if (!category) return null;
   return (
     <section id={id} className="flex w-full scroll-mt-6 flex-col gap-3" aria-labelledby={`${id}-title`}>
       <div className="flex flex-col gap-1">
-        <h2 id={`${id}-title`} className="flex items-baseline gap-2 text-base font-extrabold">
-          {title}
-          <span className="text-xs font-semibold text-zinc-400">{count}개</span>
-        </h2>
-        <p className="text-sm leading-relaxed text-zinc-500">{intro}</p>
+        <div className="flex items-baseline justify-between gap-2">
+          <h2 id={`${id}-title`} className="flex items-baseline gap-2 text-base font-extrabold">
+            {category.title}
+            <span className="text-xs font-semibold text-zinc-400">{count}개</span>
+          </h2>
+          <a
+            href={`/category/${id}`}
+            className="shrink-0 text-xs font-semibold text-zinc-500 underline underline-offset-4"
+          >
+            분야 소개
+          </a>
+        </div>
+        <p className="text-sm leading-relaxed text-zinc-500">{category.summary}</p>
       </div>
       {children}
     </section>
@@ -67,14 +67,6 @@ export default function Home() {
   const typeQuizzes = quizzes.filter((quiz) => (quiz.category ?? "type") === "type");
   const starters = STARTER_KEYS.map(getRegisteredTest).filter((test): test is RegisteredTest => test !== undefined);
 
-  const sections = [
-    { id: "quick", title: "1분 테스트" },
-    { id: "personality", title: "성격 유형" },
-    { id: "saju", title: "사주 시리즈" },
-    { id: "traditional", title: "전통 운세" },
-    { id: "pick", title: "월드컵·조합" },
-    { id: "life", title: "생활 편의" },
-  ];
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center gap-10 px-6 py-14">
@@ -89,7 +81,7 @@ export default function Home() {
           </a>
         </p>
         <nav aria-label="분야 바로가기" className="flex flex-wrap justify-center gap-2 pt-1">
-          {sections.map((section) => (
+          {categories.map((section) => (
             <a
               key={section.id}
               href={`#${section.id}`}
@@ -132,9 +124,7 @@ export default function Home() {
 
       <Section
         id="quick"
-        title="1분 테스트"
         count={typeQuizzes.length}
-        intro="질문 6개에 답하면 나와 닮은 유형을 알려줘요. 결과를 공유해 친구와 비교해 보세요."
       >
         {typeQuizzes.map((quiz) => (
           <a key={quiz.id} href={`/${quiz.id}`} className={CARD}>
@@ -146,9 +136,7 @@ export default function Home() {
 
       <Section
         id="personality"
-        title="성격 유형"
         count={mbtiTests.length}
-        intro="20문항으로 16가지 성향 유형을 맛·공주·게임 포지션·직장인 캐릭터로 풀어요. 그룹을 만들면 우리 사이 관계도도 볼 수 있어요."
       >
         {mbtiTests.map((test) => (
           <a key={test.id} href={`/m/${test.id}`} className={CARD}>
@@ -159,20 +147,10 @@ export default function Home() {
       </Section>
 
       {[
-        {
-          id: "saju",
-          title: "사주 시리즈",
-          intro: "생년월일로 절기 기준 만세력을 계산해 사주 원국·오늘의 운세·대운·궁합을 풀어요. 계산은 내 기기 안에서만 해요.",
-          tests: sajuSeriesTests,
-        },
-        {
-          id: "traditional",
-          title: "전통 운세",
-          intro: "토정비결, 꿈해몽, 손금, 타로처럼 오래 즐겨 온 점술을 재미로 볼 수 있게 정리했어요.",
-          tests: traditionalTests,
-        },
+        { id: "saju", tests: sajuSeriesTests },
+        { id: "traditional", tests: traditionalTests },
       ].map((section) => (
-        <Section key={section.id} id={section.id} title={section.title} count={section.tests.length} intro={section.intro}>
+        <Section key={section.id} id={section.id} count={section.tests.length}>
           {section.tests.map((test) => (
             <a key={test.id} href={`/s/${test.id}`} className={CARD}>
               {test.image ? <PhotoIcon src={test.image} size="lg" /> : <span className="text-4xl">{test.emoji}</span>}
@@ -184,9 +162,7 @@ export default function Home() {
 
       <Section
         id="pick"
-        title="월드컵·조합"
         count={tournaments.length + toppingTests.length}
-        intro="둘 중 하나를 계속 골라 최애를 정하거나, 재료를 골라 나만의 조합을 만들어 봐요."
       >
         {tournaments.map((tournament) => (
           <a key={tournament.id} href={`/w/${tournament.id}`} className={CARD}>
@@ -212,9 +188,7 @@ export default function Home() {
 
       <Section
         id="life"
-        title="생활 편의"
         count={decisionTests.length + checklists.length}
-        intro="카페·점심 메뉴, 드레스, 여행지 고민을 몇 가지 질문으로 좁혀 주고, 결혼 준비와 살림 가전은 체크리스트로 챙겨요."
       >
         {decisionTests.map((test) => (
           <a key={test.id} href={`/d/${test.id}`} className={CARD}>

@@ -7,6 +7,7 @@ import { decisionTests } from "@/data/decisions";
 import { checklists } from "@/data/checklists";
 import { mbtiTests } from "@/data/mbti";
 import { sajuTests } from "@/data/saju";
+import { categories } from "@/data/categories";
 
 // 결과 페이지(/r/)는 공유용이라 색인하지 않으므로, 홈·시작 페이지·체크리스트만 싣는다.
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -16,6 +17,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/privacy` },
     { url: `${base}/about` },
   ];
+
+  for (const category of categories) {
+    urls.push({ url: `${base}/category/${category.id}`, changeFrequency: "weekly" });
+  }
 
   for (const quiz of quizzes) {
     urls.push({ url: `${base}/${quiz.id}` });

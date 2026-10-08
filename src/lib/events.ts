@@ -14,7 +14,7 @@ export const isEventType = (value: unknown): value is EventType =>
 
 const SECTION_PREFIXES = ["s", "m", "d", "w", "c", "l"];
 /** 퀴즈가 아닌 최상위 경로 — 1분 테스트 주소(/{quizId})와 헷갈리지 않게 뺀다 */
-const NON_TEST_ROOTS = new Set(["about", "privacy", "admin", "api", "g"]);
+const NON_TEST_ROOTS = new Set(["about", "privacy", "admin", "api", "g", "category"]);
 
 export type PageKind = "start" | "result" | "other";
 
