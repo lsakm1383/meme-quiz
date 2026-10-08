@@ -62,7 +62,8 @@ export function ResultStats({
 
   if (!counts) return null;
 
-  const total = Object.values(counts).reduce((sum, n) => sum + n, 0);
+  // 지금 후보에 있는 결과만 센다 (후보에서 빠진 결과의 예전 집계가 비율을 낮추지 않게)
+  const total = items.reduce((sum, item) => sum + (counts[item.id] ?? 0), 0);
   if (total === 0) return null;
   if (total < MIN_STATS_PARTICIPANTS) return <StatsPending total={total} what="결과별 비율을" />;
 

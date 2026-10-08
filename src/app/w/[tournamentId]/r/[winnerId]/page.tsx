@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { tournaments, getTournament, getCandidate } from "@/data/tournaments";
 import { TournamentResultView } from "@/components/TournamentResultView";
@@ -45,7 +45,9 @@ export default async function TournamentResultPage({
   const { tournamentId, winnerId } = await params;
   const tournament = getTournament(tournamentId);
   const winner = tournament && getCandidate(tournament, winnerId);
-  if (!tournament || !winner) notFound();
+  if (!tournament) notFound();
+  // 후보에서 빠진 항목(예: 라면 월드컵 64강→32강)으로 예전에 공유된 링크는 시작 화면으로 보낸다
+  if (!winner) redirect(`/w/${tournament.id}`);
 
   return (
     <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 py-16">
